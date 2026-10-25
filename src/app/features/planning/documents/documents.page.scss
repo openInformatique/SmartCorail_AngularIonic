@@ -1,0 +1,39 @@
+ion-spinner {
+  color: #ffffff;
+}
+
+img {
+  width: 22px;
+}
+
+.disposition.large {
+  display: grid;
+  grid-template-columns: minmax(280px, 1fr) 2fr;
+  height: 100%;
+
+  ion-list {
+    overflow-y: auto;
+    border-right: 1px solid var(--ion-color-light-shade);
+  }
+}
+
+.visionneuse {
+  display: flex;
+  height: 100%;
+
+  iframe {
+    flex: 1;
+    border: none;
+  }
+}
+
+.placeholder {
+  margin: auto;
+  text-align: center;
+  color: var(--ion-color-medium);
+
+  img {
+    width: 64px;
+    opacity: 0.6;
+  }
+}

@@ -1,0 +1,30 @@
+.compteurs {
+  max-width: 900px;
+
+  h2 {
+    font-weight: 600;
+    color: var(--cfl-gris-texte);
+  }
+
+  .valeur {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    margin-inline-start: 12px;
+  }
+
+  .nombre {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--ion-color-primary);
+  }
+
+  .unite {
+    color: var(--ion-color-medium);
+  }
+
+  // Ligne sans détail : même largeur que le bouton absent.
+  ion-item:not(:has(ion-button)) .valeur {
+    margin-inline-end: 48px;
+  }
+}

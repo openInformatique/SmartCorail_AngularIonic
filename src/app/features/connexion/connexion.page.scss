@@ -1,0 +1,96 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 420px;
+  min-height: 100%;
+  margin: 0 auto;
+  padding-top: max(32px, env(safe-area-inset-top));
+}
+
+.logo {
+  width: 80%;
+  max-width: 300px;
+  margin: 24px 0 40px;
+}
+
+.bloc {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 12px;
+  width: 100%;
+}
+
+ion-button {
+  text-transform: none;
+}
+
+ion-toggle {
+  margin-top: 8px;
+  --track-background-checked: var(--ion-color-primary);
+}
+
+.bonjour,
+.titre-plan {
+  margin: 0 0 8px;
+  text-align: center;
+  font-size: 1.2em;
+  font-weight: 500;
+}
+
+.biometrie {
+  align-self: center;
+  width: 96px;
+  height: 96px;
+  margin-bottom: 8px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(var(--ion-color-primary-rgb), 0.12);
+  color: var(--ion-color-primary);
+  font-size: 56px;
+
+  ion-icon {
+    vertical-align: middle;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+  }
+}
+
+.lien {
+  align-self: center;
+  --color: var(--cfl-gris-texte);
+}
+
+.societe {
+  --border-width: 2px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+.jauge {
+  margin-top: 24px;
+  color: var(--ion-color-primary);
+}
+
+footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: auto;
+  padding-top: 32px;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.logo-societe {
+  width: 120px;
+}
+
+.infos {
+  margin: 8px 0 0;
+  text-align: center;
+  font-size: 0.75em;
+  color: var(--ion-color-medium);
+}

@@ -1,0 +1,47 @@
+.filtre {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  max-width: 480px;
+
+  ion-input {
+    flex: 1;
+  }
+
+  ion-spinner {
+    color: var(--ion-color-primary);
+  }
+}
+
+.semaine {
+  font-weight: 700;
+  color: var(--cfl-gris-texte);
+}
+
+// Fond vert (repos) / orange (transition), texte noir pour la journée du jour.
+.ligne,
+ion-accordion {
+  --couleur-texte: #555555;
+
+  &.aujourdhui {
+    --couleur-texte: #000000;
+  }
+
+  &.fond-repos,
+  &.fond-repos ion-item {
+    --background: #c8e6c9;
+    background: #c8e6c9;
+  }
+
+  &.fond-transition,
+  &.fond-transition ion-item {
+    --background: #ffe0b2;
+    background: #ffe0b2;
+  }
+}
+
+.ligne {
+  padding: 4px 16px 0;
+  border-bottom: 1px solid var(--ion-color-light-shade);
+}

@@ -1,0 +1,97 @@
+{
+  "project_info": {
+    "project_number": "539992097959",
+    "project_id": "cfl-mm-smartcorail",
+    "storage_bucket": "cfl-mm-smartcorail.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:539992097959:android:36b8f6ec8572a334314782",
+        "android_client_info": {
+          "package_name": "lu.cflmm.smartcorail.prod.mdmp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "539992097959-pko2hrsotjpnsni5ea5rah9jq8l5stv3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAdSjenOasYIlj3oZfiptWyWTKGIpHtS-M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "539992097959-pko2hrsotjpnsni5ea5rah9jq8l5stv3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:539992097959:android:76c6e7ad7a0d7f3b314782",
+        "android_client_info": {
+          "package_name": "lu.cflmm.smartcorail.qual.mdmq"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "539992097959-pko2hrsotjpnsni5ea5rah9jq8l5stv3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAdSjenOasYIlj3oZfiptWyWTKGIpHtS-M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "539992097959-pko2hrsotjpnsni5ea5rah9jq8l5stv3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:539992097959:android:0c4ac66b8a363401314782",
+        "android_client_info": {
+          "package_name": "lu.cflmm.smartcorail.test.mdmp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "539992097959-pko2hrsotjpnsni5ea5rah9jq8l5stv3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAdSjenOasYIlj3oZfiptWyWTKGIpHtS-M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "539992097959-pko2hrsotjpnsni5ea5rah9jq8l5stv3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

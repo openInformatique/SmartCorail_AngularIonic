@@ -1,0 +1,82 @@
+.onglets ion-segment-button {
+  min-width: 0;
+
+  img {
+    width: 28px;
+    height: 28px;
+    opacity: 0.55;
+  }
+
+  &.segment-button-checked img {
+    opacity: 1;
+  }
+}
+
+.contenu {
+  max-width: 900px;
+}
+
+.fiche {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 12px;
+}
+
+h2 {
+  font-weight: 600;
+  color: var(--cfl-gris-texte);
+}
+
+.infos {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 14px;
+
+  span {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  img {
+    width: 18px;
+    height: 18px;
+    object-fit: contain;
+  }
+}
+
+.drapeau {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+}
+
+.titre {
+  width: 32px;
+  height: 32px;
+}
+
+.suspendue {
+  width: 20px;
+  height: 20px;
+  vertical-align: middle;
+}
+
+.validation {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 16px;
+
+  p {
+    margin: 0;
+    color: var(--cfl-gris-texte);
+  }
+}
+
+.titre-long {
+  font-size: 0.95rem;
+}

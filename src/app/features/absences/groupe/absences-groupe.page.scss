@@ -1,0 +1,16 @@
+.periode {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 480px;
+}
+
+.action {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  ion-spinner {
+    color: var(--ion-color-primary);
+  }
+}

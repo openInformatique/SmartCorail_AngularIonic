@@ -1,0 +1,120 @@
+// Couleurs de StructureVersEcran : la couleur du texte vient de --couleur-texte, posée par la ligne (aujourd'hui ou non).
+img {
+  vertical-align: middle;
+}
+
+.journee {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+  padding: 6px 0;
+  color: var(--couleur-texte, #555555);
+}
+
+.date {
+  display: flex;
+  flex-direction: column;
+  min-width: 86px;
+  font-size: 0.85em;
+
+  .jour {
+    font-weight: 700;
+    font-size: 1.1em;
+  }
+
+  .heures {
+    margin-top: 2px;
+    font-weight: 600;
+  }
+}
+
+ion-label p {
+  color: var(--couleur-texte, #555555);
+}
+
+.jt,
+.statut {
+  margin: 2px 0;
+
+  img {
+    width: 16px;
+    margin-right: 4px;
+  }
+}
+
+.jt {
+  font-weight: 600;
+}
+
+.rouge {
+  margin-left: 8px;
+  color: #ff0000;
+}
+
+.repositionnement {
+  margin-left: 12px;
+}
+
+.cloche {
+  align-self: center;
+  color: #e53935;
+}
+
+.detail {
+  padding: 8px 16px 12px;
+  color: var(--couleur-texte, #555555);
+  font-size: 0.9em;
+
+  p {
+    margin: 4px 0;
+  }
+
+  img {
+    width: 18px;
+    margin-right: 6px;
+  }
+}
+
+.compteurs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+
+  button {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 10px;
+    border: 1px solid var(--ion-color-primary);
+    border-radius: 16px;
+    background: #ffffff;
+    color: var(--ion-text-color);
+    font-family: inherit;
+    font-weight: 600;
+
+    img {
+      width: 16px;
+      margin: 0;
+    }
+
+    .libelle {
+      font-weight: 400;
+      color: var(--ion-color-medium-shade);
+    }
+
+    &.vide {
+      border-color: var(--ion-color-light-shade);
+      opacity: 0.55;
+    }
+
+    &.absence {
+      border-color: var(--ion-color-secondary);
+      color: var(--ion-color-secondary);
+
+      .libelle {
+        color: var(--ion-color-secondary);
+      }
+    }
+  }
+}

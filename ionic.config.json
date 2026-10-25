@@ -1,0 +1,7 @@
+{
+  "name": "smartcorail",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}

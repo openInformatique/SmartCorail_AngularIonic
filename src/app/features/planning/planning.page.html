@@ -1,0 +1,83 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/" />
+    </ion-buttons>
+    <ion-title>{{ 'planning.titre' | translate }}</ion-title>
+    <ion-buttons slot="end">
+      @if (!large()) {
+        <ion-button [attr.aria-label]="'planning.demanderAbsence' | translate" (click)="demanderAbsence()">
+          <ion-icon slot="icon-only" name="calendar-outline" />
+        </ion-button>
+      }
+      <ion-button [attr.aria-label]="'commun.wiki' | translate" (click)="wiki()">
+        <ion-icon slot="icon-only" name="help-circle-outline" />
+      </ion-button>
+      <ion-button [attr.aria-label]="'commun.legende' | translate" (click)="legende()">
+        <ion-icon slot="icon-only" name="information-circle-outline" />
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="filtre">
+    <ion-input
+      type="date"
+      fill="outline"
+      labelPlacement="stacked"
+      [label]="'planning.depuis' | translate"
+      [ngModel]="dateDepuis()"
+      (ngModelChange)="modifierDate($event)"
+    />
+    <ion-button (click)="demandeMiseAJour()">
+      <ion-icon slot="icon-only" name="checkmark" />
+    </ion-button>
+    @if (jauge()) {
+      <ion-spinner name="circular" />
+    }
+  </div>
+
+  <ion-accordion-group
+    [value]="semaineDeroulee()"
+    (ionChange)="$event.target === $event.currentTarget && deroulerSemaine($event.detail.value)"
+  >
+    @for (semaine of semaines(); track semaine.cle) {
+      <ion-accordion [value]="semaine.cle">
+        <ion-item slot="header" color="light">
+          <ion-label class="semaine">{{ 'planning.semaine' | translate: { numero: semaine.numero } }}</ion-label>
+        </ion-item>
+
+        <div slot="content">
+          @if (large()) {
+            <!-- FEN_PlanningPaysage : tout est affiché, bouton d'absence par journée. -->
+            @for (ligne of semaine.lignes; track ligne.idLigne) {
+              <div class="ligne" [class]="'fond-' + ligne.fond" [class.aujourdhui]="ligne.aujourdhui">
+                <app-entete-journee [ligne]="ligne" />
+                <app-detail-journee [ligne]="ligne" [avecAbsence]="true" (action)="action($event, ligne.idLigne)" />
+              </div>
+            }
+          } @else {
+            <!-- FEN_PlanningPortrait : une journée déroulée à la fois. -->
+            <ion-accordion-group [value]="journeeDeroulee()" (ionChange)="$event.stopPropagation(); deroulerJournee($event.detail.value)">
+              @for (ligne of semaine.lignes; track ligne.idLigne) {
+                <ion-accordion
+                  [value]="'' + ligne.idLigne"
+                  [class]="'fond-' + ligne.fond"
+                  [class.aujourdhui]="ligne.aujourdhui"
+                >
+                  <ion-item slot="header" lines="full">
+                    <app-entete-journee [ligne]="ligne" />
+                  </ion-item>
+                  <div slot="content">
+                    <app-detail-journee [ligne]="ligne" (action)="action($event, ligne.idLigne)" />
+                  </div>
+                </ion-accordion>
+              }
+            </ion-accordion-group>
+          }
+        </div>
+      </ion-accordion>
+    }
+  </ion-accordion-group>
+</ion-content>

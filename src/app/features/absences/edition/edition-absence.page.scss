@@ -1,0 +1,53 @@
+.formulaire {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 640px;
+  // Place pour le bouton flottant.
+  padding-bottom: 72px;
+}
+
+.type {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  ion-input {
+    flex: 1;
+  }
+}
+
+.ligne {
+  display: flex;
+  gap: 12px;
+
+  ion-input {
+    flex: 1;
+    min-width: 0;
+  }
+}
+
+section h2 {
+  margin: 8px 0 4px;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--cfl-gris-texte);
+}
+
+.vide {
+  margin: 0;
+  font-style: italic;
+  color: var(--ion-color-medium);
+}
+
+.commentaire {
+  margin: 0;
+  white-space: pre-line;
+}
+
+.boutons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 0 8px;
+}

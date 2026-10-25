@@ -1,0 +1,53 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-button [attr.aria-label]="'absences.retour' | translate" (click)="fenetre.dismiss()">
+        <ion-icon slot="icon-only" name="arrow-back" />
+      </ion-button>
+    </ion-buttons>
+    <ion-title>{{ titre() }}</ion-title>
+    @if (jauge()) {
+      <ion-spinner slot="end" name="circular" />
+    }
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="champs">
+    <!-- Début de l'opération -->
+    <div class="etape">
+      <img src="assets/images/picto_timeline_debut.png" alt="" />
+      <span>{{ 'pointage.debutOperation' | translate }} — {{ gareOrigine() }}</span>
+    </div>
+    <div class="ligne">
+      <ion-input type="date" fill="outline" [class.pointe]="debutPointe()" [disabled]="!actif()" [(ngModel)]="debut.date" />
+      <ion-input type="time" fill="outline" [class.pointe]="debutPointe()" [disabled]="!actif()" [(ngModel)]="debut.heure" />
+      <ion-button [disabled]="!actif()" [attr.aria-label]="'pointage.envoyer' | translate" (click)="envoyerDebut()">
+        <ion-icon slot="icon-only" name="send" />
+      </ion-button>
+    </div>
+
+    <!-- Fin de l'opération -->
+    <div class="etape">
+      <img src="assets/images/picto_timeline_fin.png" alt="" />
+      <span>{{ 'pointage.finOperation' | translate }} — {{ gareDestination() }}</span>
+    </div>
+    <div class="ligne">
+      <ion-input type="date" fill="outline" [class.pointe]="finPointe()" [disabled]="!actif()" [(ngModel)]="fin.date" />
+      <ion-input type="time" fill="outline" [class.pointe]="finPointe()" [disabled]="!actif()" [(ngModel)]="fin.heure" />
+      <ion-button [disabled]="!actif()" [attr.aria-label]="'pointage.envoyer' | translate" (click)="envoyerFin()">
+        <ion-icon slot="icon-only" name="send" />
+      </ion-button>
+    </div>
+
+    <!-- Commentaires -->
+    <h2>{{ 'pointage.commentaires' | translate }}</h2>
+    <p class="libelle">{{ commentaires() }}</p>
+    <div class="ligne">
+      <ion-textarea fill="outline" autoGrow [placeholder]="'pointage.nouveauCommentaire' | translate" [(ngModel)]="commentaire" />
+      <ion-button [disabled]="!actif()" [attr.aria-label]="'pointage.envoyer' | translate" (click)="envoyerCommentaire()">
+        <ion-icon slot="icon-only" name="send" />
+      </ion-button>
+    </div>
+  </div>
+</ion-content>

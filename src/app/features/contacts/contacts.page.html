@@ -1,0 +1,51 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/" />
+    </ion-buttons>
+    <ion-title>{{ 'contacts.titre' | translate }}</ion-title>
+    <ion-buttons slot="end">
+      @if (jauge()) {
+        <ion-spinner name="circular" />
+      }
+      <ion-button [attr.aria-label]="'commun.wiki' | translate" (click)="wiki()">
+        <ion-icon slot="icon-only" name="help-circle-outline" />
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    @for (contact of lignes(); track $index; let i = $index) {
+      @if (nouveauGroupe(i)) {
+        <ion-item-divider color="light" sticky>
+          <ion-label>{{ contact.groupe }}</ion-label>
+        </ion-item-divider>
+      }
+      <ion-item lines="full">
+        <img slot="start" class="avatar" src="assets/images/picto_photo_contact.png" alt="" />
+        <ion-label class="ion-text-wrap">
+          <h2>{{ contact.nom }}</h2>
+          @if (contact.role) {
+            <p>{{ contact.role }}</p>
+          }
+          <div class="coordonnees">
+            @if (contact.telephone) {
+              <button type="button" (click)="appeler(contact.telephone)">
+                <ion-icon name="call-outline" /> {{ contact.telephone }}
+              </button>
+            }
+            @if (contact.mail) {
+              <button type="button" (click)="ecrire(contact.mail)">
+                <ion-icon name="mail-outline" /> {{ contact.mail }}
+              </button>
+            }
+          </div>
+        </ion-label>
+      </ion-item>
+    } @empty {
+      <p class="vide">{{ 'contacts.aucun' | translate }}</p>
+    }
+  </ion-list>
+</ion-content>

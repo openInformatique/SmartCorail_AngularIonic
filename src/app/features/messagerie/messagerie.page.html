@@ -1,0 +1,77 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/" />
+    </ion-buttons>
+    <ion-title>{{ 'messagerie.titre' | translate }}</ion-title>
+    <ion-buttons slot="end">
+      @if (jauge()) {
+        <ion-spinner name="circular" />
+      }
+      <ion-button [attr.aria-label]="'commun.wiki' | translate" (click)="wiki()">
+        <ion-icon slot="icon-only" name="help-circle-outline" />
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="disposition" [class.large]="large()">
+    <div class="liste">
+      <div class="filtres">
+        <button type="button" [class.actif]="filtreNonLus()" (click)="filtreNonLus.set(!filtreNonLus())">
+          <ion-icon name="mail-unread" /> {{ 'messagerie.nonLus' | translate }}
+        </button>
+        <button type="button" [class.actif]="filtreAvecPJ()" (click)="filtreAvecPJ.set(!filtreAvecPJ())">
+          <ion-icon name="attach" /> {{ 'messagerie.avecPJ' | translate }}
+        </button>
+        <span class="libelle">{{ libelleFiltres() }}</span>
+      </div>
+
+      <ion-list lines="full">
+        @for (message of messages(); track message.idMessage) {
+          <ion-item
+            button
+            [detail]="false"
+            [class.selection]="large() && selection() === message.idMessage"
+            (click)="selectionner(message.idMessage)"
+          >
+            <ion-label class="ion-text-wrap message">
+              <div class="ligne-haut">
+                <span class="qui">{{ message.qui }}</span>
+                <span class="quand" [class.non-lu]="message.nonLu">{{ message.date }}<br />{{ message.heure }}</span>
+              </div>
+              <p class="sujet" [class.non-lu]="message.nonLu">{{ message.sujet }}</p>
+              <p class="corps">{{ message.corps }}</p>
+            </ion-label>
+            <div slot="end" class="pictos">
+              @if (message.avecPJ) {
+                <img src="assets/images/picto_PJ_24.png" alt="" />
+              }
+              @if (message.nonLu) {
+                <img src="assets/images/picto_NonLuInactif_24.png" alt="" />
+              }
+            </div>
+          </ion-item>
+        } @empty {
+          @if (!jauge()) {
+            <p class="vide">{{ 'accueil.aucunMessage' | translate }}</p>
+          }
+        }
+      </ion-list>
+    </div>
+
+    @if (large()) {
+      <div class="panneau">
+        @if (detail(); as d) {
+          <app-detail-message [message]="d" [telechargementInactif]="telechargementInactif()" (ouvrirPJ)="ouvrirPJ($event)" />
+        } @else {
+          <div class="placeholder">
+            <img src="assets/images/picto_messagerie_32_vert.png" alt="" />
+            <p>{{ 'messagerie.choisir' | translate }}</p>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</ion-content>

@@ -1,0 +1,173 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-button [attr.aria-label]="'absences.retour' | translate" (click)="abandonner()">
+        <ion-icon slot="icon-only" name="arrow-back" />
+      </ion-button>
+    </ion-buttons>
+    <ion-title>{{ 'absences.titreEdition' | translate }}</ion-title>
+    @if (jauge()) {
+      <ion-spinner slot="end" name="circular" />
+    }
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="formulaire">
+    <!-- SAI_TypeAbsence + BTN_TypeAbsence -->
+    <div class="type">
+      <ion-input
+        fill="outline"
+        labelPlacement="stacked"
+        readonly
+        [label]="'absences.typeAbsence' | translate"
+        [value]="typeAbsence()"
+      />
+      <ion-button [disabled]="!champsActifs()" [attr.aria-label]="'absences.choisirType' | translate" (click)="choisirType()">
+        <ion-icon slot="icon-only" name="list-outline" />
+      </ion-button>
+    </div>
+
+    <!-- INT_JourHeure -->
+    <ion-segment [value]="formulaire().mode" [disabled]="!interrupteurActif()" (ionChange)="changerMode($event.detail.value)">
+      <ion-segment-button value="J">{{ 'absences.jours' | translate }}</ion-segment-button>
+      <ion-segment-button value="H">{{ 'absences.heures' | translate }}</ion-segment-button>
+    </ion-segment>
+
+    <div class="ligne">
+      <ion-input
+        type="date"
+        fill="outline"
+        labelPlacement="stacked"
+        [label]="'absences.dateDebut' | translate"
+        [disabled]="!champsActifs()"
+        [ngModel]="formulaire().dateDebut"
+        (ngModelChange)="modifierDateDebut($event)"
+      />
+      @if (formulaire().mode === 'J') {
+        <ion-input
+          type="date"
+          fill="outline"
+          labelPlacement="stacked"
+          [label]="'absences.dateFin' | translate"
+          [disabled]="!champsActifs()"
+          [ngModel]="formulaire().dateFin"
+          (ngModelChange)="modifier('dateFin', $event)"
+        />
+      }
+    </div>
+
+    @if (formulaire().mode === 'H') {
+      <div class="ligne">
+        <ion-input
+          type="time"
+          fill="outline"
+          labelPlacement="stacked"
+          [label]="'absences.heureDebut' | translate"
+          [disabled]="!champsActifs()"
+          [ngModel]="formulaire().heureDebut"
+          (ngModelChange)="modifier('heureDebut', $event)"
+        />
+        <ion-input
+          type="time"
+          fill="outline"
+          labelPlacement="stacked"
+          [label]="'absences.heureFin' | translate"
+          [disabled]="!champsActifs()"
+          [ngModel]="formulaire().heureFin"
+          (ngModelChange)="modifier('heureFin', $event)"
+        />
+      </div>
+    }
+
+    <!-- LIB_Commentaire / LIB_AucunCommentaire -->
+    <section>
+      <h2>{{ 'absences.commentaire' | translate }}</h2>
+      @if (aucunCommentaire()) {
+        <p class="vide">{{ 'absences.aucunCommentaire' | translate }}</p>
+      } @else {
+        <p class="commentaire">{{ commentaire() }}</p>
+      }
+    </section>
+
+    @if (editionVisible()) {
+      <ion-textarea
+        fill="outline"
+        labelPlacement="stacked"
+        autoGrow
+        [label]="'absences.nouveauCommentaire' | translate"
+        [ngModel]="formulaire().nouveauCommentaire"
+        (ngModelChange)="modifier('nouveauCommentaire', $event)"
+      />
+    }
+
+    <!-- ZR_PJ / LIB_AucunDocument -->
+    <section>
+      <h2>{{ 'absences.documents' | translate }}</h2>
+      @if (pj().length === 0) {
+        <p class="vide">{{ 'absences.aucunDocument' | translate }}</p>
+      } @else {
+        <ion-list>
+          @for (ligne of pj(); track $index) {
+            <ion-item lines="full">
+              <ion-icon slot="start" name="document-text" color="medium" />
+              <ion-label>
+                <h3>{{ ligne.nom }}</h3>
+                <p>{{ ligne.type }}</p>
+                @if (ligne.dateUpload) {
+                  <p>{{ ligne.dateUpload }}</p>
+                }
+              </ion-label>
+              @if (ligne.indice >= 0) {
+                <ion-button fill="clear" slot="end" [attr.aria-label]="'absences.ouvrirDocument' | translate" (click)="ouvrirDocument(ligne)">
+                  <ion-icon slot="icon-only" name="document-text" />
+                </ion-button>
+                <ion-button fill="clear" color="danger" slot="end" [attr.aria-label]="'absences.supprimerDocument' | translate" (click)="supprimerDocument(ligne)">
+                  <ion-icon slot="icon-only" name="trash-outline" />
+                </ion-button>
+              }
+            </ion-item>
+          }
+        </ion-list>
+      }
+    </section>
+  </div>
+
+  <!-- Flottant : BTN_Document, BTN_Gallerie, BTN_Photo -->
+  @if (editionVisible()) {
+    <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+      <ion-fab-button [attr.aria-label]="'absences.ajouterDocument' | translate">
+        <ion-icon name="add" />
+      </ion-fab-button>
+      <ion-fab-list side="top">
+        <ion-fab-button color="light" [attr.aria-label]="'absences.pdf' | translate" (click)="choisir('pdf')">
+          <ion-icon name="document-text" />
+        </ion-fab-button>
+        <ion-fab-button color="light" [attr.aria-label]="'absences.galerie' | translate" (click)="choisir('album')">
+          <ion-icon name="image" />
+        </ion-fab-button>
+        <ion-fab-button color="light" [attr.aria-label]="'absences.photo' | translate" (click)="choisir('photo')">
+          <ion-icon name="camera" />
+        </ion-fab-button>
+      </ion-fab-list>
+    </ion-fab>
+  }
+  <input #selecteurPdf type="file" accept="application/pdf,.pdf" hidden (change)="pdfChoisi($event)" />
+  <input #selecteurAlbum type="file" accept="image/*" hidden (change)="imageChoisie($event)" />
+  <input #selecteurPhoto type="file" accept="image/*" capture="environment" hidden (change)="imageChoisie($event)" />
+</ion-content>
+
+@if (editionVisible()) {
+  <ion-footer>
+    <ion-toolbar>
+      <div class="boutons">
+        @if (annulerVisible()) {
+          <ion-button fill="outline" color="danger" [disabled]="!annulerActif()" (click)="annulerAbsence()">
+            {{ 'absences.annulerAbsence' | translate }}
+          </ion-button>
+        }
+        <ion-button [disabled]="!okActif()" (click)="valider()">{{ 'absences.valider' | translate }}</ion-button>
+      </div>
+    </ion-toolbar>
+  </ion-footer>
+}

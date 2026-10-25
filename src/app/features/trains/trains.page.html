@@ -1,0 +1,48 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/" />
+    </ion-buttons>
+    <ion-title>{{ 'trains.titre' | translate }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button [attr.aria-label]="'commun.legende' | translate" (click)="legende()">
+        <ion-icon slot="icon-only" name="information-circle-outline" />
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="grille">
+    @for (train of trains(); track train.idTrain) {
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>{{ train.numTrain }}</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <p><img src="assets/images/picto_client_24.png" alt="" /> {{ train.client }}</p>
+          <p class="deux">
+            <span><img src="assets/images/picto_Statut_24.png" alt="" /> {{ train.statut }}</span>
+            <span>
+              <img src="assets/images/picto_spot_24.png" alt="" />
+              {{ 'trains.spot' | translate }} : {{ (train.spot ? 'commun.oui' : 'commun.non') | translate }}
+            </span>
+          </p>
+          <p><img src="assets/images/picto_indicecompo_24.png" alt="" /> {{ train.indiceCompo }}</p>
+          <p class="deux">
+            <span><img src="assets/images/picto_from_24.png" alt="" /> {{ train.depart }}</span>
+            <span><img src="assets/images/picto_to_24.png" alt="" /> {{ train.arrivee }}</span>
+          </p>
+          <p><img src="assets/images/picto_relation_24.png" alt="" /> {{ train.relation }}</p>
+          @if (train.commentaire) {
+            <p><img src="assets/images/picto_commentaire_24.png" alt="" /> {{ train.commentaire }}</p>
+          }
+          <ion-button expand="block" fill="outline" (click)="ouvrir(train.idTrain)">
+            {{ 'trains.operations' | translate: { nb: train.nbOperations } }}
+            <ion-icon slot="end" name="chevron-forward" />
+          </ion-button>
+        </ion-card-content>
+      </ion-card>
+    }
+  </div>
+</ion-content>

@@ -1,0 +1,40 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/" />
+    </ion-buttons>
+    <ion-title>{{ 'absences.titreGroupe' | translate }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button [attr.aria-label]="'commun.wiki' | translate" (click)="wiki()">
+        <ion-icon slot="icon-only" name="help-circle-outline" />
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="periode">
+    <ion-input
+      type="date"
+      fill="outline"
+      labelPlacement="stacked"
+      [label]="'absences.aPartirDu' | translate"
+      [ngModel]="dateDu()"
+      (ngModelChange)="dateDu.set($event ?? '')"
+    />
+    <ion-input
+      type="date"
+      fill="outline"
+      labelPlacement="stacked"
+      [label]="'absences.jusquAu' | translate"
+      [ngModel]="dateAu()"
+      (ngModelChange)="dateAu.set($event ?? '')"
+    />
+    <div class="action">
+      <ion-button [disabled]="validerInactif()" (click)="valider()">{{ 'absences.afficher' | translate }}</ion-button>
+      @if (jauge()) {
+        <ion-spinner name="circular" />
+      }
+    </div>
+  </div>
+</ion-content>

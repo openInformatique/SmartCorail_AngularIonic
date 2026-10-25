@@ -1,0 +1,55 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/" />
+    </ion-buttons>
+    <ion-title>{{ 'absences.titre' | translate }}</ion-title>
+    <ion-buttons slot="end">
+      @if (ajoutVisible()) {
+        <ion-button [attr.aria-label]="'absences.nouvelle' | translate" (click)="ajouter()">
+          <ion-icon slot="icon-only" name="add" />
+        </ion-button>
+      }
+      <ion-button [attr.aria-label]="'commun.wiki' | translate" (click)="wiki()">
+        <ion-icon slot="icon-only" name="help-circle-outline" />
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="filtre">
+    <ion-input
+      type="date"
+      fill="outline"
+      labelPlacement="stacked"
+      [label]="'planning.depuis' | translate"
+      [ngModel]="dateDepuis()"
+      (ngModelChange)="modifierDate($event)"
+      (keyup.enter)="demandeMiseAJour()"
+    />
+    <ion-button [disabled]="validerInactif()" (click)="demandeMiseAJour()">
+      <ion-icon slot="icon-only" name="checkmark" />
+    </ion-button>
+    @if (jauge()) {
+      <ion-spinner name="circular" />
+    }
+  </div>
+
+  <ion-list class="absences">
+    @for (ligne of lignes(); track $index) {
+      <ion-item button detail="false" lines="full" (click)="selectionner(ligne.idAbsence)">
+        <ion-label>
+          <div class="entete">
+            <span class="type">{{ ligne.type }}</span>
+            <span class="statut">{{ ligne.statut }}</span>
+          </div>
+          <p class="dates">{{ ligne.dates }}</p>
+          @if (ligne.commentaire) {
+            <p class="commentaire">{{ ligne.commentaire }}</p>
+          }
+        </ion-label>
+      </ion-item>
+    }
+  </ion-list>
+</ion-content>

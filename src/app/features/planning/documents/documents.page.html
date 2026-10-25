@@ -1,0 +1,50 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/planning" />
+    </ion-buttons>
+    <ion-title>{{ 'documents.titre' | translate }}</ion-title>
+    <ion-buttons slot="end">
+      @if (jauge()) {
+        <ion-spinner name="circular" />
+      }
+      <ion-button [attr.aria-label]="'commun.wiki' | translate" (click)="wiki()">
+        <ion-icon slot="icon-only" name="help-circle-outline" />
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="disposition" [class.large]="large()">
+    <ion-list lines="full">
+      @for (doc of documents(); track $index; let i = $index) {
+        <ion-item button [detail]="false" (click)="selectionner(i)">
+          <img slot="start" src="assets/images/picto_pdf_64.png" alt="" />
+          <ion-label class="ion-text-wrap">
+            <h2>{{ doc.nom }}</h2>
+            <p>{{ doc.type }}</p>
+            <p>{{ 'documents.creation' | translate }} : {{ doc.creation }}</p>
+            <p>{{ 'documents.lecture' | translate }} : {{ doc.lecture }}</p>
+          </ion-label>
+          @if (doc.nonLu) {
+            <img slot="end" src="assets/images/picto_NonLuInactif_24.png" alt="" />
+          }
+        </ion-item>
+      }
+    </ion-list>
+
+    @if (large()) {
+      <div class="visionneuse">
+        @if (pdf(); as url) {
+          <iframe [src]="url" title="PDF"></iframe>
+        } @else if (placeholder()) {
+          <div class="placeholder">
+            <img src="assets/images/picto_pdf_64.png" alt="" />
+            <p>{{ 'documents.choisir' | translate }}</p>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</ion-content>

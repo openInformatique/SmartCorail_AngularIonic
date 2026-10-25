@@ -1,0 +1,44 @@
+.filtre {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  max-width: 480px;
+
+  ion-input {
+    flex: 1;
+  }
+
+  ion-spinner {
+    color: var(--ion-color-primary);
+  }
+}
+
+.absences {
+  max-width: 900px;
+
+  .entete {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .type {
+    font-weight: 700;
+    color: var(--cfl-gris-texte);
+  }
+
+  .statut {
+    color: var(--ion-color-primary);
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .dates {
+    color: var(--cfl-gris-texte);
+  }
+
+  .commentaire {
+    white-space: pre-line;
+  }
+}

@@ -1,0 +1,42 @@
+<ion-content class="ion-padding">
+  <div class="page">
+    <img class="logo" src="assets/images/Logo_Corail.png" alt="SmartCorail" />
+
+    <p class="bonjour">{{ 'connexion.bonjour' | translate: { nom: nomPrenom() } }}</p>
+    <ion-button fill="clear" size="small" class="lien" (click)="jeNeSuisPas()">
+      {{ 'connexion.jeNeSuisPas' | translate: { nom: nomPrenom() } }}
+    </ion-button>
+
+    <p class="indication">{{ indication() | translate }}</p>
+
+    <div class="pastilles" aria-hidden="true">
+      @for (i of [1, 2, 3, 4]; track i) {
+        <span class="pastille" [class.active]="etat().saisie.length >= i"></span>
+      }
+    </div>
+
+    @if (etat().mode === modeSaisir) {
+      <p class="tentatives">{{ 'pin.tentativesRestantes' | translate: { nb: tentativeMax - etat().tentative } }}</p>
+    }
+
+    <div class="clavier">
+      @for (chiffre of chiffres; track chiffre) {
+        <button type="button" class="touche" (click)="saisir(chiffre)">{{ chiffre }}</button>
+      }
+      <span></span>
+      <button type="button" class="touche" (click)="saisir(0)">0</button>
+      <button type="button" class="touche effacer" [attr.aria-label]="'pin.effacer' | translate" (click)="saisir(-1)">
+        <ion-icon name="backspace-outline" />
+      </button>
+    </div>
+
+    @if (etat().mode === modeConfirmer) {
+      <ion-button fill="outline" (click)="annulerConfirmation()">{{ 'pin.annulerConfirmation' | translate }}</ion-button>
+    }
+    @if (mdpVisible()) {
+      <ion-button fill="clear" (click)="jeNeSuisPas()">{{ 'connexion.utiliserMotDePasse' | translate }}</ion-button>
+    }
+
+    <p class="version">{{ 'commun.version' | translate: { version: version() } }}</p>
+  </div>
+</ion-content>

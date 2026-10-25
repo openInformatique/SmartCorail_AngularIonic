@@ -1,0 +1,76 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/" />
+    </ion-buttons>
+    <ion-title>{{ 'pointage.titre' | translate }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button [attr.aria-label]="'pointage.pdf' | translate" (click)="pdf()">
+        <ion-icon slot="icon-only" name="document-text-outline" />
+      </ion-button>
+      <ion-button [attr.aria-label]="'commun.wiki' | translate" (click)="wiki()">
+        <ion-icon slot="icon-only" name="help-circle-outline" />
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="filtre">
+    <ion-input
+      type="date"
+      fill="outline"
+      labelPlacement="stacked"
+      [label]="'planning.depuis' | translate"
+      [ngModel]="dateDepuis()"
+      (ngModelChange)="modifierDate($event)"
+      (keyup.enter)="demandeMiseAJour()"
+    />
+    <ion-button [disabled]="!actif()" (click)="demandeMiseAJour()">
+      <ion-icon slot="icon-only" name="checkmark" />
+    </ion-button>
+    @if (jauge()) {
+      <ion-spinner name="circular" />
+    }
+  </div>
+
+  <ion-list class="journees">
+    @for (ligne of lignes(); track ligne.idLigne) {
+      <ion-item lines="full" button detail="false" [class.grise]="ligne.grise" (click)="ouvrir(ligne)">
+        <ion-label class="ion-text-wrap">
+          <div class="entete">
+            <span class="date">{{ ligne.libelleDate }}</span>
+            @if (ligne.verrou) {
+              <ion-icon name="lock-closed" color="medium" />
+            }
+          </div>
+          <p class="jt"><img src="assets/images/picto_JT_24.png" alt="" />{{ ligne.jt }}</p>
+          @if (ligne.nonAutorise) {
+            <p class="non-autorise">{{ 'pointage.nonAutorise' | translate }}</p>
+          }
+          @if (ligne.badgeuse) {
+            <p class="badgeuse">{{ 'pointage.pointeParBadgeuse' | translate }}</p>
+          }
+          <!-- Frise : prise de poste, coupure, fin de poste -->
+          <div class="frise">
+            <div>
+              <img src="assets/images/picto_timeline_debut.png" alt="" />
+              <span class="heure">{{ ligne.hpDebut }}</span>
+              <span class="etablissement">{{ ligne.etablissementDebut }}</span>
+            </div>
+            <div>
+              <img src="assets/images/picto_timeline_coupure.png" alt="" />
+              <span class="heure">{{ ligne.hpDebutCoupure }}</span>
+              <span class="heure">{{ ligne.hpFinCoupure }}</span>
+            </div>
+            <div>
+              <img src="assets/images/picto_timeline_fin.png" alt="" />
+              <span class="heure">{{ ligne.hpFin }}</span>
+              <span class="etablissement">{{ ligne.etablissementFin }}</span>
+            </div>
+          </div>
+        </ion-label>
+      </ion-item>
+    }
+  </ion-list>
+</ion-content>

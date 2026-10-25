@@ -1,0 +1,90 @@
+.filtre {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  max-width: 480px;
+
+  ion-input {
+    flex: 1;
+  }
+
+  ion-spinner {
+    color: var(--ion-color-primary);
+  }
+}
+
+.journees {
+  max-width: 900px;
+
+  .entete {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .date {
+    font-weight: 700;
+    color: #000;
+  }
+
+  .jt {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    img {
+      width: 18px;
+      height: 18px;
+    }
+  }
+
+  .non-autorise {
+    color: var(--ion-color-danger);
+  }
+
+  .badgeuse {
+    color: var(--ion-color-warning-shade);
+    font-weight: 600;
+  }
+
+  // LIB_LibelleDate..Etat = Grisé : JS consultable seulement.
+  .grise {
+    .date,
+    .jt {
+      color: #a0a0a0;
+      font-weight: 400;
+    }
+  }
+
+  .frise {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-top: 8px;
+
+    > div {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      font-size: 0.8rem;
+    }
+
+    img {
+      width: 32px;
+      height: 32px;
+      object-fit: contain;
+    }
+
+    .heure {
+      white-space: pre-line;
+      color: var(--ion-color-primary);
+      font-weight: 600;
+    }
+
+    .etablissement {
+      color: var(--cfl-gris-texte);
+    }
+  }
+}

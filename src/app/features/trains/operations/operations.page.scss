@@ -1,0 +1,71 @@
+.grille {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+ion-card-title {
+  font-size: 1.05em;
+  color: var(--ion-color-secondary);
+}
+
+ion-card-content {
+  color: var(--ion-text-color);
+
+  p {
+    margin: 4px 0;
+    color: var(--ion-text-color);
+  }
+
+  img {
+    width: 18px;
+    margin-right: 6px;
+    vertical-align: middle;
+  }
+}
+
+.trajet {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+}
+
+.agent {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 8px;
+
+  img {
+    width: 22px;
+  }
+
+  &.formation {
+    align-items: flex-start;
+  }
+
+  .libelle {
+    padding-top: 4px;
+    font-weight: 600;
+  }
+
+  .noms {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding-top: 4px;
+  }
+}
+
+// gFond(VertPastel) : l'agent connecté.
+.moi {
+  padding: 1px 6px;
+  border-radius: 4px;
+  background: #c8e6c9;
+  font-weight: 600;
+}
+
+.commentaire {
+  margin-top: 8px !important;
+  font-style: italic;
+}

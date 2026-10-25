@@ -1,0 +1,51 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/compteurs" />
+    </ion-buttons>
+    <ion-title>{{ compteur()?.Nom }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button [attr.aria-label]="'commun.legende' | translate" (click)="legende()">
+        <ion-icon slot="icon-only" name="information-circle-outline" />
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  @if (compteur(); as c) {
+    <div class="contenu">
+      <!-- ZR_Details2 : SAI_Valeur avec le libellé du détail -->
+      <ion-list>
+        @for (detail of c.Detail2; track $index) {
+          <ion-item lines="full">
+            <ion-label>{{ detail['Libellé'] }}</ion-label>
+            <ion-note slot="end" class="valeur">{{ detail.Valeur | number: '1.0-2' : 'fr-FR' }}</ion-note>
+          </ion-item>
+        }
+      </ion-list>
+
+      <!-- ZR_GFE, visible s'il y a des lignes -->
+      @if (gfe().length) {
+        <ion-list class="gfe">
+          <ion-list-header>
+            <ion-label class="colonnes">
+              <span>{{ 'compteurs.dateArrete' | translate }}</span>
+              <span>{{ 'compteurs.valeur' | translate }}</span>
+              <span>{{ 'compteurs.finValidite' | translate }}</span>
+            </ion-label>
+          </ion-list-header>
+          @for (ligne of gfe(); track $index) {
+            <ion-item lines="full">
+              <ion-label class="colonnes">
+                <span>{{ ligne.dateArrete }}</span>
+                <span class="valeur">{{ ligne.valeur | number: '1.0-2' : 'fr-FR' }}</span>
+                <span>{{ ligne.finValidite }}</span>
+              </ion-label>
+            </ion-item>
+          }
+        </ion-list>
+      }
+    </div>
+  }
+</ion-content>

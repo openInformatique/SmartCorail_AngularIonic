@@ -1,0 +1,133 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-button [attr.aria-label]="'absences.retour' | translate" (click)="retour()">
+        <ion-icon slot="icon-only" name="arrow-back" />
+      </ion-button>
+    </ion-buttons>
+    <ion-title>{{ 'pointage.titreEdition' | translate }}</ion-title>
+    <ion-buttons slot="end">
+      @if (jauge()) {
+        <ion-spinner name="circular" />
+      }
+      <ion-button [attr.aria-label]="'pointage.synchroniser' | translate" (click)="synchroniser()">
+        <ion-icon slot="icon-only" name="sync-outline" />
+      </ion-button>
+      <ion-button [attr.aria-label]="'pointage.ajouter' | translate" (click)="ajouter($event)">
+        <ion-icon slot="icon-only" name="add" />
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <!-- LIB_PasDeConnexionTop -->
+  <div class="bandeau" [class.hors-ligne]="!internetOK()">
+    {{ (internetOK() ? 'pointage.enLigne' : 'pointage.horsLigne') | translate }}{{ derniereSynchro() }}
+  </div>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="contenu">
+    <p class="titre">{{ titre() }}</p>
+
+    @if (erreursPostOffline()) {
+      <ion-button color="warning" expand="block" (click)="afficherErreursPostOffline()">
+        <ion-icon slot="start" name="warning" />
+        {{ 'pointage.erreursSynchro' | translate }}
+      </ion-button>
+    }
+
+    <!-- Prise de poste -->
+    <div class="etape">
+      <img src="assets/images/picto_timeline_debut.png" alt="" />
+      <span>{{ libellePS() }}</span>
+    </div>
+    <div class="ligne">
+      <ion-input type="date" fill="outline" [class]="etatDebut()" [ngModel]="debut.date" (ngModelChange)="modifierDate('debut', $event)" />
+      <ion-input
+        type="time"
+        fill="outline"
+        [class]="etatDebut()"
+        [disabled]="!heureDebutActive()"
+        [ngModel]="debut.heure"
+        (ngModelChange)="modifierHeure('debut', $event)"
+      />
+      @if (suppDebutVisible()) {
+        <ion-button fill="clear" color="medium" [disabled]="!suppActifs()" [attr.aria-label]="'pointage.theorique' | translate" (click)="reinitialiser('debut')">
+          <ion-icon slot="icon-only" name="close-circle" />
+        </ion-button>
+      }
+      @if (envoiDebutVisible()) {
+        <ion-button [attr.aria-label]="'pointage.envoyer' | translate" (click)="envoyerDebut()">
+          <ion-icon slot="icon-only" name="send" />
+        </ion-button>
+      }
+    </div>
+
+    <!-- ZR_Bloc : coupure, pause, opérations (balayage : modifier / supprimer) -->
+    <ion-list class="blocs" [class.grise]="blocsGrises()">
+      @for (bloc of blocs(); track $index) {
+        <ion-item-sliding #glissement [disabled]="!blocsActifs() || blocsGrises() || modeConsultation()">
+          <ion-item lines="full" [class.hors-connexion]="bloc.horsConnexion">
+            <img slot="start" class="timeline" src="assets/images/picto_timeline_coupure.png" alt="" />
+            <ion-label class="ion-text-wrap">
+              <h3>{{ bloc.libelle }}</h3>
+              @if (bloc.code !== 'OP') {
+                <p>{{ bloc.dates }}</p>
+              } @else {
+                <p>
+                  <span [class.pointe]="bloc.opDebutPointe">{{ bloc.opDebut }}</span>
+                  <span [class.pointe]="bloc.opFinPointe">{{ bloc.opFin }}</span>
+                </p>
+                <p>{{ bloc.gareDebut }}{{ bloc.gareFin ? ' → ' + bloc.gareFin : '' }}</p>
+              }
+            </ion-label>
+          </ion-item>
+          <ion-item-options side="end">
+            <ion-item-option (click)="modifier(bloc, glissement)">{{ 'pointage.modifier' | translate }}</ion-item-option>
+            <ion-item-option color="danger" (click)="supprimer(bloc, glissement)">{{ 'pointage.supprimer' | translate }}</ion-item-option>
+          </ion-item-options>
+        </ion-item-sliding>
+      }
+    </ion-list>
+
+    <!-- Fin de poste -->
+    <div class="etape">
+      <img src="assets/images/picto_timeline_fin.png" alt="" />
+      <span>{{ libelleFS() }}</span>
+    </div>
+    <div class="ligne">
+      <ion-input type="date" fill="outline" [class]="etatFin()" [ngModel]="fin.date" (ngModelChange)="modifierDate('fin', $event)" />
+      <ion-input
+        type="time"
+        fill="outline"
+        [class]="etatFin()"
+        [disabled]="!heureFinActive()"
+        [ngModel]="fin.heure"
+        (ngModelChange)="modifierHeure('fin', $event)"
+      />
+      @if (suppFinVisible()) {
+        <ion-button fill="clear" color="medium" [disabled]="!suppActifs()" [attr.aria-label]="'pointage.theorique' | translate" (click)="reinitialiser('fin')">
+          <ion-icon slot="icon-only" name="close-circle" />
+        </ion-button>
+      }
+      @if (envoiFinVisible()) {
+        <ion-button [attr.aria-label]="'pointage.envoyer' | translate" (click)="envoyerFin()">
+          <ion-icon slot="icon-only" name="send" />
+        </ion-button>
+      }
+    </div>
+
+    @if (badgeuseVisible()) {
+      <ion-button fill="outline" expand="block" (click)="pointerParBadgeuse()">{{ 'pointage.pointerParBadgeuse' | translate }}</ion-button>
+    }
+
+    <!-- Commentaire de pointage -->
+    <div class="ligne commentaire">
+      <ion-textarea fill="outline" labelPlacement="stacked" autoGrow [label]="'pointage.commentaire' | translate" [(ngModel)]="commentaire" />
+      @if (commentaireVisible()) {
+        <ion-button [attr.aria-label]="'pointage.envoyer' | translate" (click)="envoyerCommentaire()">
+          <ion-icon slot="icon-only" name="send" />
+        </ion-button>
+      }
+    </div>
+  </div>
+</ion-content>

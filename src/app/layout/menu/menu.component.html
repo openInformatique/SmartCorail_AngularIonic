@@ -1,0 +1,42 @@
+<ion-menu contentId="contenu" type="overlay" [disabled]="!connecte()">
+  <ion-content>
+    <header class="entete">
+      <img class="avatar" src="assets/images/avatar@dpi2x.png" alt="" />
+      <div>
+        <p class="nom">{{ utilisateur().Nom }} {{ utilisateur().Prenom }}</p>
+        <p class="agence">{{ utilisateur().Etablissement }}</p>
+      </div>
+    </header>
+
+    <ion-list lines="none">
+      @for (entree of entrees; track entree.numero) {
+        <ion-menu-toggle [autoHide]="false">
+          <ion-item button [detail]="false" [class.grise]="!autorise(entree)" (click)="selectionner(entree)">
+            <img slot="start" class="vignette" [src]="'assets/images/' + entree.icone" alt="" />
+            <ion-label>{{ entree.cle | translate }}</ion-label>
+            @if (entree.pastille?.(); as pastille) {
+              <span slot="end" class="pastille">{{ pastille }}</span>
+            } @else if (entree.pastille?.() === '') {
+              <span slot="end" class="pastille vide"></span>
+            }
+          </ion-item>
+        </ion-menu-toggle>
+      }
+    </ion-list>
+  </ion-content>
+
+  <ion-footer class="ion-no-border">
+    @if (modeQual) {
+      <div class="langues">
+        <button type="button" [class.active]="langue() === 'fr'" (click)="changerLangue('fr')">
+          <img src="assets/images/picto_drapeau_fr_48.png" alt="" /> FR
+        </button>
+        <button type="button" [class.active]="langue() === 'de'" (click)="changerLangue('de')">
+          <img src="assets/images/picto_drapeau_de_48.png" alt="" /> DE
+        </button>
+      </div>
+    }
+    <p class="version">{{ version() }}</p>
+    <img class="logo" src="assets/images/LogoSociete.jpg" alt="CFL cargo" />
+  </ion-footer>
+</ion-menu>

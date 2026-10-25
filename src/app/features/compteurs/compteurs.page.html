@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/" />
+    </ion-buttons>
+    <ion-title>{{ 'compteurs.titre' | translate }}</ion-title>
+    <ion-buttons slot="end">
+      @if (jauge()) {
+        <ion-spinner name="circular" />
+      }
+      <ion-button [attr.aria-label]="'commun.wiki' | translate" (click)="wiki()">
+        <ion-icon slot="icon-only" name="help-circle-outline" />
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list class="compteurs">
+    @for (ligne of lignes(); track $index) {
+      <ion-item lines="full">
+        <ion-label class="ion-text-wrap">
+          <h2>{{ ligne.nom }}</h2>
+        </ion-label>
+        <div slot="end" class="valeur">
+          <span class="nombre">{{ ligne.valeur }}</span>
+          <span class="unite">{{ ligne.unite }}</span>
+        </div>
+        @if (ligne.avecDetail) {
+          <ion-button slot="end" fill="clear" [attr.aria-label]="'compteurs.details' | translate" (click)="details(ligne.idCompteur)">
+            <ion-icon slot="icon-only" name="chevron-forward" />
+          </ion-button>
+        }
+      </ion-item>
+    }
+  </ion-list>
+</ion-content>

@@ -1,0 +1,23 @@
+/* Core CSS required for Ionic components to work properly */
+@import "@ionic/angular/css/core.css";
+
+/* Basic CSS for apps built with Ionic */
+@import "@ionic/angular/css/normalize.css";
+@import "@ionic/angular/css/structure.css";
+@import "@ionic/angular/css/typography.css";
+@import "@ionic/angular/css/display.css";
+
+/* Optional CSS utils */
+@import "@ionic/angular/css/padding.css";
+@import "@ionic/angular/css/float-elements.css";
+@import "@ionic/angular/css/text-alignment.css";
+@import "@ionic/angular/css/text-transformation.css";
+@import "@ionic/angular/css/flex-utils.css";
+
+/* L'application WINDEV est en thème clair uniquement (pas de mode sombre). */
+
+/* Toast d'erreur : CouleurFond = RougeClair, Opacité = 80 (CB_Erreur). */
+ion-toast.toast-erreur {
+  --background: rgba(255, 128, 128, 0.8);
+  --color: #000000;
+}

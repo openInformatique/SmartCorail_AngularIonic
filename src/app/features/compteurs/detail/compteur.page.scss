@@ -1,0 +1,24 @@
+.contenu {
+  max-width: 700px;
+}
+
+.valeur {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--ion-color-primary);
+}
+
+.gfe {
+  margin-top: 16px;
+
+  .colonnes {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+  }
+
+  ion-list-header .colonnes {
+    font-size: 0.85rem;
+    color: var(--cfl-gris-texte);
+  }
+}

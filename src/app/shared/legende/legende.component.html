@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>{{ 'commun.legende' | translate }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="fermer()">{{ 'commun.fermer' | translate }}</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list lines="full">
+    @for (element of elements(); track element.cle) {
+      <ion-item>
+        @if (element.image) {
+          <img slot="start" [src]="'assets/images/' + element.image" alt="" />
+        } @else {
+          <span slot="start" class="pastille-rouge"></span>
+        }
+        <ion-label class="ion-text-wrap">{{ element.cle | translate }}</ion-label>
+      </ion-item>
+    }
+    @for (ligne of lignesCompteur(); track $index) {
+      <ion-item>
+        <ion-label class="ion-text-wrap"><span class="libelle-compteur">{{ ligne.libelle }}</span>{{ ligne.legende }}</ion-label>
+      </ion-item>
+    }
+  </ion-list>
+  @if (dateArrete()) {
+    <p class="date-arrete">{{ dateArrete() }}</p>
+  }
+</ion-content>

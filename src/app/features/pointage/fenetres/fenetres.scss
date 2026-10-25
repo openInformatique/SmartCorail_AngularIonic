@@ -1,0 +1,59 @@
+.champs {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-width: 560px;
+}
+
+.ligne {
+  display: flex;
+  gap: 12px;
+
+  ion-input,
+  ion-select {
+    flex: 1;
+    min-width: 0;
+  }
+}
+
+.boutons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 0 8px;
+}
+
+.libelle {
+  margin: 0;
+  color: var(--cfl-gris-texte);
+  white-space: pre-line;
+}
+
+.pointe {
+  --background: #c8e6c9;
+}
+
+.etape {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  color: var(--cfl-gris-texte);
+
+  img {
+    width: 28px;
+    height: 28px;
+  }
+}
+
+h2 {
+  margin: 8px 0 0;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--cfl-gris-texte);
+}
+
+// Heure plus étroite que la date (les deux tiennent avec le bouton d'envoi sur téléphone).
+.ligne ion-input[type='time'] {
+  flex: 0 0 112px;
+}

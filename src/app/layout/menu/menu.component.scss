@@ -1,0 +1,113 @@
+// Le split-pane doit voir ion-menu comme enfant direct pour lui donner sa hauteur.
+:host {
+  display: contents;
+}
+
+.entete {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: calc(16px + env(safe-area-inset-top)) 16px 16px;
+  background: var(--ion-color-primary);
+  color: var(--ion-color-primary-contrast);
+
+  p {
+    margin: 0;
+  }
+}
+
+.avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.nom {
+  font-weight: 600;
+  font-size: 1.05em;
+}
+
+.agence {
+  font-size: 0.85em;
+  opacity: 0.9;
+}
+
+ion-item {
+  --min-height: 48px;
+  font-size: 0.95em;
+
+  &.grise {
+    opacity: 0.4;
+  }
+}
+
+.vignette {
+  width: 26px;
+  height: 26px;
+  object-fit: contain;
+}
+
+.pastille {
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  border-radius: 11px;
+  background: #e53935;
+  color: #ffffff;
+  font-size: 0.75em;
+  font-weight: 600;
+  line-height: 22px;
+  text-align: center;
+
+  &.vide {
+    min-width: 12px;
+    width: 12px;
+    height: 12px;
+    padding: 0;
+  }
+}
+
+ion-footer {
+  padding: 8px 16px calc(12px + env(safe-area-inset-bottom));
+  text-align: center;
+}
+
+.langues {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 8px;
+
+  button {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border: 1px solid var(--ion-color-light-shade);
+    border-radius: 6px;
+    background: transparent;
+    color: var(--ion-text-color);
+    font-family: inherit;
+
+    &.active {
+      background: var(--ion-color-secondary);
+      border-color: var(--ion-color-secondary);
+      color: #ffffff;
+    }
+
+    img {
+      width: 20px;
+    }
+  }
+}
+
+.version {
+  margin: 0 0 8px;
+  font-size: 0.75em;
+  color: var(--ion-color-medium);
+}
+
+.logo {
+  width: 110px;
+}

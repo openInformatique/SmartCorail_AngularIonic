@@ -1,0 +1,140 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/" />
+    </ion-buttons>
+    <!-- gPoliceTaille(7) : titre plus petit pour les compétences -->
+    <ion-title [class.titre-long]="plan() === 2 || plan() === 3">{{ titre() | translate }}</ion-title>
+    <ion-buttons slot="end">
+      @if (jauge()) {
+        <ion-spinner name="circular" />
+      }
+      <ion-button [attr.aria-label]="'commun.wiki' | translate" (click)="wiki()">
+        <ion-icon slot="icon-only" name="help-circle-outline" />
+      </ion-button>
+      <ion-button [attr.aria-label]="'agent.signaler' | translate" (click)="signaler()">
+        <ion-icon slot="icon-only" name="megaphone-outline" />
+      </ion-button>
+      <ion-button [attr.aria-label]="'commun.legende' | translate" (click)="legende()">
+        <ion-icon slot="icon-only" name="information-circle-outline" />
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <!-- Images d'onglet IMG_AgentActifInactif … IMG_TitreActifInactif -->
+  <ion-toolbar color="primary" class="onglets">
+    <ion-segment [value]="plan()" (ionChange)="changerOnglet($event.detail.value)">
+      @for (onglet of onglets; track onglet.plan) {
+        <ion-segment-button [value]="onglet.plan" [attr.aria-label]="onglet.titre | translate">
+          <img [src]="'assets/images/' + onglet.image" alt="" />
+        </ion-segment-button>
+      }
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="contenu">
+    @switch (plan()) {
+      @case (1) {
+        <div class="fiche">
+          @for (champ of fiche(); track champ.cle) {
+            <ion-input fill="outline" labelPlacement="stacked" readonly [label]="champ.cle | translate" [value]="champ.valeur" />
+          }
+        </div>
+        <ng-container *ngTemplateOutlet="validation; context: { plan: 1, v: validations()[1] }" />
+      }
+      @case (2) {
+        <ion-list>
+          @for (ligne of competLigne(); track ligne.id) {
+            <ion-item lines="full">
+              <img slot="start" class="drapeau" [src]="'assets/images/' + ligne.drapeau" alt="" />
+              <ion-label class="ion-text-wrap">
+                <h2>{{ ligne.competence }}</h2>
+                <p class="infos">
+                  <span><img src="assets/images/picto_ligne_24.png" alt="" />{{ ligne.numLigne }}</span>
+                  <span><img src="assets/images/picto_secteur_24.png" alt="" />{{ ligne.secteur }}</span>
+                  <span><img src="assets/images/picto_derniere_utilisation_24.png" alt="" />{{ ligne.derniereAffectation }}</span>
+                </p>
+                <p class="infos">
+                  <span>{{ ligne.parcoursDe }}</span>
+                  <img src="assets/images/picto_train_24.png" alt="" />
+                  <span>{{ ligne.parcoursA }}</span>
+                </p>
+              </ion-label>
+            </ion-item>
+          }
+        </ion-list>
+        <ng-container *ngTemplateOutlet="validation; context: { plan: 2, v: validations()[2] }" />
+      }
+      @case (3) {
+        <ion-list>
+          @for (ligne of competAutre(); track ligne.id) {
+            <ion-item lines="full">
+              <ion-label class="ion-text-wrap">
+                <h2>
+                  {{ ligne.competence }}
+                  @if (ligne.suspendue) {
+                    <img class="suspendue" src="assets/images/picto_compet_suspendue_32.png" alt="" />
+                  }
+                </h2>
+                <p class="infos">
+                  <span><img src="assets/images/picto_derniere_utilisation_24.png" alt="" />{{ ligne.derniereUtilisation }}</span>
+                  <span><img src="assets/images/picto_date_24.png" alt="" />{{ ligne.finValidite }}</span>
+                  <span><img src="assets/images/picto_Statut_24.png" alt="" />{{ ligne.statut }}</span>
+                </p>
+              </ion-label>
+            </ion-item>
+          }
+        </ion-list>
+        <ng-container *ngTemplateOutlet="validation; context: { plan: 3, v: validations()[3] }" />
+      }
+      @case (4) {
+        <ion-list>
+          @for (ligne of cycles(); track ligne.id) {
+            <ion-item lines="full">
+              <ion-label class="ion-text-wrap">
+                <h2>{{ ligne.cycle }}</h2>
+                <p class="infos">
+                  <span><img src="assets/images/picto_from_24.png" alt="" />{{ ligne.du }}</span>
+                  <span><img src="assets/images/picto_to_24.png" alt="" />{{ ligne.au }}</span>
+                  <span><img src="assets/images/picto_date_24.png" alt="" />{{ ligne.departSemaine }}</span>
+                </p>
+              </ion-label>
+            </ion-item>
+          }
+        </ion-list>
+      }
+      @case (5) {
+        <ion-list>
+          @for (ligne of titres(); track ligne.id) {
+            <ion-item lines="full" button detail="false" (click)="ouvrirTitre(ligne.id)">
+              <img slot="start" class="titre" src="assets/images/picto_titre_48_noir.png" alt="" />
+              <ion-label class="ion-text-wrap">
+                <h2>{{ ligne.titre }}</h2>
+                @if (ligne.commentaire) {
+                  <p>{{ ligne.commentaire }}</p>
+                }
+                <p>{{ ligne.societe }}</p>
+                <p>{{ ligne.version }}</p>
+              </ion-label>
+            </ion-item>
+          }
+        </ion-list>
+      }
+    }
+  </div>
+</ion-content>
+
+<!-- BTN_Validation* et Lib_DerniereValidation* des plans 1 à 3 -->
+<ng-template #validation let-plan="plan" let-v="v">
+  <div class="validation">
+    @if (v.date) {
+      <p>{{ 'agent.derniereValidation' | translate }}{{ v.date }}</p>
+    }
+    @if (v.visible) {
+      <ion-button [disabled]="!validationsActives()" (click)="valider(plan)">
+        {{ ('agent.valider' + plan) | translate }}
+      </ion-button>
+    }
+  </div>
+</ng-template>

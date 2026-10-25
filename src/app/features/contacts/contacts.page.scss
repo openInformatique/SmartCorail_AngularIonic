@@ -1,0 +1,44 @@
+ion-spinner {
+  color: #ffffff;
+}
+
+ion-item-divider {
+  font-weight: 700;
+  color: var(--cfl-gris-texte);
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+h2 {
+  font-weight: 600;
+}
+
+.coordonnees {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 6px;
+
+  button {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border: 1px solid var(--ion-color-primary);
+    border-radius: 16px;
+    background: transparent;
+    color: var(--ion-color-primary-shade);
+    font-family: inherit;
+    font-size: 0.9em;
+  }
+}
+
+.vide {
+  padding: 24px;
+  color: var(--ion-color-medium);
+  text-align: center;
+}

@@ -1,0 +1,48 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/planning" />
+    </ion-buttons>
+    <ion-title>{{ (type() === 'vs' ? 'reservations.titreVS' : 'reservations.titre') | translate }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button [attr.aria-label]="'commun.legende' | translate" (click)="legende()">
+        <ion-icon slot="icon-only" name="information-circle-outline" />
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="grille">
+    @if (type() === 'vs') {
+      @for (r of vehicules(); track $index) {
+        <ion-card>
+          <ion-card-content>
+            <h2><img src="assets/images/picto_reservation_vs_24.png" alt="" /> {{ r.numero }}</h2>
+            <p><img src="assets/images/picto_plaque_24.png" alt="" /> {{ r.immatriculation }}</p>
+            <p>{{ r.type }}</p>
+            <p><img src="assets/images/picto_JT_24.png" alt="" /> {{ r.journee }}</p>
+            <p><img src="assets/images/picto_checkin_24.png" alt="" /> {{ r.reservation }}</p>
+            @if (r.commentaire) {
+              <p><img src="assets/images/picto_commentaire_24.png" alt="" /> {{ r.commentaire }}</p>
+            }
+          </ion-card-content>
+        </ion-card>
+      }
+    } @else {
+      @for (r of hotels(); track $index) {
+        <ion-card>
+          <ion-card-content>
+            <h2><img src="assets/images/picto_resevation_24.png" alt="" /> {{ r.numero }}</h2>
+            <p><img src="assets/images/picto_hotel_24.png" alt="" /> {{ r.fournisseur }}</p>
+            <p class="adresse">{{ r.adresse }}</p>
+            <p class="dates">
+              <span><img src="assets/images/picto_checkin_24.png" alt="" /> {{ r.checkIn }}</span>
+              <span><img src="assets/images/picto_checkout_24.png" alt="" /> {{ r.checkOut }}</span>
+            </p>
+          </ion-card-content>
+        </ion-card>
+      }
+    }
+  </div>
+</ion-content>

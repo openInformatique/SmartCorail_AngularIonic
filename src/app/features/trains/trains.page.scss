@@ -1,0 +1,32 @@
+.grille {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+ion-card-title {
+  font-size: 1.05em;
+  color: var(--ion-color-secondary);
+}
+
+ion-card-content p {
+  margin: 4px 0;
+  color: var(--ion-text-color);
+
+  img {
+    width: 18px;
+    margin-right: 6px;
+    vertical-align: middle;
+  }
+}
+
+.deux {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+}
+
+ion-button {
+  margin-top: 12px;
+  text-transform: none;
+}

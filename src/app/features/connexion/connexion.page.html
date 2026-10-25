@@ -1,0 +1,66 @@
+<ion-content class="ion-padding">
+  <div class="page">
+    <img class="logo" src="assets/images/Logo_Corail.png" alt="SmartCorail" />
+
+    @switch (plan()) {
+      @case (1) {
+        <section class="bloc">
+          <ion-button expand="block" size="large" [disabled]="inactif()" (click)="seConnecter()">
+            {{ 'connexion.seConnecter' | translate }}
+          </ion-button>
+          <ion-toggle
+            labelPlacement="end"
+            justify="start"
+            [disabled]="inactif()"
+            [checked]="faceId()"
+            (ionChange)="faceId.set($event.detail.checked)"
+          >
+            {{ (appareil.enModeAndroid ? 'connexion.activerFingerprint' : 'connexion.activerFaceId') | translate }}
+          </ion-toggle>
+        </section>
+      }
+
+      @case (2) {
+        <section class="bloc">
+          <p class="bonjour">{{ 'connexion.bonjour' | translate: { nom: nomPrenom() } }}</p>
+          <button type="button" class="biometrie" [disabled]="inactif()" (click)="faceIdIdentifie()">
+            <ion-icon [name]="appareil.enModeAndroid ? 'finger-print' : 'scan-outline'" />
+          </button>
+          <ion-button expand="block" [disabled]="inactif()" (click)="faceIdIdentifie()">
+            {{ (appareil.enModeAndroid ? 'connexion.utiliserFingerprint' : 'connexion.utiliserFaceId') | translate }}
+          </ion-button>
+          <ion-button expand="block" fill="outline" [disabled]="inactif()" (click)="motDePasse()">
+            {{ 'connexion.utiliserMotDePasse' | translate }}
+          </ion-button>
+          <ion-button fill="clear" size="small" class="lien" [disabled]="inactif()" (click)="jeNeSuisPas()">
+            {{ 'connexion.jeNeSuisPas' | translate: { nom: nomPrenom() } }}
+          </ion-button>
+        </section>
+      }
+
+      @case (3) {
+        <section class="bloc">
+          <p class="titre-plan">{{ 'connexion.choisirSociete' | translate }}</p>
+          @for (societe of societes; track societe) {
+            <ion-button expand="block" fill="outline" class="societe" [disabled]="inactif()" (click)="choisirSociete(societe)">
+              {{ societe }}
+            </ion-button>
+          }
+        </section>
+      }
+    }
+
+    @if (jauge()) {
+      <ion-spinner name="circular" class="jauge" />
+    }
+
+    <footer>
+      <img class="logo-societe" src="assets/images/LogoSociete.jpg" alt="CFL cargo" />
+      <p class="infos">
+        {{ modele() }}<br />
+        {{ 'commun.version' | translate: { version: version() } }}
+      </p>
+      <ion-button fill="clear" size="small" color="medium" (click)="quitter()">{{ 'connexion.quitter' | translate }}</ion-button>
+    </footer>
+  </div>
+</ion-content>
