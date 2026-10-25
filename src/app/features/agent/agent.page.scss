@@ -1,82 +1,221 @@
-.onglets ion-segment-button {
-  min-width: 0;
+// --- Onglets (icônes blanches sur la barre verte, onglet actif souligné) ---
+.onglets {
+  --min-height: 52px;
 
-  img {
-    width: 28px;
-    height: 28px;
-    opacity: 0.55;
-  }
+  ion-segment-button {
+    min-width: 0;
+    --color: rgba(255, 255, 255, 0.6);
+    --color-checked: #ffffff;
+    --indicator-color: #ffffff;
+    --indicator-height: 3px;
 
-  &.segment-button-checked img {
-    opacity: 1;
-  }
-}
-
-.contenu {
-  max-width: 900px;
-}
-
-.fiche {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 12px;
-}
-
-h2 {
-  font-weight: 600;
-  color: var(--cfl-gris-texte);
-}
-
-.infos {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 4px 14px;
-
-  span {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-  }
-
-  img {
-    width: 18px;
-    height: 18px;
-    object-fit: contain;
-  }
-}
-
-.drapeau {
-  width: 32px;
-  height: 32px;
-  object-fit: contain;
-}
-
-.titre {
-  width: 32px;
-  height: 32px;
-}
-
-.suspendue {
-  width: 20px;
-  height: 20px;
-  vertical-align: middle;
-}
-
-.validation {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  margin-top: 16px;
-
-  p {
-    margin: 0;
-    color: var(--cfl-gris-texte);
+    ion-icon {
+      font-size: 24px;
+    }
   }
 }
 
 .titre-long {
-  font-size: 0.95rem;
+  font-size: 0.85rem;
+}
+
+// --- Plan 1 : fiche ---
+.profil {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px;
+  margin-bottom: 14px;
+
+  .avatar {
+    display: grid;
+    place-items: center;
+    width: 56px;
+    height: 56px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: var(--ion-color-primary);
+    color: #ffffff;
+    font-size: 1.25rem;
+    font-weight: 700;
+  }
+
+  .nom {
+    font-size: 1.15rem;
+    font-weight: 500;
+  }
+}
+
+.rubriques {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+
+  @media (min-width: 900px) {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+  }
+}
+
+.rubrique .entete-section {
+  margin: 0;
+  border-bottom: 1px solid var(--cfl-bordure);
+}
+
+.champs {
+  margin: 0;
+  padding: 4px 16px 8px;
+}
+
+.champ {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--cfl-bordure);
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  dt {
+    color: var(--cfl-texte-doux);
+    font-size: 0.85rem;
+  }
+
+  dd {
+    margin: 0;
+    font-weight: 500;
+    text-align: right;
+    word-break: break-word;
+  }
+}
+
+// --- Validation (BTN_Validation*, Lib_DerniereValidation*) ---
+.validation {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 14px 16px;
+  margin: 14px 0;
+
+  .etat {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--cfl-vert-fonce);
+
+    ion-icon {
+      font-size: 22px;
+      flex-shrink: 0;
+    }
+
+    p {
+      margin: 0;
+      color: var(--cfl-texte);
+    }
+  }
+
+  // Validation demandée : bandeau d'action.
+  &.a-valider {
+    border-left: 4px solid var(--ion-color-primary);
+
+    .etat {
+      color: var(--ion-color-primary-shade);
+    }
+  }
+
+  ion-button {
+    margin: 0;
+    --border-radius: 12px;
+  }
+}
+
+// --- Plans 2 à 5 : listes de cartes ---
+.liste {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+
+  @media (min-width: 900px) {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.element {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 14px 16px;
+  border: none;
+  color: var(--cfl-texte);
+  font-family: inherit;
+  text-align: left;
+
+  &.cliquable {
+    width: 100%;
+    cursor: pointer;
+
+    &:active {
+      background: var(--cfl-fond);
+    }
+  }
+
+  .drapeau {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 0 0 1px var(--cfl-bordure);
+  }
+
+  .corps {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+    min-width: 0;
+  }
+
+  h3 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 500;
+  }
+
+  .texte {
+    margin: 0;
+    color: var(--cfl-texte-doux);
+    font-size: 0.88rem;
+  }
+
+  .chevron {
+    align-self: center;
+    color: var(--cfl-texte-doux);
+  }
+}
+
+.puces {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+
+  .puce ion-icon {
+    font-size: 14px;
+  }
+}
+
+.parcours {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  color: var(--cfl-texte-doux);
+  font-size: 0.88rem;
+
+  ion-icon {
+    color: var(--ion-color-primary);
+  }
 }

@@ -81,29 +81,31 @@ export function operationVide(): STLigneOperation {
         }
       </ion-toolbar>
     </ion-header>
-    <ion-content class="ion-padding">
-      <div class="champs">
-        <ion-select
-          fill="outline"
-          labelPlacement="stacked"
-          interface="popover"
-          [label]="'pointage.typeOperation' | translate"
-          [ngModel]="typeOperation()"
-          (ngModelChange)="typeOperation.set($event)"
-        >
-          @for (t of types(); track t.Code) {
-            <ion-select-option [value]="t.Code">{{ t.Nom }}</ion-select-option>
-          }
-        </ion-select>
-        <div class="ligne">
-          <ion-input type="date" fill="outline" labelPlacement="stacked" [label]="'pointage.debut' | translate" [(ngModel)]="debut.date" />
-          <ion-input type="time" fill="outline" labelPlacement="stacked" [label]="'pointage.heure' | translate" [(ngModel)]="debut.heure" />
+    <ion-content>
+      <div class="page">
+        <div class="carte champs">
+          <ion-select
+            fill="outline"
+            labelPlacement="stacked"
+            interface="popover"
+            [label]="'pointage.typeOperation' | translate"
+            [ngModel]="typeOperation()"
+            (ngModelChange)="typeOperation.set($event)"
+          >
+            @for (t of types(); track t.Code) {
+              <ion-select-option [value]="t.Code">{{ t.Nom }}</ion-select-option>
+            }
+          </ion-select>
+          <div class="ligne">
+            <ion-input type="date" fill="outline" labelPlacement="stacked" [label]="'pointage.debut' | translate" [(ngModel)]="debut.date" />
+            <ion-input type="time" fill="outline" labelPlacement="stacked" [label]="'pointage.heure' | translate" [(ngModel)]="debut.heure" />
+          </div>
+          <div class="ligne">
+            <ion-input type="date" fill="outline" labelPlacement="stacked" [label]="'pointage.fin' | translate" [(ngModel)]="fin.date" />
+            <ion-input type="time" fill="outline" labelPlacement="stacked" [label]="'pointage.heure' | translate" [(ngModel)]="fin.heure" />
+          </div>
+          <ion-textarea fill="outline" labelPlacement="stacked" autoGrow [label]="'pointage.commentaires' | translate" [(ngModel)]="commentaire" />
         </div>
-        <div class="ligne">
-          <ion-input type="date" fill="outline" labelPlacement="stacked" [label]="'pointage.fin' | translate" [(ngModel)]="fin.date" />
-          <ion-input type="time" fill="outline" labelPlacement="stacked" [label]="'pointage.heure' | translate" [(ngModel)]="fin.heure" />
-        </div>
-        <ion-textarea fill="outline" labelPlacement="stacked" autoGrow [label]="'pointage.commentaires' | translate" [(ngModel)]="commentaire" />
       </div>
     </ion-content>
     <ion-footer>

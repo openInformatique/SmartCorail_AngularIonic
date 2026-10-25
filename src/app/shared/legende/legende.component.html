@@ -8,24 +8,28 @@
 </ion-header>
 
 <ion-content>
-  <ion-list lines="full">
-    @for (element of elements(); track element.cle) {
-      <ion-item>
-        @if (element.image) {
-          <img slot="start" [src]="'assets/images/' + element.image" alt="" />
-        } @else {
-          <span slot="start" class="pastille-rouge"></span>
+  <div class="page">
+    @if (elements().length) {
+      <div class="carte">
+        @for (element of elements(); track element.cle) {
+          <div class="ligne">
+            <span class="tuile-icone" [class.rouge]="element.rouge"><ion-icon [name]="element.icone" /></span>
+            <span>{{ element.cle | translate }}</span>
+          </div>
         }
-        <ion-label class="ion-text-wrap">{{ element.cle | translate }}</ion-label>
-      </ion-item>
+      </div>
     }
-    @for (ligne of lignesCompteur(); track $index) {
-      <ion-item>
-        <ion-label class="ion-text-wrap"><span class="libelle-compteur">{{ ligne.libelle }}</span>{{ ligne.legende }}</ion-label>
-      </ion-item>
+    @if (lignesCompteur().length) {
+      <div class="carte">
+        @for (ligne of lignesCompteur(); track $index) {
+          <div class="ligne compteur">
+            <span><span class="libelle-compteur">{{ ligne.libelle }}</span>{{ ligne.legende }}</span>
+          </div>
+        }
+      </div>
     }
-  </ion-list>
-  @if (dateArrete()) {
-    <p class="date-arrete">{{ dateArrete() }}</p>
-  }
+    @if (dateArrete()) {
+      <p class="date-arrete">{{ dateArrete() }}</p>
+    }
+  </div>
 </ion-content>

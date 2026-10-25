@@ -1,30 +1,66 @@
 .compteurs {
-  max-width: 900px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
 
-  h2 {
-    font-weight: 600;
-    color: var(--cfl-gris-texte);
+  @media (min-width: 700px) {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  }
+}
+
+.compteur {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  padding: 14px 16px;
+  border: none;
+  color: var(--cfl-texte);
+  font-family: inherit;
+  text-align: left;
+
+  &.cliquable {
+    cursor: pointer;
+
+    &:active {
+      background: var(--cfl-fond);
+    }
+  }
+
+  .corps {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .nom {
+    color: var(--cfl-texte-doux);
+    font-size: 0.9rem;
+    font-weight: 500;
   }
 
   .valeur {
     display: flex;
     align-items: baseline;
     gap: 6px;
-    margin-inline-start: 12px;
   }
 
   .nombre {
-    font-size: 1.2rem;
+    color: var(--ion-color-primary-shade);
+    font-size: 1.5rem;
     font-weight: 700;
-    color: var(--ion-color-primary);
+    line-height: 1.1;
   }
 
   .unite {
-    color: var(--ion-color-medium);
+    color: var(--cfl-texte-doux);
+    font-size: 0.88rem;
   }
 
-  // Ligne sans détail : même largeur que le bouton absent.
-  ion-item:not(:has(ion-button)) .valeur {
-    margin-inline-end: 48px;
+  .chevron {
+    flex-shrink: 0;
+    color: var(--cfl-texte-doux);
   }
 }

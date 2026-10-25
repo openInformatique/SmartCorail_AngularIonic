@@ -53,6 +53,20 @@ sont générés depuis l'icône PROD par `resources/icones.ps1` et `resources/sp
 .\resources\splash.ps1 -Source .\resources\icone-prod.png -Res .\android\app\src\main\res
 ```
 
+## Charte graphique
+
+Mêmes écrans et mêmes enchaînements que WINDEV, présentés en cartes. Les couleurs CFL (vert `#4caf50`, rouge `#7f0424`) et les
+variables `--cfl-*` sont dans `src/theme/variables.scss` ; la police Roboto est embarquée (`@fontsource/roboto`, pas d'appel réseau).
+Les pictogrammes PNG de WINDEV sont remplacés par des icônes Ionicons ; seuls les logos et les drapeaux restent des images.
+
+Classes communes (`src/global.scss`) :
+
+- `.page` : marge et largeur maximale du contenu ; `.carte` : bloc blanc arrondi ;
+- `.entete-section` (avec `.pastille-icone`, `.titre`, `.suite`) : en-tête de carte ; `.titre-groupe` : rupture de groupe ;
+- `.tuile-icone` (`.rouge` pour une alerte) : pictogramme en tuile ; `.puce` : petite étiquette ;
+- `.filtre` : filtre de date avec bouton de validation ; `.ligne-message` et `.point-non-lu` : ligne de message ;
+- `.borne` (`.debut`, `.coupure`, `.fin`) : trait de la frise de pointage ; `.message-vide` : liste vide.
+
 ## Tester le hors connexion en mode mock
 
 Dans la console du navigateur : `localStorage.setItem('mock-hors-ligne', '1')` rend l'API fictive injoignable (réseau présent, serveur muet).

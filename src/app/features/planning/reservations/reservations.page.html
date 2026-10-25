@@ -13,35 +13,45 @@
 </ion-header>
 
 <ion-content>
-  <div class="grille">
+  <div class="page grille">
     @if (type() === 'vs') {
       @for (r of vehicules(); track $index) {
-        <ion-card>
-          <ion-card-content>
-            <h2><img src="assets/images/picto_reservation_vs_24.png" alt="" /> {{ r.numero }}</h2>
-            <p><img src="assets/images/picto_plaque_24.png" alt="" /> {{ r.immatriculation }}</p>
-            <p>{{ r.type }}</p>
-            <p><img src="assets/images/picto_JT_24.png" alt="" /> {{ r.journee }}</p>
-            <p><img src="assets/images/picto_checkin_24.png" alt="" /> {{ r.reservation }}</p>
-            @if (r.commentaire) {
-              <p><img src="assets/images/picto_commentaire_24.png" alt="" /> {{ r.commentaire }}</p>
-            }
-          </ion-card-content>
-        </ion-card>
+        <article class="carte reservation">
+          <header class="entete">
+            <span class="tuile-icone"><ion-icon name="car-outline" /></span>
+            <div class="titre">
+              <h2>{{ r.numero }}</h2>
+              @if (r.immatriculation) {
+                <span class="puce plaque"><ion-icon name="card-outline" />{{ r.immatriculation }}</span>
+              }
+            </div>
+          </header>
+          <p class="type">{{ r.type }}</p>
+          <p class="info"><ion-icon name="location-outline" /><span>{{ r.journee }}</span></p>
+          <p class="info"><ion-icon name="log-in-outline" /><span>{{ r.reservation }}</span></p>
+          @if (r.commentaire) {
+            <p class="info commentaire"><ion-icon name="chatbubble-ellipses-outline" /><span>{{ r.commentaire }}</span></p>
+          }
+        </article>
       }
     } @else {
       @for (r of hotels(); track $index) {
-        <ion-card>
-          <ion-card-content>
-            <h2><img src="assets/images/picto_resevation_24.png" alt="" /> {{ r.numero }}</h2>
-            <p><img src="assets/images/picto_hotel_24.png" alt="" /> {{ r.fournisseur }}</p>
+        <article class="carte reservation">
+          <header class="entete">
+            <span class="tuile-icone"><ion-icon name="bed-outline" /></span>
+            <div class="titre">
+              <h2>{{ r.numero }}</h2>
+            </div>
+          </header>
+          <div class="hotel">
+            <p class="info fournisseur"><ion-icon name="business-outline" /><span>{{ r.fournisseur }}</span></p>
             <p class="adresse">{{ r.adresse }}</p>
-            <p class="dates">
-              <span><img src="assets/images/picto_checkin_24.png" alt="" /> {{ r.checkIn }}</span>
-              <span><img src="assets/images/picto_checkout_24.png" alt="" /> {{ r.checkOut }}</span>
-            </p>
-          </ion-card-content>
-        </ion-card>
+          </div>
+          <div class="sejour">
+            <span><ion-icon name="log-in-outline" />{{ r.checkIn }}</span>
+            <span><ion-icon name="log-out-outline" />{{ r.checkOut }}</span>
+          </div>
+        </article>
       }
     }
   </div>

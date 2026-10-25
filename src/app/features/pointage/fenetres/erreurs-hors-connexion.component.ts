@@ -1,6 +1,8 @@
 import { Component, Input, OnInit, inject, signal } from '@angular/core';
-import { IonButton, IonButtons, IonContent, IonHeader, IonItem, IonLabel, IonList, IonTitle, IonToolbar, ModalController } from '@ionic/angular';
+import { IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonTitle, IonToolbar, ModalController } from '@ionic/angular';
 import { TranslatePipe } from '@ngx-translate/core';
+import { addIcons } from 'ionicons';
+import { warningOutline } from 'ionicons/icons';
 
 import { formatJJMMAAAAHHmm, lireDateHeure } from '../../../core/dates';
 import { STPostOffline } from '../../../core/models';
@@ -23,7 +25,7 @@ const passe = (v: string | undefined, maintenant: Date) => {
 /** FEN_PointageRealiseEditionErreurOffline : pointages rejetés lors de la dernière synchronisation. */
 @Component({
   selector: 'app-erreurs-hors-connexion',
-  imports: [IonHeader, IonToolbar, IonTitle, IonButtons, IonButton, IonContent, IonList, IonItem, IonLabel, TranslatePipe],
+  imports: [IonHeader, IonToolbar, IonTitle, IonButtons, IonButton, IonContent, IonIcon, TranslatePipe],
   template: `
     <ion-header>
       <ion-toolbar color="primary">
@@ -34,17 +36,47 @@ const passe = (v: string | undefined, maintenant: Date) => {
       </ion-toolbar>
     </ion-header>
     <ion-content>
-      <ion-list>
-        @for (ligne of lignes(); track $index) {
-          <ion-item lines="full">
-            <ion-label class="ion-text-wrap">
-              <p>{{ ligne.debut }}{{ ligne.fin ? ' - ' + ligne.fin : '' }}</p>
-              <h3>{{ ligne.message }}</h3>
-            </ion-label>
-          </ion-item>
+      <div class="page">
+        @if (lignes().length) {
+          <div class="carte">
+            @for (ligne of lignes(); track $index) {
+              <div class="erreur">
+                <span class="tuile-icone rouge"><ion-icon name="warning-outline" /></span>
+                <span class="corps">
+                  <span class="dates">{{ ligne.debut }}{{ ligne.fin ? ' - ' + ligne.fin : '' }}</span>
+                  <span class="message">{{ ligne.message }}</span>
+                </span>
+              </div>
+            }
+          </div>
         }
-      </ion-list>
+      </div>
     </ion-content>
+  `,
+  styles: `
+    .erreur {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--cfl-bordure);
+    }
+    .erreur:last-child {
+      border-bottom: none;
+    }
+    .corps {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 0;
+    }
+    .dates {
+      color: var(--cfl-texte-doux);
+      font-size: 0.82rem;
+    }
+    .message {
+      font-weight: 500;
+    }
   `,
 })
 export class ErreursHorsConnexionComponent implements OnInit {
@@ -53,6 +85,10 @@ export class ErreursHorsConnexionComponent implements OnInit {
 
   protected readonly fenetre = inject(ModalController);
   protected readonly lignes = signal<LigneErreur[]>([]);
+
+  constructor() {
+    addIcons({ warningOutline });
+  }
 
   ngOnInit(): void {
     const maintenant = new Date();

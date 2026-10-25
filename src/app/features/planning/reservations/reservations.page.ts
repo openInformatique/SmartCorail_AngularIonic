@@ -3,8 +3,6 @@ import {
   IonBackButton,
   IonButton,
   IonButtons,
-  IonCard,
-  IonCardContent,
   IonContent,
   IonHeader,
   IonIcon,
@@ -14,7 +12,17 @@ import {
 } from '@ionic/angular';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { addIcons } from 'ionicons';
-import { informationCircleOutline } from 'ionicons/icons';
+import {
+  bedOutline,
+  businessOutline,
+  cardOutline,
+  carOutline,
+  chatbubbleEllipsesOutline,
+  informationCircleOutline,
+  locationOutline,
+  logInOutline,
+  logOutOutline,
+} from 'ionicons/icons';
 
 import { DonneesService } from '../../../core/state/donnees.service';
 import { LegendeComponent } from '../../../shared/legende/legende.component';
@@ -28,7 +36,7 @@ import { lignesReservations, lignesReservationsVS } from './reservations.logique
   selector: 'app-reservations',
   templateUrl: 'reservations.page.html',
   styleUrl: 'reservations.page.scss',
-  imports: [IonHeader, IonToolbar, IonButtons, IonBackButton, IonTitle, IonButton, IonIcon, IonContent, IonCard, IonCardContent, TranslatePipe],
+  imports: [IonHeader, IonToolbar, IonButtons, IonBackButton, IonTitle, IonButton, IonIcon, IonContent, TranslatePipe],
 })
 export class ReservationsPage {
   private readonly donnees = inject(DonneesService);
@@ -45,7 +53,17 @@ export class ReservationsPage {
   protected readonly vehicules = computed(() => lignesReservationsVS(this.journee()?.Réservations_VS ?? [], this.journee()));
 
   constructor() {
-    addIcons({ informationCircleOutline });
+    addIcons({
+      bedOutline,
+      businessOutline,
+      cardOutline,
+      carOutline,
+      chatbubbleEllipsesOutline,
+      informationCircleOutline,
+      locationOutline,
+      logInOutline,
+      logOutOutline,
+    });
   }
 
   /** Option : FEN_Legende, plan 4. */

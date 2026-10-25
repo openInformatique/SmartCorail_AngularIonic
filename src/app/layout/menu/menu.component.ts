@@ -1,8 +1,26 @@
 import { Component, computed, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { NavigationEnd, Router } from '@angular/router';
+import { addIcons } from 'ionicons';
+import {
+  calendarClearOutline,
+  calendarOutline,
+  callOutline,
+  homeOutline,
+  logOutOutline,
+  mailOutline,
+  newspaperOutline,
+  peopleOutline,
+  personOutline,
+  speedometerOutline,
+  timeOutline,
+} from 'ionicons/icons';
+import { filter, map } from 'rxjs';
 import { App } from '@capacitor/app';
 import {
   IonContent,
   IonFooter,
+  IonIcon,
   IonItem,
   IonLabel,
   IonList,
@@ -37,6 +55,7 @@ import { DialoguesService } from '../../core/ui/dialogues.service';
 interface EntreeMenu {
   numero: number;
   cle: string;
+  /** Icône (Ionicons) remplaçant le picto WINDEV de ZM_Menu. */
   icone: string;
   droit?: string;
   /** Pastille (LIB_Pastille_n) : texte affiché, ou '' pour une pastille sans nombre. */
@@ -50,7 +69,7 @@ interface EntreeMenu {
   selector: 'app-menu',
   templateUrl: 'menu.component.html',
   styleUrl: 'menu.component.scss',
-  imports: [IonMenu, IonContent, IonList, IonItem, IonLabel, IonMenuToggle, IonFooter, TranslatePipe],
+  imports: [IonMenu, IonContent, IonList, IonItem, IonLabel, IonIcon, IonMenuToggle, IonFooter, TranslatePipe],
 })
 export class MenuComponent {
   private readonly session = inject(SessionService);
@@ -72,24 +91,24 @@ export class MenuComponent {
   private versionApp = '';
 
   protected readonly entrees: EntreeMenu[] = [
-    { numero: 2, cle: 'menu.accueil', icone: 'picto_home_32_vert.png', route: '/' },
+    { numero: 2, cle: 'menu.accueil', icone: 'home-outline', route: '/' },
     {
       numero: 3,
       cle: 'menu.planning',
-      icone: 'picto_planning_32_vert.png',
+      icone: 'calendar-outline',
       droit: ACCES_PLANNING,
       route: '/planning',
       pastille: () => (this.session.initialisation().NouveautésPlanning ? '' : null),
     },
-    { numero: 4, cle: 'menu.pointage', icone: 'picto_pointage_realise_32.png', droit: ACCES_POINTAGE, route: '/pointage' },
+    { numero: 4, cle: 'menu.pointage', icone: 'time-outline', droit: ACCES_POINTAGE, route: '/pointage' },
     // Pastille des absences désactivée « à la demande de Michael le 10/08/2022 ».
-    { numero: 5, cle: 'menu.conges', icone: 'picto_absence_32_vert.png', droit: ACCES_CONGE, route: '/absences', pastille: () => null },
-    { numero: 6, cle: 'menu.absencesGroupe', icone: 'picto_absence_32_vert.png', droit: ACCES_CONGE_GROUPE, route: '/absences-groupe' },
-    { numero: 7, cle: 'menu.compteurs', icone: 'picto_compteur_32_vert.png', droit: ACCES_COMPTEURS, route: '/compteurs' },
+    { numero: 5, cle: 'menu.conges', icone: 'calendar-clear-outline', droit: ACCES_CONGE, route: '/absences', pastille: () => null },
+    { numero: 6, cle: 'menu.absencesGroupe', icone: 'people-outline', droit: ACCES_CONGE_GROUPE, route: '/absences-groupe' },
+    { numero: 7, cle: 'menu.compteurs', icone: 'speedometer-outline', droit: ACCES_COMPTEURS, route: '/compteurs' },
     {
       numero: 8,
       cle: 'menu.ficheAgent',
-      icone: 'picto_agent_32_vert.png',
+      icone: 'person-outline',
       droit: ACCES_AGENT,
       route: '/agent',
       pastille: () => {
@@ -100,7 +119,7 @@ export class MenuComponent {
     {
       numero: 9,
       cle: 'menu.messagerie',
-      icone: 'picto_messagerie_32_vert.png',
+      icone: 'mail-outline',
       droit: ACCES_MESSAGERIE,
       route: '/messagerie',
       pastille: () => {
@@ -108,12 +127,42 @@ export class MenuComponent {
         return nb > 0 ? String(nb) : null;
       },
     },
-    { numero: 10, cle: 'menu.contacts', icone: 'picto_contact_32_vert.png', droit: ACCES_CONTACTS, route: '/contacts' },
-    { numero: 11, cle: 'menu.actualites', icone: 'picto_rss_feed_32.png' },
-    { numero: 12, cle: 'menu.deconnexion', icone: 'picto_deconnecter_32.png' },
+    { numero: 10, cle: 'menu.contacts', icone: 'call-outline', droit: ACCES_CONTACTS, route: '/contacts' },
+    { numero: 11, cle: 'menu.actualites', icone: 'newspaper-outline' },
+    { numero: 12, cle: 'menu.deconnexion', icone: 'log-out-outline' },
   ];
 
+  /** Route affichée, pour mettre en valeur l'entrée correspondante (présentation seulement). */
+  private readonly url = toSignal(
+    inject(Router).events.pipe(
+      filter((e) => e instanceof NavigationEnd),
+      map((e) => (e as NavigationEnd).urlAfterRedirects.split('?')[0]),
+    ),
+    { initialValue: '/' },
+  );
+  /** Initiales de l'agent pour l'en-tête du menu. */
+  protected readonly initiales = computed(() => `${this.utilisateur().Prenom.charAt(0)}${this.utilisateur().Nom.charAt(0)}`.toUpperCase());
+
+  protected active(entree: EntreeMenu): boolean {
+    const url = this.url();
+    if (!entree.route) return false;
+    return entree.route === '/' ? url === '/' : url === entree.route || url.startsWith(entree.route + '/');
+  }
+
   constructor() {
+    addIcons({
+      calendarClearOutline,
+      calendarOutline,
+      callOutline,
+      homeOutline,
+      logOutOutline,
+      mailOutline,
+      newspaperOutline,
+      peopleOutline,
+      personOutline,
+      speedometerOutline,
+      timeOutline,
+    });
     void this.appareil.version().then((v) => (this.versionApp = v));
   }
 

@@ -7,10 +7,6 @@ import {
   IonContent,
   IonHeader,
   IonIcon,
-  IonInput,
-  IonItem,
-  IonLabel,
-  IonList,
   IonSegment,
   IonSegmentButton,
   IonSpinner,
@@ -21,7 +17,31 @@ import {
 } from '@ionic/angular';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { addIcons } from 'ionicons';
-import { helpCircleOutline, informationCircleOutline, megaphoneOutline } from 'ionicons/icons';
+import {
+  arrowForward,
+  banOutline,
+  businessOutline,
+  calendarNumberOutline,
+  callOutline,
+  checkmarkCircle,
+  chevronForward,
+  flagOutline,
+  helpCircleOutline,
+  homeOutline,
+  informationCircleOutline,
+  languageOutline,
+  logInOutline,
+  logOutOutline,
+  mapOutline,
+  medalOutline,
+  megaphoneOutline,
+  personOutline,
+  repeatOutline,
+  ribbonOutline,
+  timeOutline,
+  trailSignOutline,
+  trainOutline,
+} from 'ionicons/icons';
 
 import { AgentApi } from '../../core/api/agent.api';
 import { AideService } from '../../core/api/aide.service';
@@ -50,9 +70,18 @@ import {
 interface Onglet {
   plan: OngletAgent;
   titre: string;
-  /** Images IMG_*Actif / IMG_*Inactif. */
-  image: string;
+  /** Icône remplaçant les images IMG_*Actif / IMG_*Inactif. */
+  icone: string;
 }
+
+/** Rubriques de la fiche (plan 1) : regroupement d'affichage des champs, dans l'ordre de la fenêtre. */
+const RUBRIQUES_FICHE: { titre: string; icone: string; cles: string[] }[] = [
+  { titre: 'agent.groupeIdentite', icone: 'person-outline', cles: ['agent.civilite', 'agent.nom', 'agent.prenom', 'agent.dateNaissance', 'agent.villeNaissance', 'agent.paysNaissance'] },
+  { titre: 'agent.groupeAdresse', icone: 'home-outline', cles: ['agent.adresse', 'agent.cp', 'agent.ville', 'agent.pays'] },
+  { titre: 'agent.groupeLangues', icone: 'language-outline', cles: ['agent.langue', 'agent.autreLangue'] },
+  { titre: 'agent.groupeEntreprise', icone: 'business-outline', cles: ['agent.matricule', 'agent.badge', 'agent.ef', 'agent.etablissement', 'agent.population', 'agent.n1'] },
+  { titre: 'agent.groupeContact', icone: 'call-outline', cles: ['agent.login', 'agent.email', 'agent.tel'] },
+];
 
 /** Type de validation envoyé par chaque plan (le plan 1 par défaut, comme le paramètre de POSTValidationAgent). */
 const VALIDATION_DU_PLAN: Partial<Record<OngletAgent, string>> = {
@@ -82,10 +111,6 @@ const VALIDATION_DU_PLAN: Partial<Record<OngletAgent, string>> = {
     IonSegment,
     IonSegmentButton,
     IonContent,
-    IonInput,
-    IonList,
-    IonItem,
-    IonLabel,
     TranslatePipe,
   ],
 })
@@ -102,11 +127,11 @@ export class AgentPage {
   private readonly nav = inject(NavController);
 
   protected readonly onglets: Onglet[] = [
-    { plan: 1, titre: 'agent.maFiche', image: 'picto_agent_48_blanc.png' },
-    { plan: 2, titre: 'agent.competencesLignes', image: 'picto_compet_train_48_blanc.png' },
-    { plan: 3, titre: 'agent.competencesAutres', image: 'picto_compet_autre_48_blanc.png' },
-    { plan: 4, titre: 'agent.cycles', image: 'picto_cycle_48_blanc.png' },
-    { plan: 5, titre: 'agent.titres', image: 'picto_titre_48_blanc.png' },
+    { plan: 1, titre: 'agent.maFiche', icone: 'person-outline' },
+    { plan: 2, titre: 'agent.competencesLignes', icone: 'train-outline' },
+    { plan: 3, titre: 'agent.competencesAutres', icone: 'ribbon-outline' },
+    { plan: 4, titre: 'agent.cycles', icone: 'repeat-outline' },
+    { plan: 5, titre: 'agent.titres', icone: 'medal-outline' },
   ];
   /** MaFenêtre..Plan : onglet actif (IMG_AgentActif à l'ouverture). */
   protected readonly plan = signal<OngletAgent>(1);
@@ -117,6 +142,19 @@ export class AgentPage {
 
   private readonly utilisateur = computed(() => this.session.initialisation().Infos_Utilisateur);
   protected readonly fiche = computed(() => champsFiche(this.utilisateur(), this.session.initialisation().Langues));
+  /** Champs de la fiche rangés par rubrique (présentation seulement : mêmes champs, même ordre). */
+  protected readonly rubriques = computed(() => {
+    const champs = this.fiche();
+    return RUBRIQUES_FICHE.map((r) => ({ ...r, champs: r.cles.map((cle) => champs.find((c) => c.cle === cle)!).filter(Boolean) }));
+  });
+  /** En-tête de la fiche : initiales et nom complet. */
+  protected readonly identite = computed(() => {
+    const u = this.utilisateur();
+    return {
+      initiales: `${u.Prenom.charAt(0)}${u.Nom.charAt(0)}`.toUpperCase(),
+      nom: [u.Civilite, u.Prenom, u.Nom].filter(Boolean).join(' '),
+    };
+  });
   protected readonly competLigne = computed(() => lignesCompetLigne(this.utilisateur()));
   protected readonly competAutre = computed(() => lignesCompetAutre(this.utilisateur()));
   protected readonly cycles = computed(() => lignesCycles(this.utilisateur()));
@@ -132,7 +170,31 @@ export class AgentPage {
   });
 
   constructor() {
-    addIcons({ helpCircleOutline, informationCircleOutline, megaphoneOutline });
+    addIcons({
+      arrowForward,
+      banOutline,
+      businessOutline,
+      calendarNumberOutline,
+      callOutline,
+      checkmarkCircle,
+      chevronForward,
+      flagOutline,
+      helpCircleOutline,
+      homeOutline,
+      informationCircleOutline,
+      languageOutline,
+      logInOutline,
+      logOutOutline,
+      mapOutline,
+      medalOutline,
+      megaphoneOutline,
+      personOutline,
+      repeatOutline,
+      ribbonOutline,
+      timeOutline,
+      trailSignOutline,
+      trainOutline,
+    });
     // SynchronisationDonnees() : envoi de la file des pointages hors connexion.
     void this.synchro.synchronisationDonnees();
     inject(FenetresOuvertesService).enregistrer('FEN_Agent');

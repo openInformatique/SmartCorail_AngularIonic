@@ -8,9 +8,6 @@ import {
   IonHeader,
   IonIcon,
   IonInput,
-  IonItem,
-  IonLabel,
-  IonList,
   IonSpinner,
   IonTitle,
   IonToolbar,
@@ -19,7 +16,7 @@ import {
 } from '@ionic/angular';
 import { TranslatePipe } from '@ngx-translate/core';
 import { addIcons } from 'ionicons';
-import { add, checkmark, helpCircleOutline } from 'ionicons/icons';
+import { add, calendarClearOutline, checkmark, chevronForward, helpCircleOutline, timeOutline } from 'ionicons/icons';
 
 import { AbsencesApi } from '../../core/api/absences.api';
 import { AideService } from '../../core/api/aide.service';
@@ -51,9 +48,6 @@ import { SynchroService } from '../../core/offline/synchro.service';
     IonContent,
     IonInput,
     IonSpinner,
-    IonList,
-    IonItem,
-    IonLabel,
     TranslatePipe,
   ],
 })
@@ -82,7 +76,7 @@ export class AbsencesPage implements OnInit, ViewWillEnter {
   private premiereEntree = true;
 
   constructor() {
-    addIcons({ add, checkmark, helpCircleOutline });
+    addIcons({ add, calendarClearOutline, checkmark, chevronForward, helpCircleOutline, timeOutline });
   }
 
   ngOnInit(): void {

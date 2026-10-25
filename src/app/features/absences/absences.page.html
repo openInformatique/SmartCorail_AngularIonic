@@ -18,38 +18,43 @@
 </ion-header>
 
 <ion-content>
-  <div class="filtre">
-    <ion-input
-      type="date"
-      fill="outline"
-      labelPlacement="stacked"
-      [label]="'planning.depuis' | translate"
-      [ngModel]="dateDepuis()"
-      (ngModelChange)="modifierDate($event)"
-      (keyup.enter)="demandeMiseAJour()"
-    />
-    <ion-button [disabled]="validerInactif()" (click)="demandeMiseAJour()">
-      <ion-icon slot="icon-only" name="checkmark" />
-    </ion-button>
-    @if (jauge()) {
-      <ion-spinner name="circular" />
-    }
-  </div>
+  <div class="page">
+    <div class="carte filtre">
+      <ion-input
+        type="date"
+        fill="outline"
+        labelPlacement="stacked"
+        [label]="'planning.depuis' | translate"
+        [ngModel]="dateDepuis()"
+        (ngModelChange)="modifierDate($event)"
+        (keyup.enter)="demandeMiseAJour()"
+      />
+      <ion-button class="valider" [disabled]="validerInactif()" (click)="demandeMiseAJour()">
+        @if (jauge()) {
+          <ion-spinner slot="icon-only" name="circular" />
+        } @else {
+          <ion-icon slot="icon-only" name="checkmark" />
+        }
+      </ion-button>
+    </div>
 
-  <ion-list class="absences">
-    @for (ligne of lignes(); track $index) {
-      <ion-item button detail="false" lines="full" (click)="selectionner(ligne.idAbsence)">
-        <ion-label>
-          <div class="entete">
-            <span class="type">{{ ligne.type }}</span>
-            <span class="statut">{{ ligne.statut }}</span>
-          </div>
-          <p class="dates">{{ ligne.dates }}</p>
-          @if (ligne.commentaire) {
-            <p class="commentaire">{{ ligne.commentaire }}</p>
-          }
-        </ion-label>
-      </ion-item>
-    }
-  </ion-list>
+    <div class="absences">
+      @for (ligne of lignes(); track $index) {
+        <button type="button" class="carte absence" (click)="selectionner(ligne.idAbsence)">
+          <span class="tuile-icone"><ion-icon name="calendar-clear-outline" /></span>
+          <span class="corps">
+            <span class="entete">
+              <span class="type">{{ ligne.type }}</span>
+              <span class="puce statut">{{ ligne.statut }}</span>
+            </span>
+            <span class="dates"><ion-icon name="time-outline" />{{ ligne.dates }}</span>
+            @if (ligne.commentaire) {
+              <span class="commentaire">{{ ligne.commentaire }}</span>
+            }
+          </span>
+          <ion-icon class="chevron" name="chevron-forward" />
+        </button>
+      }
+    </div>
+  </div>
 </ion-content>

@@ -8,9 +8,6 @@ import {
   IonHeader,
   IonIcon,
   IonInput,
-  IonItem,
-  IonLabel,
-  IonList,
   IonSpinner,
   IonTitle,
   IonToolbar,
@@ -19,7 +16,7 @@ import {
 } from '@ionic/angular';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { addIcons } from 'ionicons';
-import { checkmark, documentTextOutline, helpCircleOutline, lockClosed } from 'ionicons/icons';
+import { checkmark, documentTextOutline, helpCircleOutline, locationOutline, lockClosed } from 'ionicons/icons';
 
 import { AideService } from '../../core/api/aide.service';
 import { PointageApi } from '../../core/api/pointage.api';
@@ -59,9 +56,6 @@ export function dateDepuisInitiale(maintenant: Date, enModeTest: boolean): strin
     IonContent,
     IonInput,
     IonSpinner,
-    IonList,
-    IonItem,
-    IonLabel,
     TranslatePipe,
   ],
 })
@@ -87,7 +81,7 @@ export class PointagePage implements OnInit, ViewWillEnter {
   private premiereEntree = true;
 
   constructor() {
-    addIcons({ checkmark, documentTextOutline, helpCircleOutline, lockClosed });
+    addIcons({ checkmark, documentTextOutline, helpCircleOutline, locationOutline, lockClosed });
   }
 
   ngOnInit(): void {

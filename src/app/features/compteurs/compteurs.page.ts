@@ -1,3 +1,4 @@
+import { NgTemplateOutlet } from '@angular/common';
 import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import {
   IonBackButton,
@@ -6,9 +7,6 @@ import {
   IonContent,
   IonHeader,
   IonIcon,
-  IonItem,
-  IonLabel,
-  IonList,
   IonSpinner,
   IonTitle,
   IonToolbar,
@@ -16,7 +14,7 @@ import {
 } from '@ionic/angular';
 import { TranslatePipe } from '@ngx-translate/core';
 import { addIcons } from 'ionicons';
-import { chevronForward, helpCircleOutline } from 'ionicons/icons';
+import { chevronForward, helpCircleOutline, speedometerOutline } from 'ionicons/icons';
 
 import { AgentApi } from '../../core/api/agent.api';
 import { AideService } from '../../core/api/aide.service';
@@ -40,10 +38,8 @@ import { SynchroService } from '../../core/offline/synchro.service';
     IonIcon,
     IonSpinner,
     IonContent,
-    IonList,
-    IonItem,
-    IonLabel,
     TranslatePipe,
+    NgTemplateOutlet,
   ],
 })
 export class CompteursPage implements OnInit {
@@ -58,7 +54,7 @@ export class CompteursPage implements OnInit {
   protected readonly lignes = computed(() => lignesCompteurs(this.donnees.monCompteur()));
 
   constructor() {
-    addIcons({ chevronForward, helpCircleOutline });
+    addIcons({ chevronForward, helpCircleOutline, speedometerOutline });
   }
 
   ngOnInit(): void {

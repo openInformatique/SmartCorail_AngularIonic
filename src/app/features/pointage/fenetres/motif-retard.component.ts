@@ -16,19 +16,23 @@ import { DialoguesService } from '../../../core/ui/dialogues.service';
         <ion-title>{{ titre || ('pointage.saisirMotifRetard' | translate) }}</ion-title>
       </ion-toolbar>
     </ion-header>
-    <ion-content class="ion-padding">
-      <ion-select
-        fill="outline"
-        labelPlacement="stacked"
-        interface="popover"
-        [label]="'pointage.motifRetard' | translate"
-        [ngModel]="motif()"
-        (ngModelChange)="motif.set($event ?? '')"
-      >
-        @for (option of options(); track option.code) {
-          <ion-select-option [value]="option.code">{{ option.nom }}</ion-select-option>
-        }
-      </ion-select>
+    <ion-content>
+      <div class="page">
+        <div class="carte champs">
+          <ion-select
+            fill="outline"
+            labelPlacement="stacked"
+            interface="popover"
+            [label]="'pointage.motifRetard' | translate"
+            [ngModel]="motif()"
+            (ngModelChange)="motif.set($event ?? '')"
+          >
+            @for (option of options(); track option.code) {
+              <ion-select-option [value]="option.code">{{ option.nom }}</ion-select-option>
+            }
+          </ion-select>
+        </div>
+      </div>
     </ion-content>
     <ion-footer>
       <ion-toolbar>

@@ -16,61 +16,63 @@
 </ion-header>
 
 <ion-content>
-  <div class="filtre">
-    <ion-input
-      type="date"
-      fill="outline"
-      labelPlacement="stacked"
-      [label]="'planning.depuis' | translate"
-      [ngModel]="dateDepuis()"
-      (ngModelChange)="modifierDate($event)"
-      (keyup.enter)="demandeMiseAJour()"
-    />
-    <ion-button [disabled]="!actif()" (click)="demandeMiseAJour()">
-      <ion-icon slot="icon-only" name="checkmark" />
-    </ion-button>
-    @if (jauge()) {
-      <ion-spinner name="circular" />
-    }
-  </div>
+  <div class="page">
+    <div class="carte filtre">
+      <ion-input
+        type="date"
+        fill="outline"
+        labelPlacement="stacked"
+        [label]="'planning.depuis' | translate"
+        [ngModel]="dateDepuis()"
+        (ngModelChange)="modifierDate($event)"
+        (keyup.enter)="demandeMiseAJour()"
+      />
+      <ion-button class="valider" [disabled]="!actif()" (click)="demandeMiseAJour()">
+        @if (jauge()) {
+          <ion-spinner slot="icon-only" name="circular" />
+        } @else {
+          <ion-icon slot="icon-only" name="checkmark" />
+        }
+      </ion-button>
+    </div>
 
-  <ion-list class="journees">
-    @for (ligne of lignes(); track ligne.idLigne) {
-      <ion-item lines="full" button detail="false" [class.grise]="ligne.grise" (click)="ouvrir(ligne)">
-        <ion-label class="ion-text-wrap">
-          <div class="entete">
+    <div class="journees">
+      @for (ligne of lignes(); track ligne.idLigne) {
+        <button type="button" class="carte journee" [class.grise]="ligne.grise" (click)="ouvrir(ligne)">
+          <span class="entete">
             <span class="date">{{ ligne.libelleDate }}</span>
             @if (ligne.verrou) {
-              <ion-icon name="lock-closed" color="medium" />
+              <ion-icon class="verrou" name="lock-closed" />
             }
-          </div>
-          <p class="jt"><img src="assets/images/picto_JT_24.png" alt="" />{{ ligne.jt }}</p>
-          @if (ligne.nonAutorise) {
-            <p class="non-autorise">{{ 'pointage.nonAutorise' | translate }}</p>
-          }
-          @if (ligne.badgeuse) {
-            <p class="badgeuse">{{ 'pointage.pointeParBadgeuse' | translate }}</p>
+          </span>
+          <span class="jt"><ion-icon name="location-outline" />{{ ligne.jt }}</span>
+          @if (ligne.nonAutorise || ligne.badgeuse) {
+            <span class="etiquettes">
+              @if (ligne.nonAutorise) {
+                <span class="puce non-autorise">{{ 'pointage.nonAutorise' | translate }}</span>
+              }
+              @if (ligne.badgeuse) {
+                <span class="puce badgeuse">{{ 'pointage.pointeParBadgeuse' | translate }}</span>
+              }
+            </span>
           }
           <!-- Frise : prise de poste, coupure, fin de poste -->
-          <div class="frise">
-            <div>
-              <img src="assets/images/picto_timeline_debut.png" alt="" />
+          <span class="frise">
+            <span class="segment debut">
               <span class="heure">{{ ligne.hpDebut }}</span>
               <span class="etablissement">{{ ligne.etablissementDebut }}</span>
-            </div>
-            <div>
-              <img src="assets/images/picto_timeline_coupure.png" alt="" />
+            </span>
+            <span class="segment coupure">
               <span class="heure">{{ ligne.hpDebutCoupure }}</span>
               <span class="heure">{{ ligne.hpFinCoupure }}</span>
-            </div>
-            <div>
-              <img src="assets/images/picto_timeline_fin.png" alt="" />
+            </span>
+            <span class="segment fin">
               <span class="heure">{{ ligne.hpFin }}</span>
               <span class="etablissement">{{ ligne.etablissementFin }}</span>
-            </div>
-          </div>
-        </ion-label>
-      </ion-item>
-    }
-  </ion-list>
+            </span>
+          </span>
+        </button>
+      }
+    </div>
+  </div>
 </ion-content>

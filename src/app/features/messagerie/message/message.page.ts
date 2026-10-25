@@ -28,7 +28,9 @@ import { detailMessage, mettreMessageEnLu, messageVide } from '../messagerie.log
     </ion-header>
     <ion-content>
       @if (detail(); as d) {
-        <app-detail-message [message]="d" [telechargementInactif]="jauge()" (ouvrirPJ)="ouvrirPJ($event)" />
+        <div class="page">
+          <app-detail-message class="carte" [message]="d" [telechargementInactif]="jauge()" (ouvrirPJ)="ouvrirPJ($event)" />
+        </div>
       }
     </ion-content>
   `,

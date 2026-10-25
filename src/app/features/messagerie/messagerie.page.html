@@ -20,54 +20,56 @@
     <div class="liste">
       <div class="filtres">
         <button type="button" [class.actif]="filtreNonLus()" (click)="filtreNonLus.set(!filtreNonLus())">
-          <ion-icon name="mail-unread" /> {{ 'messagerie.nonLus' | translate }}
+          <ion-icon name="mail-unread-outline" /> {{ 'messagerie.nonLus' | translate }}
         </button>
         <button type="button" [class.actif]="filtreAvecPJ()" (click)="filtreAvecPJ.set(!filtreAvecPJ())">
-          <ion-icon name="attach" /> {{ 'messagerie.avecPJ' | translate }}
+          <ion-icon name="attach-outline" /> {{ 'messagerie.avecPJ' | translate }}
         </button>
         <span class="libelle">{{ libelleFiltres() }}</span>
       </div>
 
-      <ion-list lines="full">
+      <div class="carte messages">
         @for (message of messages(); track message.idMessage) {
-          <ion-item
-            button
-            [detail]="false"
+          <button
+            type="button"
+            class="ligne-message"
+            [class.non-lu]="message.nonLu"
             [class.selection]="large() && selection() === message.idMessage"
             (click)="selectionner(message.idMessage)"
           >
-            <ion-label class="ion-text-wrap message">
-              <div class="ligne-haut">
+            <span class="avatar">{{ initiales(message.qui) }}</span>
+            <span class="contenu">
+              <span class="ligne-haut">
                 <span class="qui">{{ message.qui }}</span>
-                <span class="quand" [class.non-lu]="message.nonLu">{{ message.date }}<br />{{ message.heure }}</span>
-              </div>
-              <p class="sujet" [class.non-lu]="message.nonLu">{{ message.sujet }}</p>
-              <p class="corps">{{ message.corps }}</p>
-            </ion-label>
-            <div slot="end" class="pictos">
-              @if (message.avecPJ) {
-                <img src="assets/images/picto_PJ_24.png" alt="" />
-              }
+                <span class="quand">{{ message.date }} · {{ message.heure }}</span>
+              </span>
+              <span class="sujet">{{ message.sujet }}</span>
+              <span class="corps">{{ message.corps }}</span>
+            </span>
+            <span class="pictos">
               @if (message.nonLu) {
-                <img src="assets/images/picto_NonLuInactif_24.png" alt="" />
+                <span class="point-non-lu" [attr.aria-label]="'messagerie.nonLus' | translate"></span>
               }
-            </div>
-          </ion-item>
+              @if (message.avecPJ) {
+                <ion-icon name="attach-outline" />
+              }
+            </span>
+          </button>
         } @empty {
           @if (!jauge()) {
-            <p class="vide">{{ 'accueil.aucunMessage' | translate }}</p>
+            <p class="message-vide">{{ 'accueil.aucunMessage' | translate }}</p>
           }
         }
-      </ion-list>
+      </div>
     </div>
 
     @if (large()) {
-      <div class="panneau">
+      <div class="panneau carte">
         @if (detail(); as d) {
           <app-detail-message [message]="d" [telechargementInactif]="telechargementInactif()" (ouvrirPJ)="ouvrirPJ($event)" />
         } @else {
           <div class="placeholder">
-            <img src="assets/images/picto_messagerie_32_vert.png" alt="" />
+            <ion-icon name="mail-open-outline" />
             <p>{{ 'messagerie.choisir' | translate }}</p>
           </div>
         }

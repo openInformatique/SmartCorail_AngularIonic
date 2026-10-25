@@ -1,33 +1,107 @@
 .grille {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+  gap: 14px;
+  align-items: start;
 }
 
-h2 {
-  margin: 0 0 6px;
-  font-weight: 600;
-  color: var(--ion-color-secondary);
+.reservation {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px 16px;
 }
 
 p {
-  margin: 4px 0;
-  color: var(--ion-text-color);
+  margin: 0;
   user-select: text;
 }
 
-img {
-  width: 18px;
-  margin-right: 6px;
-  vertical-align: middle;
+.entete {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  .titre {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    min-width: 0;
+  }
+
+  h2 {
+    margin: 0;
+    color: var(--ion-color-secondary);
+    font-size: 1.05rem;
+    font-weight: 700;
+    user-select: text;
+  }
+
+  .plaque ion-icon {
+    font-size: 14px;
+  }
+}
+
+.type {
+  font-weight: 500;
+}
+
+.info {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 0.92rem;
+
+  ion-icon {
+    flex-shrink: 0;
+    margin-top: 2px;
+    color: var(--cfl-texte-doux);
+    font-size: 17px;
+  }
+}
+
+.commentaire {
+  color: var(--cfl-texte-doux);
+  font-style: italic;
+}
+
+.hotel {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+
+  .fournisseur {
+    font-weight: 500;
+  }
 }
 
 .adresse {
-  padding-left: 24px;
-  color: var(--ion-color-medium-shade);
+  padding-left: 25px;
+  color: var(--cfl-texte-doux);
+  font-size: 0.88rem;
 }
 
-.dates {
+// Arrivée et départ de l'hôtel.
+.sejour {
   display: flex;
-  flex-wrap: wrap;
-  gap: 4px 16px;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: var(--cfl-fond);
+  font-size: 0.9rem;
+  font-weight: 500;
+
+  span {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  ion-icon {
+    flex-shrink: 0;
+    color: var(--ion-color-primary);
+    font-size: 17px;
+  }
 }

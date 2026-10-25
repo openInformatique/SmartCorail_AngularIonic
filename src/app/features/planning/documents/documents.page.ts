@@ -7,9 +7,6 @@ import {
   IonContent,
   IonHeader,
   IonIcon,
-  IonItem,
-  IonLabel,
-  IonList,
   IonSpinner,
   IonTitle,
   IonToolbar,
@@ -17,7 +14,7 @@ import {
 } from '@ionic/angular';
 import { TranslatePipe } from '@ngx-translate/core';
 import { addIcons } from 'ionicons';
-import { helpCircleOutline } from 'ionicons/icons';
+import { documentTextOutline, helpCircleOutline } from 'ionicons/icons';
 
 import { documentVide, DocumentApi } from '../../../core/api/document.api';
 import { MessagerieApi } from '../../../core/api/messagerie.api';
@@ -50,9 +47,6 @@ import { lignesDocuments, marquerCommeLu } from './documents.logique';
     IonIcon,
     IonSpinner,
     IonContent,
-    IonList,
-    IonItem,
-    IonLabel,
     TranslatePipe,
   ],
 })
@@ -80,7 +74,7 @@ export class DocumentsPage implements OnInit {
   private readonly nav = inject(NavController);
 
   constructor() {
-    addIcons({ helpCircleOutline });
+    addIcons({ documentTextOutline, helpCircleOutline });
     inject(FenetresOuvertesService).enregistrer('FEN_DocumentsTransport');
   }
 

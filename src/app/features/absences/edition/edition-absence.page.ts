@@ -11,9 +11,6 @@ import {
   IonHeader,
   IonIcon,
   IonInput,
-  IonItem,
-  IonLabel,
-  IonList,
   IonSegment,
   IonSegmentButton,
   IonSpinner,
@@ -26,7 +23,19 @@ import {
 } from '@ionic/angular';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { addIcons } from 'ionicons';
-import { add, arrowBack, camera, documentText, image, listOutline, trashOutline } from 'ionicons/icons';
+import {
+  add,
+  arrowBack,
+  attachOutline,
+  calendarClearOutline,
+  camera,
+  chatbubbleEllipsesOutline,
+  documentText,
+  documentTextOutline,
+  image,
+  listOutline,
+  trashOutline,
+} from 'ionicons/icons';
 
 import { AbsencesApi } from '../../../core/api/absences.api';
 import { documentVide } from '../../../core/api/document.api';
@@ -85,9 +94,6 @@ interface LignePJ {
     IonTextarea,
     IonSegment,
     IonSegmentButton,
-    IonList,
-    IonItem,
-    IonLabel,
     IonFab,
     IonFabButton,
     IonFabList,
@@ -146,7 +152,19 @@ export class EditionAbsencePage {
     this.documentsJoints = parametre.Documents;
     this.absence = { ...parametre, Documents: [] };
     this.structureVersEcran();
-    addIcons({ add, arrowBack, camera, documentText, image, listOutline, trashOutline });
+    addIcons({
+      add,
+      arrowBack,
+      attachOutline,
+      calendarClearOutline,
+      camera,
+      chatbubbleEllipsesOutline,
+      documentText,
+      documentTextOutline,
+      image,
+      listOutline,
+      trashOutline,
+    });
 
     // Bouton retour Android = ActionBar (BTN_Abandon).
     const retour = inject(Platform).backButton.subscribeWithPriority(50, () => void this.abandonner());

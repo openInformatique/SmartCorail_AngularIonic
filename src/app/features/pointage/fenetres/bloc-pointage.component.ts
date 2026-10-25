@@ -57,33 +57,35 @@ import {
         <ion-title>{{ titre }}</ion-title>
       </ion-toolbar>
     </ion-header>
-    <ion-content class="ion-padding">
-      <div class="champs">
-        <ion-select
-          fill="outline"
-          labelPlacement="stacked"
-          interface="popover"
-          [label]="'pointage.typePointage' | translate"
-          [ngModel]="type()"
-          (ngModelChange)="type.set($event)"
-        >
-          @for (option of types(); track option.code) {
-            <ion-select-option [value]="option.code">{{ option.nom }}</ion-select-option>
+    <ion-content>
+      <div class="page">
+        <div class="carte champs">
+          <ion-select
+            fill="outline"
+            labelPlacement="stacked"
+            interface="popover"
+            [label]="'pointage.typePointage' | translate"
+            [ngModel]="type()"
+            (ngModelChange)="type.set($event)"
+          >
+            @for (option of types(); track option.code) {
+              <ion-select-option [value]="option.code">{{ option.nom }}</ion-select-option>
+            }
+          </ion-select>
+          <ion-item lines="none">
+            <ion-toggle [ngModel]="nePasPointer()" (ngModelChange)="nePasPointer.set($event)">{{ 'pointage.nePasPointer' | translate }}</ion-toggle>
+          </ion-item>
+          @if (!nePasPointer()) {
+            <div class="ligne">
+              <ion-input type="date" fill="outline" labelPlacement="stacked" [label]="'pointage.debut' | translate" [(ngModel)]="debut.date" />
+              <ion-input type="time" fill="outline" labelPlacement="stacked" [label]="'pointage.heure' | translate" [(ngModel)]="debut.heure" />
+            </div>
+            <div class="ligne">
+              <ion-input type="date" fill="outline" labelPlacement="stacked" [label]="'pointage.fin' | translate" [(ngModel)]="fin.date" />
+              <ion-input type="time" fill="outline" labelPlacement="stacked" [label]="'pointage.heure' | translate" [(ngModel)]="fin.heure" />
+            </div>
           }
-        </ion-select>
-        <ion-item lines="none">
-          <ion-toggle [ngModel]="nePasPointer()" (ngModelChange)="nePasPointer.set($event)">{{ 'pointage.nePasPointer' | translate }}</ion-toggle>
-        </ion-item>
-        @if (!nePasPointer()) {
-          <div class="ligne">
-            <ion-input type="date" fill="outline" labelPlacement="stacked" [label]="'pointage.debut' | translate" [(ngModel)]="debut.date" />
-            <ion-input type="time" fill="outline" labelPlacement="stacked" [label]="'pointage.heure' | translate" [(ngModel)]="debut.heure" />
-          </div>
-          <div class="ligne">
-            <ion-input type="date" fill="outline" labelPlacement="stacked" [label]="'pointage.fin' | translate" [(ngModel)]="fin.date" />
-            <ion-input type="time" fill="outline" labelPlacement="stacked" [label]="'pointage.heure' | translate" [(ngModel)]="fin.heure" />
-          </div>
-        }
+        </div>
       </div>
     </ion-content>
     <ion-footer>

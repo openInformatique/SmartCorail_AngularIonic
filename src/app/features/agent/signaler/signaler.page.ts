@@ -15,7 +15,7 @@ import {
 } from '@ionic/angular';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { addIcons } from 'ionicons';
-import { send } from 'ionicons/icons';
+import { megaphoneOutline, send } from 'ionicons/icons';
 
 import { AgentApi } from '../../../core/api/agent.api';
 import { GestionErreurService } from '../../../core/http/gestion-erreur.service';
@@ -56,21 +56,33 @@ import { DialoguesService } from '../../../core/ui/dialogues.service';
         </ion-buttons>
       </ion-toolbar>
     </ion-header>
-    <ion-content class="ion-padding">
-      <ion-textarea
-        fill="outline"
-        autoGrow
-        [rows]="8"
-        [placeholder]="'agent.texteSignalement' | translate"
-        [disabled]="!texteActif()"
-        [ngModel]="texte()"
-        (ngModelChange)="texte.set($event ?? '')"
-      />
+    <ion-content>
+      <div class="page">
+        <div class="carte saisie">
+          <span class="tuile-icone"><ion-icon name="megaphone-outline" /></span>
+          <ion-textarea
+            fill="outline"
+            autoGrow
+            [rows]="8"
+            [placeholder]="'agent.texteSignalement' | translate"
+            [disabled]="!texteActif()"
+            [ngModel]="texte()"
+            (ngModelChange)="texte.set($event ?? '')"
+          />
+        </div>
+      </div>
     </ion-content>
   `,
   styles: `
-    ion-textarea {
+    .saisie {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
       max-width: 700px;
+      padding: 16px;
+    }
+    ion-textarea {
+      --border-radius: 10px;
     }
   `,
 })
@@ -88,7 +100,7 @@ export class SignalerPage {
   protected readonly jauge = signal(false);
 
   constructor() {
-    addIcons({ send });
+    addIcons({ megaphoneOutline, send });
   }
 
   /** Option (envoyer). */

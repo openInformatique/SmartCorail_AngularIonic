@@ -13,36 +13,51 @@
 </ion-header>
 
 <ion-content>
-  <div class="grille">
+  <div class="page grille">
     @for (train of trains(); track train.idTrain) {
-      <ion-card>
-        <ion-card-header>
-          <ion-card-title>{{ train.numTrain }}</ion-card-title>
-        </ion-card-header>
-        <ion-card-content>
-          <p><img src="assets/images/picto_client_24.png" alt="" /> {{ train.client }}</p>
-          <p class="deux">
-            <span><img src="assets/images/picto_Statut_24.png" alt="" /> {{ train.statut }}</span>
-            <span>
-              <img src="assets/images/picto_spot_24.png" alt="" />
-              {{ 'trains.spot' | translate }} : {{ (train.spot ? 'commun.oui' : 'commun.non') | translate }}
-            </span>
-          </p>
-          <p><img src="assets/images/picto_indicecompo_24.png" alt="" /> {{ train.indiceCompo }}</p>
-          <p class="deux">
-            <span><img src="assets/images/picto_from_24.png" alt="" /> {{ train.depart }}</span>
-            <span><img src="assets/images/picto_to_24.png" alt="" /> {{ train.arrivee }}</span>
-          </p>
-          <p><img src="assets/images/picto_relation_24.png" alt="" /> {{ train.relation }}</p>
-          @if (train.commentaire) {
-            <p><img src="assets/images/picto_commentaire_24.png" alt="" /> {{ train.commentaire }}</p>
-          }
-          <ion-button expand="block" fill="outline" (click)="ouvrir(train.idTrain)">
-            {{ 'trains.operations' | translate: { nb: train.nbOperations } }}
-            <ion-icon slot="end" name="chevron-forward" />
-          </ion-button>
-        </ion-card-content>
-      </ion-card>
+      <article class="carte train">
+        <header class="entete">
+          <span class="tuile-icone"><ion-icon name="train-outline" /></span>
+          <div class="titre">
+            <h2>{{ train.numTrain }}</h2>
+            <span class="puce statut"><ion-icon name="flag-outline" />{{ train.statut }}</span>
+          </div>
+        </header>
+
+        <div class="trajet">
+          <span class="gare"><ion-icon name="radio-button-on-outline" />{{ train.depart }}</span>
+          <ion-icon class="fleche" name="arrow-forward" />
+          <span class="gare"><ion-icon name="location-outline" />{{ train.arrivee }}</span>
+        </div>
+
+        <dl class="infos">
+          <div>
+            <dt><ion-icon name="business-outline" /></dt>
+            <dd>{{ train.client }}</dd>
+          </div>
+          <div>
+            <dt><ion-icon name="layers-outline" /></dt>
+            <dd>{{ train.indiceCompo }}</dd>
+          </div>
+          <div>
+            <dt><ion-icon name="swap-horizontal-outline" /></dt>
+            <dd>{{ train.relation }}</dd>
+          </div>
+          <div>
+            <dt><ion-icon name="flash-outline" /></dt>
+            <dd>{{ 'trains.spot' | translate }} : {{ (train.spot ? 'commun.oui' : 'commun.non') | translate }}</dd>
+          </div>
+        </dl>
+
+        @if (train.commentaire) {
+          <p class="commentaire"><ion-icon name="chatbubble-ellipses-outline" />{{ train.commentaire }}</p>
+        }
+
+        <button type="button" class="operations" (click)="ouvrir(train.idTrain)">
+          <span>{{ 'trains.operations' | translate: { nb: train.nbOperations } }}</span>
+          <ion-icon name="chevron-forward" />
+        </button>
+      </article>
     }
   </div>
 </ion-content>

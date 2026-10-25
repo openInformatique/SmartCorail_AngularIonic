@@ -2,12 +2,36 @@ import { Component, input, output } from '@angular/core';
 import { IonIcon } from '@ionic/angular';
 import { TranslatePipe } from '@ngx-translate/core';
 import { addIcons } from 'ionicons';
-import { calendarOutline } from 'ionicons/icons';
+import {
+  bedOutline,
+  cafeOutline,
+  calendarOutline,
+  carOutline,
+  chatbubbleEllipsesOutline,
+  documentTextOutline,
+  pauseCircleOutline,
+  ribbonOutline,
+  trainOutline,
+} from 'ionicons/icons';
 
 import { LigneJS } from '../../accueil/accueil.logique';
 
 /** Boutons d'une journée : BTN_Trains, BTN_Competences, BTN_Reservations, BTN_Reservations_VS, BTN_Avis, BTN_Absence. */
 export type ActionJournee = 'trains' | 'competences' | 'reservations' | 'reservationsVS' | 'avis' | 'absence';
+
+/** Pictogrammes de la journée (repris dans la légende, plan 1). */
+export const ICONES_JOURNEE = {
+  pause: 'cafe-outline',
+  coupure: 'pause-circle-outline',
+  commentaire: 'chatbubble-ellipses-outline',
+  trains: 'train-outline',
+  competences: 'ribbon-outline',
+  reservations: 'bed-outline',
+  reservationsVS: 'car-outline',
+  avis: 'document-text-outline',
+  jt: 'location-outline',
+  statut: 'flag-outline',
+} as const;
 
 /** Bas de rupture d'une journée : pause ou coupure, commentaire, compteurs. */
 @Component({
@@ -15,24 +39,26 @@ export type ActionJournee = 'trains' | 'competences' | 'reservations' | 'reserva
   template: `
     @let l = ligne();
     <div class="detail">
-      <p>
-        @if (l.avecPause) {
-          <img src="assets/images/picto_pause_24.png" alt="" /> {{ l.pause }}
-        } @else {
-          <img src="assets/images/picto_coupure_24.png" alt="" /> {{ l.coupure }}
-        }
-      </p>
-      <p>
-        <img src="assets/images/picto_commentaire_24.png" alt="" />
-        {{ l.commentaire }}
-        @if (l.manqueCompetence) {
-          <span class="rouge">{{ l.manqueCompetence }}</span>
-        }
-      </p>
+      <div class="infos-detail">
+        <p class="info">
+          <ion-icon [name]="l.avecPause ? icones.pause : icones.coupure" />
+          <span>{{ l.avecPause ? l.pause : l.coupure }}</span>
+        </p>
+        <p class="info">
+          <ion-icon [name]="icones.commentaire" />
+          <span>
+            {{ l.commentaire }}
+            @if (l.manqueCompetence) {
+              <span class="alerte">{{ l.manqueCompetence }}</span>
+            }
+          </span>
+        </p>
+      </div>
       <div class="compteurs">
         @for (b of boutons; track b.action) {
           <button type="button" [class.vide]="!l[b.nombre]" (click)="action.emit(b.action)">
-            <img [src]="'assets/images/' + b.image" alt="" /> {{ l[b.nombre] }}
+            <ion-icon [name]="icones[b.action]" />
+            <span class="nombre">{{ l[b.nombre] }}</span>
             <span class="libelle">{{ b.cle | translate }}</span>
           </button>
         }
@@ -54,15 +80,26 @@ export class DetailJourneeComponent {
   readonly avecAbsence = input(false);
   readonly action = output<ActionJournee>();
 
-  protected readonly boutons: { action: ActionJournee; nombre: keyof LigneJS; image: string; cle: string }[] = [
-    { action: 'trains', nombre: 'nbTrains', image: 'picto_train_24.png', cle: 'accueil.trains' },
-    { action: 'competences', nombre: 'nbCompetences', image: 'picto_competence_24.png', cle: 'accueil.competences' },
-    { action: 'reservations', nombre: 'nbReservations', image: 'picto_resevation_24.png', cle: 'accueil.reservations' },
-    { action: 'reservationsVS', nombre: 'nbReservationsVS', image: 'picto_reservation_vs_24.png', cle: 'accueil.reservationsVS' },
-    { action: 'avis', nombre: 'nbAvis', image: 'picto_pdf_64.png', cle: 'accueil.avis' },
+  protected readonly icones = ICONES_JOURNEE;
+  protected readonly boutons: { action: Exclude<ActionJournee, 'absence'>; nombre: keyof LigneJS; cle: string }[] = [
+    { action: 'trains', nombre: 'nbTrains', cle: 'accueil.trains' },
+    { action: 'competences', nombre: 'nbCompetences', cle: 'accueil.competences' },
+    { action: 'reservations', nombre: 'nbReservations', cle: 'accueil.reservations' },
+    { action: 'reservationsVS', nombre: 'nbReservationsVS', cle: 'accueil.reservationsVS' },
+    { action: 'avis', nombre: 'nbAvis', cle: 'accueil.avis' },
   ];
 
   constructor() {
-    addIcons({ calendarOutline });
+    addIcons({
+      bedOutline,
+      cafeOutline,
+      calendarOutline,
+      carOutline,
+      chatbubbleEllipsesOutline,
+      documentTextOutline,
+      pauseCircleOutline,
+      ribbonOutline,
+      trainOutline,
+    });
   }
 }

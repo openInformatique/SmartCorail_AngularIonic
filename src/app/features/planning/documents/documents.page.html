@@ -17,30 +17,36 @@
 
 <ion-content>
   <div class="disposition" [class.large]="large()">
-    <ion-list lines="full">
-      @for (doc of documents(); track $index; let i = $index) {
-        <ion-item button [detail]="false" (click)="selectionner(i)">
-          <img slot="start" src="assets/images/picto_pdf_64.png" alt="" />
-          <ion-label class="ion-text-wrap">
-            <h2>{{ doc.nom }}</h2>
-            <p>{{ doc.type }}</p>
-            <p>{{ 'documents.creation' | translate }} : {{ doc.creation }}</p>
-            <p>{{ 'documents.lecture' | translate }} : {{ doc.lecture }}</p>
-          </ion-label>
-          @if (doc.nonLu) {
-            <img slot="end" src="assets/images/picto_NonLuInactif_24.png" alt="" />
+    <div class="liste">
+      @if (documents().length) {
+        <div class="carte">
+          @for (doc of documents(); track $index; let i = $index) {
+            <button type="button" class="document" [class.non-lu]="doc.nonLu" (click)="selectionner(i)">
+              <span class="tuile-icone rouge"><ion-icon name="document-text-outline" /></span>
+              <span class="corps">
+                <span class="nom">{{ doc.nom }}</span>
+                <span class="type">{{ doc.type }}</span>
+                <span class="dates">
+                  <span>{{ 'documents.creation' | translate }} : {{ doc.creation }}</span>
+                  <span>{{ 'documents.lecture' | translate }} : {{ doc.lecture }}</span>
+                </span>
+              </span>
+              @if (doc.nonLu) {
+                <span class="point-non-lu"></span>
+              }
+            </button>
           }
-        </ion-item>
+        </div>
       }
-    </ion-list>
+    </div>
 
     @if (large()) {
-      <div class="visionneuse">
+      <div class="visionneuse carte">
         @if (pdf(); as url) {
           <iframe [src]="url" title="PDF"></iframe>
         } @else if (placeholder()) {
           <div class="placeholder">
-            <img src="assets/images/picto_pdf_64.png" alt="" />
+            <ion-icon name="document-text-outline" />
             <p>{{ 'documents.choisir' | translate }}</p>
           </div>
         }

@@ -260,7 +260,12 @@
     "envoyer": "Senden",
     "texteSignalement": "Beschreiben Sie den festgestellten Fehler",
     "confirmerSignalement": "Sie werden einen Fehler melden. Sind Sie sicher, dass Sie fortfahren möchten?",
-    "erreurSignalee": "Fehler erfolgreich gemeldet"
+    "erreurSignalee": "Fehler erfolgreich gemeldet",
+    "groupeIdentite": "Identität",
+    "groupeAdresse": "Adresse",
+    "groupeLangues": "Sprachen",
+    "groupeEntreprise": "Unternehmen",
+    "groupeContact": "Kontakt"
   },
   "pointage": {
     "titre": "Zeiterfassung",

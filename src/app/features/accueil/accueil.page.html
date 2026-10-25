@@ -19,23 +19,23 @@
 </ion-header>
 
 <ion-content>
-  <div class="colonnes">
+  <div class="page colonnes">
     <!-- Planning -->
-    <section class="bloc">
-      <button type="button" class="titre-bloc" [disabled]="!droitPlanning()" (click)="ouvrirPlanning()">
-        <img src="assets/images/picto_planning_32_vert.png" alt="" />
-        <span>{{ 'accueil.planning' | translate }}</span>
+    <section class="carte">
+      <button type="button" class="entete-section" [disabled]="!droitPlanning()" (click)="ouvrirPlanning()">
+        <span class="pastille-icone"><ion-icon name="calendar-outline" /></span>
+        <span class="titre">{{ 'accueil.planning' | translate }}</span>
         @if (jaugePlanning()) {
           <ion-spinner name="circular" />
         }
-        <ion-icon name="chevron-forward" />
+        <span class="suite"><ion-icon name="chevron-forward" /></span>
       </button>
 
       @if (droitPlanning()) {
-        <ion-accordion-group [value]="deroulee()" (ionChange)="deroulerJournee($event.detail.value)">
+        <ion-accordion-group class="journees" [value]="deroulee()" (ionChange)="deroulerJournee($event.detail.value)">
           @for (ligne of lignes(); track ligne.idLigne) {
-            <ion-accordion [value]="'' + ligne.idLigne" [class]="'fond-' + ligne.fond" [class.aujourdhui]="ligne.aujourdhui">
-              <ion-item slot="header" lines="full">
+            <ion-accordion [value]="'' + ligne.idLigne" [class]="'fond-' + ligne.fond">
+              <ion-item slot="header" lines="none">
                 <app-entete-journee [ligne]="ligne" />
               </ion-item>
               <div slot="content">
@@ -45,48 +45,51 @@
           }
         </ion-accordion-group>
       } @else {
-        <p class="aucun-droit">{{ 'accueil.aucunDroitPlanning' | translate }}</p>
+        <p class="message-vide">{{ 'accueil.aucunDroitPlanning' | translate }}</p>
       }
     </section>
 
     <!-- Messagerie -->
-    <section class="bloc">
-      <button type="button" class="titre-bloc" [disabled]="!droitMessagerie()" (click)="ouvrirMessagerie()">
-        <img src="assets/images/picto_messagerie_32_vert.png" alt="" />
-        <span>{{ 'accueil.messagerie' | translate }}</span>
+    <section class="carte">
+      <button type="button" class="entete-section" [disabled]="!droitMessagerie()" (click)="ouvrirMessagerie()">
+        <span class="pastille-icone"><ion-icon name="mail-outline" /></span>
+        <span class="titre">{{ 'accueil.messagerie' | translate }}</span>
         @if (jaugeMessagerie()) {
           <ion-spinner name="circular" />
         }
-        <ion-icon name="chevron-forward" />
+        <span class="suite"><ion-icon name="chevron-forward" /></span>
       </button>
 
       @if (droitMessagerie()) {
-        @for (message of messages(); track message.idMessage) {
-          <ion-item button lines="full" [detail]="false" (click)="ouvrirMessage(message.idMessage)">
-            <ion-label class="ion-text-wrap message">
-              <div class="ligne-haut">
-                <span class="qui">{{ message.qui }}</span>
-                <span class="quand" [class.non-lu]="message.nonLu">{{ message.date }}<br />{{ message.heure }}</span>
-              </div>
-              <p class="sujet" [class.non-lu]="message.nonLu">{{ message.sujet }}</p>
-              <p class="corps">{{ message.corps }}</p>
-            </ion-label>
-            <div slot="end" class="pictos">
-              @if (message.avecPJ) {
-                <img src="assets/images/picto_PJ_24.png" alt="" />
-              }
-              @if (message.nonLu) {
-                <img src="assets/images/picto_NonLuInactif_24.png" alt="" />
-              }
-            </div>
-          </ion-item>
-        } @empty {
-          @if (!jaugeMessagerie()) {
-            <p class="aucun-droit">{{ 'accueil.aucunMessage' | translate }}</p>
+        <div class="messages">
+          @for (message of messages(); track message.idMessage) {
+            <button type="button" class="ligne-message" [class.non-lu]="message.nonLu" (click)="ouvrirMessage(message.idMessage)">
+              <span class="avatar">{{ initiales(message.qui) }}</span>
+              <span class="contenu">
+                <span class="ligne-haut">
+                  <span class="qui">{{ message.qui }}</span>
+                  <span class="quand">{{ message.date }} · {{ message.heure }}</span>
+                </span>
+                <span class="sujet">{{ message.sujet }}</span>
+                <span class="corps">{{ message.corps }}</span>
+              </span>
+              <span class="pictos">
+                @if (message.nonLu) {
+                  <span class="point-non-lu" [attr.aria-label]="'messagerie.nonLus' | translate"></span>
+                }
+                @if (message.avecPJ) {
+                  <ion-icon name="attach-outline" />
+                }
+              </span>
+            </button>
+          } @empty {
+            @if (!jaugeMessagerie()) {
+              <p class="message-vide">{{ 'accueil.aucunMessage' | translate }}</p>
+            }
           }
-        }
+        </div>
       } @else {
-        <p class="aucun-droit">{{ 'accueil.aucunDroitMessagerie' | translate }}</p>
+        <p class="message-vide">{{ 'accueil.aucunDroitMessagerie' | translate }}</p>
       }
     </section>
   </div>

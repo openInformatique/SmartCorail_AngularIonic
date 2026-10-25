@@ -260,7 +260,12 @@
     "envoyer": "Envoyer",
     "texteSignalement": "Décrivez l'erreur constatée",
     "confirmerSignalement": "Vous allez signaler une erreur. Êtes-vous sûr de vouloir continuer ?",
-    "erreurSignalee": "Erreur signalée avec succès"
+    "erreurSignalee": "Erreur signalée avec succès",
+    "groupeIdentite": "Identité",
+    "groupeAdresse": "Adresse",
+    "groupeLangues": "Langues",
+    "groupeEntreprise": "Entreprise",
+    "groupeContact": "Contact"
   },
   "pointage": {
     "titre": "Pointage du réalisé",

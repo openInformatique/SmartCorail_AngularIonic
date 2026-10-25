@@ -1,18 +1,25 @@
 <ion-menu contentId="contenu" type="overlay" [disabled]="!connecte()">
   <ion-content>
     <header class="entete">
-      <img class="avatar" src="assets/images/avatar@dpi2x.png" alt="" />
-      <div>
+      <span class="avatar">{{ initiales() }}</span>
+      <div class="identite">
         <p class="nom">{{ utilisateur().Nom }} {{ utilisateur().Prenom }}</p>
         <p class="agence">{{ utilisateur().Etablissement }}</p>
       </div>
     </header>
 
-    <ion-list lines="none">
+    <ion-list lines="none" class="entrees">
       @for (entree of entrees; track entree.numero) {
         <ion-menu-toggle [autoHide]="false">
-          <ion-item button [detail]="false" [class.grise]="!autorise(entree)" (click)="selectionner(entree)">
-            <img slot="start" class="vignette" [src]="'assets/images/' + entree.icone" alt="" />
+          <ion-item
+            button
+            [detail]="false"
+            [class.grise]="!autorise(entree)"
+            [class.active]="active(entree)"
+            [class.deconnexion]="entree.numero === 12"
+            (click)="selectionner(entree)"
+          >
+            <ion-icon slot="start" [name]="entree.icone" />
             <ion-label>{{ entree.cle | translate }}</ion-label>
             @if (entree.pastille?.(); as pastille) {
               <span slot="end" class="pastille">{{ pastille }}</span>
@@ -36,7 +43,7 @@
         </button>
       </div>
     }
-    <p class="version">{{ version() }}</p>
     <img class="logo" src="assets/images/LogoSociete.jpg" alt="CFL cargo" />
+    <p class="version">{{ version() }}</p>
   </ion-footer>
 </ion-menu>

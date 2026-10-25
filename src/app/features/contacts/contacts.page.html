@@ -16,36 +16,38 @@
 </ion-header>
 
 <ion-content>
-  <ion-list>
-    @for (contact of lignes(); track $index; let i = $index) {
-      @if (nouveauGroupe(i)) {
-        <ion-item-divider color="light" sticky>
-          <ion-label>{{ contact.groupe }}</ion-label>
-        </ion-item-divider>
-      }
-      <ion-item lines="full">
-        <img slot="start" class="avatar" src="assets/images/picto_photo_contact.png" alt="" />
-        <ion-label class="ion-text-wrap">
-          <h2>{{ contact.nom }}</h2>
-          @if (contact.role) {
-            <p>{{ contact.role }}</p>
-          }
-          <div class="coordonnees">
-            @if (contact.telephone) {
-              <button type="button" (click)="appeler(contact.telephone)">
-                <ion-icon name="call-outline" /> {{ contact.telephone }}
-              </button>
-            }
-            @if (contact.mail) {
-              <button type="button" (click)="ecrire(contact.mail)">
-                <ion-icon name="mail-outline" /> {{ contact.mail }}
-              </button>
-            }
+  <div class="page">
+    @for (g of groupes(); track $index) {
+      <h2 class="titre-groupe">{{ g.groupe }}</h2>
+      <div class="carte">
+        @for (contact of g.contacts; track $index) {
+          <div class="contact">
+            <span class="avatar"><ion-icon name="person" /></span>
+            <div class="corps">
+              <span class="nom">{{ contact.nom }}</span>
+              @if (contact.role) {
+                <span class="role">{{ contact.role }}</span>
+              }
+              <div class="coordonnees">
+                @if (contact.telephone) {
+                  <button type="button" (click)="appeler(contact.telephone)">
+                    <ion-icon name="call-outline" /> {{ contact.telephone }}
+                  </button>
+                }
+                @if (contact.mail) {
+                  <button type="button" (click)="ecrire(contact.mail)">
+                    <ion-icon name="mail-outline" /> {{ contact.mail }}
+                  </button>
+                }
+              </div>
+            </div>
           </div>
-        </ion-label>
-      </ion-item>
+        }
+      </div>
     } @empty {
-      <p class="vide">{{ 'contacts.aucun' | translate }}</p>
+      <div class="carte">
+        <p class="message-vide">{{ 'contacts.aucun' | translate }}</p>
+      </div>
     }
-  </ion-list>
+  </div>
 </ion-content>

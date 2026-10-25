@@ -6,9 +6,6 @@ import {
   IonContent,
   IonHeader,
   IonIcon,
-  IonItem,
-  IonLabel,
-  IonList,
   IonSpinner,
   IonTitle,
   IonToolbar,
@@ -17,7 +14,7 @@ import {
 } from '@ionic/angular';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { addIcons } from 'ionicons';
-import { attach, helpCircleOutline, mailUnread } from 'ionicons/icons';
+import { attachOutline, helpCircleOutline, mailOpenOutline, mailUnreadOutline } from 'ionicons/icons';
 
 import { AideService } from '../../core/api/aide.service';
 import { MessagerieApi } from '../../core/api/messagerie.api';
@@ -28,6 +25,7 @@ import { DonneesService } from '../../core/state/donnees.service';
 import { FenetresOuvertesService } from '../../core/state/fenetres-ouvertes.service';
 import { DialoguesService } from '../../core/ui/dialogues.service';
 import { ecranLarge } from '../../core/ui/ecran-large';
+import { initiales } from '../../core/ui/initiales';
 import { DetailMessageComponent } from './detail-message/detail-message.component';
 import { LectureMessageService } from './lecture-message.service';
 import { DetailMessage, detailMessage, libelleFiltres, messagesFiltres, mettreMessageEnLu } from './messagerie.logique';
@@ -51,9 +49,6 @@ import { SynchroService } from '../../core/offline/synchro.service';
     IonIcon,
     IonSpinner,
     IonContent,
-    IonList,
-    IonItem,
-    IonLabel,
     TranslatePipe,
     DetailMessageComponent,
   ],
@@ -77,6 +72,8 @@ export class MessageriePage implements OnInit, ViewWillEnter {
   protected readonly filtreAvecPJ = signal(false);
   /** Ligne sélectionnée (ZR_Messagerie.ATT_IDMessage). */
   protected readonly selection = signal<number | null>(null);
+  /** Initiales de l'expéditeur, pour la pastille du message (présentation seulement). */
+  protected readonly initiales = initiales;
   /** Panneau de détail (paysage) : SAI_Qui, SAI_Sujet, SAI_Corps, LIB_DateH, ZR_PJ. */
   protected readonly detail = signal<DetailMessage | null>(null);
   /** IMG_Telecharger..Etat = Inactif pendant WS_GETMessage. */
@@ -99,7 +96,7 @@ export class MessageriePage implements OnInit, ViewWillEnter {
   private premiereEntree = true;
 
   constructor() {
-    addIcons({ attach, helpCircleOutline, mailUnread });
+    addIcons({ attachOutline, helpCircleOutline, mailOpenOutline, mailUnreadOutline });
     inject(FenetresOuvertesService).enregistrer('FEN_Messagerie');
   }
 

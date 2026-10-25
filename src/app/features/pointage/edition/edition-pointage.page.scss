@@ -13,28 +13,41 @@
 .contenu {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  max-width: 700px;
+  gap: 14px;
+  max-width: 720px;
+}
+
+.resume {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
 }
 
 .titre {
   margin: 0;
   font-weight: 700;
   white-space: pre-line;
-  color: var(--cfl-gris-texte);
+}
+
+ion-input,
+ion-textarea {
+  --border-radius: 10px;
+}
+
+// Prise de poste, blocs, fin de poste.
+.frise {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
 }
 
 .etape {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-weight: 600;
-  color: var(--cfl-gris-texte);
-
-  img {
-    width: 28px;
-    height: 28px;
-  }
+  gap: 10px;
+  font-weight: 500;
 }
 
 .ligne {
@@ -46,6 +59,11 @@
   ion-textarea {
     flex: 1;
     min-width: 0;
+  }
+
+  ion-button {
+    margin: 0;
+    --border-radius: 12px;
   }
 }
 
@@ -59,17 +77,32 @@ ion-input.hors-connexion {
 }
 
 .blocs {
+  margin: 4px -16px;
+  padding: 0;
+  border-top: 1px solid var(--cfl-bordure);
+  border-bottom: 1px solid var(--cfl-bordure);
+  background: transparent;
+
+  // Liste vide : pas de double trait.
+  &:not(:has(ion-item)) {
+    border-bottom: none;
+  }
+
+  ion-item {
+    --padding-start: 16px;
+    --background: var(--cfl-carte);
+  }
+
   ion-item.hors-connexion {
     --background: #ffe0b2;
   }
 
-  .timeline {
-    width: 28px;
-    height: 28px;
+  .borne {
+    margin-inline-end: 14px;
   }
 
   h3 {
-    font-weight: 600;
+    font-weight: 500;
   }
 
   .pointe {
@@ -80,6 +113,14 @@ ion-input.hors-connexion {
   &.grise {
     opacity: 0.5;
   }
+}
+
+.commentaire {
+  padding: 14px 16px;
+}
+
+ion-spinner {
+  color: #ffffff;
 }
 
 // Heure plus étroite que la date (les deux tiennent avec le bouton d'envoi sur téléphone).

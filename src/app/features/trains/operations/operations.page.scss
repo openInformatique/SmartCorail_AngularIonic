@@ -1,71 +1,161 @@
 .grille {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  padding-bottom: env(safe-area-inset-bottom);
+  grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+  gap: 14px;
+  align-items: start;
 }
 
-ion-card-title {
-  font-size: 1.05em;
-  color: var(--ion-color-secondary);
+.operation {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 14px 16px;
 }
 
-ion-card-content {
-  color: var(--ion-text-color);
+.entete {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 
-  p {
-    margin: 4px 0;
-    color: var(--ion-text-color);
+  h2 {
+    margin: 0;
+    color: var(--ion-color-secondary);
+    font-size: 1.05rem;
+    font-weight: 700;
   }
-
-  img {
-    width: 18px;
-    margin-right: 6px;
-    vertical-align: middle;
-  }
 }
 
+// Gare de départ → gare d'arrivée.
 .trajet {
   display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: var(--cfl-fond);
+  font-weight: 500;
+
+  .gare {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex: 1;
+    min-width: 0;
+
+    &:last-child {
+      justify-content: flex-end;
+      text-align: right;
+    }
+
+    ion-icon {
+      flex-shrink: 0;
+      color: var(--ion-color-primary);
+    }
+  }
+
+  .fleche {
+    flex-shrink: 0;
+    color: var(--cfl-texte-doux);
+  }
+}
+
+.periode {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 0;
+  font-size: 0.9rem;
+
+  ion-icon {
+    flex-shrink: 0;
+    margin-top: 2px;
+    color: var(--cfl-texte-doux);
+  }
+
+  strong {
+    font-weight: 500;
+  }
+}
+
+.puces {
+  display: flex;
   flex-wrap: wrap;
-  gap: 4px 16px;
+  gap: 6px;
+
+  .puce ion-icon {
+    font-size: 14px;
+  }
+}
+
+.agents {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-top: 10px;
+  border-top: 1px solid var(--cfl-bordure);
 }
 
 .agent {
   display: flex;
   align-items: center;
-  gap: 4px;
-  margin-top: 8px;
-
-  img {
-    width: 22px;
-  }
+  gap: 8px;
 
   &.formation {
     align-items: flex-start;
   }
 
-  .libelle {
-    padding-top: 4px;
-    font-weight: 600;
+  .avatar {
+    flex-shrink: 0;
+    font-size: 26px;
+    color: var(--ion-color-primary);
+  }
+
+  .nom {
+    flex: 1;
   }
 
   .noms {
     display: flex;
     flex-direction: column;
-    gap: 2px;
-    padding-top: 4px;
+    align-items: flex-start;
+    gap: 4px;
+    flex: 1;
+    padding-top: 3px;
+
+    .nom {
+      flex: none;
+    }
+  }
+
+  .libelle {
+    color: var(--cfl-texte-doux);
+    font-size: 0.82rem;
+  }
+
+  ion-button {
+    margin: 0;
+    --color: var(--ion-color-primary);
   }
 }
 
 // gFond(VertPastel) : l'agent connecté.
 .moi {
-  padding: 1px 6px;
-  border-radius: 4px;
-  background: #c8e6c9;
-  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: var(--cfl-vert-clair);
+  font-weight: 500;
 }
 
 .commentaire {
-  margin-top: 8px !important;
+  display: flex;
+  gap: 8px;
+  margin: 0;
+  color: var(--cfl-texte-doux);
+  font-size: 0.88rem;
   font-style: italic;
+
+  ion-icon {
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
 }

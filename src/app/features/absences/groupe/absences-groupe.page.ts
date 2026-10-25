@@ -14,7 +14,7 @@ import {
 } from '@ionic/angular';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { addIcons } from 'ionicons';
-import { helpCircleOutline } from 'ionicons/icons';
+import { helpCircleOutline, peopleOutline } from 'ionicons/icons';
 
 import { AbsencesApi } from '../../../core/api/absences.api';
 import { AideService } from '../../../core/api/aide.service';
@@ -61,7 +61,7 @@ export class AbsencesGroupePage {
   protected readonly validerInactif = signal(false);
 
   constructor() {
-    addIcons({ helpCircleOutline });
+    addIcons({ helpCircleOutline, peopleOutline });
     // SynchronisationDonnees() : envoi de la file des pointages hors connexion.
     void this.synchro.synchronisationDonnees();
   }

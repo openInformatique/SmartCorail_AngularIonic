@@ -1,6 +1,37 @@
 import { Component, Input, inject } from '@angular/core';
-import { IonButton, IonButtons, IonContent, IonHeader, IonItem, IonLabel, IonList, IonTitle, IonToolbar, ModalController } from '@ionic/angular';
+import { IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonTitle, IonToolbar, ModalController } from '@ionic/angular';
 import { TranslatePipe } from '@ngx-translate/core';
+import { addIcons } from 'ionicons';
+import {
+  banOutline,
+  bedOutline,
+  businessOutline,
+  cafeOutline,
+  calendarNumberOutline,
+  callOutline,
+  carOutline,
+  chatbubbleEllipsesOutline,
+  flagOutline,
+  flashOutline,
+  gitBranchOutline,
+  gitCommitOutline,
+  layersOutline,
+  locationOutline,
+  logInOutline,
+  logOutOutline,
+  mailOutline,
+  mapOutline,
+  megaphoneOutline,
+  notifications,
+  pauseCircleOutline,
+  personCircleOutline,
+  repeatOutline,
+  ribbonOutline,
+  swapHorizontalOutline,
+  timeOutline,
+  trailSignOutline,
+  trainOutline,
+} from 'ionicons/icons';
 
 import { LangueService } from '../../core/i18n/langue.service';
 import { STCompteur } from '../../core/models';
@@ -8,8 +39,10 @@ import { ecranLarge } from '../../core/ui/ecran-large';
 import { LigneLegendeCompteur, dateArreteLegende, legendeCompteur } from '../../features/compteurs/compteurs.logique';
 
 interface ElementLegende {
-  /** Image de assets/images, ou null pour la pastille rouge dessinée en CSS. */
-  image: string | null;
+  /** Icône vectorielle (Ionicons) remplaçant l'image WINDEV. */
+  icone: string;
+  /** Icône en rouge (alertes : nouveauté, compétence suspendue). */
+  rouge?: boolean;
   cle: string;
   /** Visible seulement si le menu principal est en portrait (onglets de FEN_Agent). */
   portraitSeulement?: boolean;
@@ -21,46 +54,46 @@ interface ElementLegende {
  */
 const PLANS: Record<number, ElementLegende[]> = {
   1: [
-    { image: 'picto_pause_24.png', cle: 'legende.tpsPause' },
-    { image: 'picto_coupure_24.png', cle: 'legende.tpsCoupure' },
-    { image: 'picto_train_24.png', cle: 'legende.nbTrain' },
-    { image: 'picto_competence_24.png', cle: 'legende.nbCompetence' },
-    { image: 'picto_commentaire_24.png', cle: 'legende.commentaire' },
-    { image: 'picto_JT_24.png', cle: 'legende.jt' },
-    { image: 'picto_Statut_24.png', cle: 'legende.statut' },
-    { image: null, cle: 'legende.modif' },
-    { image: 'picto_resevation_24.png', cle: 'legende.resaHotel' },
-    { image: 'picto_reservation_vs_24.png', cle: 'legende.resaVehicule' },
+    { icone: 'cafe-outline', cle: 'legende.tpsPause' },
+    { icone: 'pause-circle-outline', cle: 'legende.tpsCoupure' },
+    { icone: 'train-outline', cle: 'legende.nbTrain' },
+    { icone: 'ribbon-outline', cle: 'legende.nbCompetence' },
+    { icone: 'chatbubble-ellipses-outline', cle: 'legende.commentaire' },
+    { icone: 'location-outline', cle: 'legende.jt' },
+    { icone: 'flag-outline', cle: 'legende.statut' },
+    { icone: 'notifications', rouge: true, cle: 'legende.modif' },
+    { icone: 'bed-outline', cle: 'legende.resaHotel' },
+    { icone: 'car-outline', cle: 'legende.resaVehicule' },
   ],
   2: [
-    { image: 'picto_ligne_24.png', cle: 'legende.ligne' },
-    { image: 'picto_secteur_24.png', cle: 'legende.secteur' },
-    { image: 'picto_derniere_utilisation_24.png', cle: 'legende.derniereAffectation' },
-    { image: 'picto_from_24.png', cle: 'legende.du' },
-    { image: 'picto_to_24.png', cle: 'legende.au' },
-    { image: 'picto_Statut_24.png', cle: 'legende.statutCompetence' },
-    { image: 'picto_date_24.png', cle: 'legende.departSemaine' },
-    { image: 'picto_compet_suspendue_32.png', cle: 'legende.competSuspendue' },
-    { image: 'picto_signaler_24.png', cle: 'legende.signalerErreur' },
-    { image: 'picto_compet_train_48.png', cle: 'legende.competencesLigne', portraitSeulement: true },
-    { image: 'picto_compet_autre_48.png', cle: 'legende.competencesAutre', portraitSeulement: true },
-    { image: 'picto_cycle_48.png', cle: 'legende.cycles', portraitSeulement: true },
+    { icone: 'trail-sign-outline', cle: 'legende.ligne' },
+    { icone: 'map-outline', cle: 'legende.secteur' },
+    { icone: 'time-outline', cle: 'legende.derniereAffectation' },
+    { icone: 'log-in-outline', cle: 'legende.du' },
+    { icone: 'log-out-outline', cle: 'legende.au' },
+    { icone: 'flag-outline', cle: 'legende.statutCompetence' },
+    { icone: 'calendar-number-outline', cle: 'legende.departSemaine' },
+    { icone: 'ban-outline', rouge: true, cle: 'legende.competSuspendue' },
+    { icone: 'megaphone-outline', cle: 'legende.signalerErreur' },
+    { icone: 'train-outline', cle: 'legende.competencesLigne', portraitSeulement: true },
+    { icone: 'ribbon-outline', cle: 'legende.competencesAutre', portraitSeulement: true },
+    { icone: 'repeat-outline', cle: 'legende.cycles', portraitSeulement: true },
   ],
   3: [
-    { image: 'picto_client_24.png', cle: 'legende.client' },
-    { image: 'picto_indicecompo_24.png', cle: 'legende.indiceCompo' },
-    { image: 'picto_Statut_24.png', cle: 'legende.statutTrain' },
-    { image: 'picto_spot_24.png', cle: 'legende.spot' },
-    { image: 'picto_relation_24.png', cle: 'legende.relation' },
+    { icone: 'business-outline', cle: 'legende.client' },
+    { icone: 'layers-outline', cle: 'legende.indiceCompo' },
+    { icone: 'flag-outline', cle: 'legende.statutTrain' },
+    { icone: 'flash-outline', cle: 'legende.spot' },
+    { icone: 'swap-horizontal-outline', cle: 'legende.relation' },
   ],
   4: [
-    { image: 'picto_passage_24.png', cle: 'legende.jalonPassage' },
-    { image: 'picto_agent_32_vert.png', cle: 'legende.operateur' },
-    { image: 'picto_tel_24.png', cle: 'legende.tel' },
-    { image: 'Mail@dpi1x.png', cle: 'legende.mail' },
-    { image: 'picto_commentaire_24.png', cle: 'legende.commentaireOperation' },
-    { image: 'picto_loco_24.png', cle: 'legende.codeLoco' },
-    { image: 'picto_ligne_24.png', cle: 'legende.loco' },
+    { icone: 'git-commit-outline', cle: 'legende.jalonPassage' },
+    { icone: 'person-circle-outline', cle: 'legende.operateur' },
+    { icone: 'call-outline', cle: 'legende.tel' },
+    { icone: 'mail-outline', cle: 'legende.mail' },
+    { icone: 'chatbubble-ellipses-outline', cle: 'legende.commentaireOperation' },
+    { icone: 'train-outline', cle: 'legende.codeLoco' },
+    { icone: 'git-branch-outline', cle: 'legende.loco' },
   ],
 };
 
@@ -68,13 +101,46 @@ const PLANS: Record<number, ElementLegende[]> = {
   selector: 'app-legende',
   templateUrl: 'legende.component.html',
   styleUrl: 'legende.component.scss',
-  imports: [IonHeader, IonToolbar, IonTitle, IonButtons, IonButton, IonContent, IonList, IonItem, IonLabel, TranslatePipe],
+  imports: [IonHeader, IonToolbar, IonTitle, IonButtons, IonButton, IonContent, IonIcon, TranslatePipe],
 })
 export class LegendeComponent {
   private readonly fenetre = inject(ModalController);
   private readonly langue = inject(LangueService).langue;
   /** NomFenetreMenuPrincipal.Contient(OrientationPortrait) : écran étroit. */
   private readonly large = ecranLarge();
+
+  constructor() {
+    addIcons({
+      banOutline,
+      bedOutline,
+      businessOutline,
+      cafeOutline,
+      calendarNumberOutline,
+      callOutline,
+      carOutline,
+      chatbubbleEllipsesOutline,
+      flagOutline,
+      flashOutline,
+      gitBranchOutline,
+      gitCommitOutline,
+      layersOutline,
+      locationOutline,
+      logInOutline,
+      logOutOutline,
+      mailOutline,
+      mapOutline,
+      megaphoneOutline,
+      notifications,
+      pauseCircleOutline,
+      personCircleOutline,
+      repeatOutline,
+      ribbonOutline,
+      swapHorizontalOutline,
+      timeOutline,
+      trailSignOutline,
+      trainOutline,
+    });
+  }
 
   /** Paramètre de la fenêtre (MaFenêtre..Plan). */
   @Input() plan = 1;

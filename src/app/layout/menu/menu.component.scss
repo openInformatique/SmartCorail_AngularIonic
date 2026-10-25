@@ -3,13 +3,22 @@
   display: contents;
 }
 
+ion-menu {
+  --width: 290px;
+}
+
+ion-content {
+  --background: var(--cfl-carte);
+}
+
+// --- En-tête vert avec les initiales de l'agent ---
 .entete {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: calc(16px + env(safe-area-inset-top)) 16px 16px;
-  background: var(--ion-color-primary);
-  color: var(--ion-color-primary-contrast);
+  gap: 14px;
+  padding: calc(22px + env(safe-area-inset-top)) 18px 22px;
+  background: linear-gradient(135deg, var(--ion-color-primary) 0%, var(--cfl-vert-fonce) 100%);
+  color: #ffffff;
 
   p {
     margin: 0;
@@ -17,59 +26,108 @@
 }
 
 .avatar {
-  width: 48px;
-  height: 48px;
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  flex-shrink: 0;
+  border: 2px solid rgba(255, 255, 255, 0.6);
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.18);
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.identite {
+  min-width: 0;
 }
 
 .nom {
-  font-weight: 600;
-  font-size: 1.05em;
+  overflow: hidden;
+  font-size: 1.05rem;
+  font-weight: 500;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .agence {
-  font-size: 0.85em;
-  opacity: 0.9;
+  font-size: 0.85rem;
+  opacity: 0.85;
+}
+
+// --- Entrées ---
+.entrees {
+  padding: 10px 10px 0;
+  background: transparent;
 }
 
 ion-item {
   --min-height: 48px;
-  font-size: 0.95em;
+  --border-radius: 12px;
+  --background: transparent;
+  --background-hover: var(--cfl-vert-pale);
+  --background-activated: var(--cfl-vert-pale);
+  --color: var(--cfl-texte);
+  margin-bottom: 2px;
+  font-size: 0.95rem;
 
+  ion-icon {
+    margin-inline-end: 16px;
+    color: var(--cfl-texte-doux);
+    font-size: 22px;
+  }
+
+  // Entrée de l'écran affiché.
+  &.active {
+    --background: var(--cfl-vert-pale);
+    --color: var(--cfl-vert-fonce);
+    font-weight: 500;
+
+    ion-icon {
+      color: var(--cfl-vert-fonce);
+    }
+  }
+
+  // Droit non accordé (LIB_Menu_n..Etat = Grisé).
   &.grise {
     opacity: 0.4;
   }
-}
 
-.vignette {
-  width: 26px;
-  height: 26px;
-  object-fit: contain;
+  &.deconnexion {
+    margin-top: 8px;
+    --color: var(--ion-color-secondary);
+
+    ion-icon {
+      color: var(--ion-color-secondary);
+    }
+  }
 }
 
 .pastille {
   min-width: 22px;
   height: 22px;
-  padding: 0 6px;
+  padding: 0 7px;
   border-radius: 11px;
-  background: #e53935;
+  background: var(--cfl-rouge-logo);
   color: #ffffff;
-  font-size: 0.75em;
-  font-weight: 600;
+  font-size: 0.75rem;
+  font-weight: 700;
   line-height: 22px;
   text-align: center;
 
   &.vide {
-    min-width: 12px;
-    width: 12px;
-    height: 12px;
+    min-width: 10px;
+    width: 10px;
+    height: 10px;
     padding: 0;
   }
 }
 
+// --- Pied : langues (QUAL), logo, version ---
 ion-footer {
-  padding: 8px 16px calc(12px + env(safe-area-inset-bottom));
+  padding: 12px 16px calc(14px + env(safe-area-inset-bottom));
+  border-top: 1px solid var(--cfl-bordure);
+  background: var(--cfl-carte);
   text-align: center;
 }
 
@@ -77,37 +135,40 @@ ion-footer {
   display: flex;
   justify-content: center;
   gap: 8px;
-  margin-bottom: 8px;
+  margin-bottom: 12px;
 
   button {
     display: flex;
     align-items: center;
     gap: 6px;
-    padding: 4px 10px;
-    border: 1px solid var(--ion-color-light-shade);
-    border-radius: 6px;
+    padding: 5px 12px;
+    border: 1px solid var(--cfl-bordure);
+    border-radius: 999px;
     background: transparent;
-    color: var(--ion-text-color);
+    color: var(--cfl-texte);
     font-family: inherit;
+    font-size: 0.85rem;
+    cursor: pointer;
 
     &.active {
-      background: var(--ion-color-secondary);
       border-color: var(--ion-color-secondary);
+      background: var(--ion-color-secondary);
       color: #ffffff;
     }
 
     img {
-      width: 20px;
+      width: 18px;
+      border-radius: 50%;
     }
   }
 }
 
-.version {
-  margin: 0 0 8px;
-  font-size: 0.75em;
-  color: var(--ion-color-medium);
+.logo {
+  width: 104px;
 }
 
-.logo {
-  width: 110px;
+.version {
+  margin: 6px 0 0;
+  color: var(--cfl-texte-doux);
+  font-size: 0.72rem;
 }

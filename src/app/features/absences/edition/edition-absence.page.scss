@@ -1,10 +1,32 @@
+ion-spinner {
+  margin-right: 12px;
+  color: #ffffff;
+}
+
 .formulaire {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  max-width: 640px;
+  gap: 14px;
+  max-width: 680px;
   // Place pour le bouton flottant.
-  padding-bottom: 72px;
+  padding-bottom: 88px;
+}
+
+.bloc .entete-section {
+  margin: 0;
+  border-bottom: 1px solid var(--cfl-bordure);
+}
+
+.contenu {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 16px;
+}
+
+ion-input,
+ion-textarea {
+  --border-radius: 10px;
 }
 
 .type {
@@ -15,6 +37,18 @@
   ion-input {
     flex: 1;
   }
+
+  ion-button {
+    --border-radius: 12px;
+    width: 52px;
+    height: 52px;
+    margin: 0;
+  }
+}
+
+ion-segment {
+  --background: var(--cfl-fond);
+  border-radius: 12px;
 }
 
 .ligne {
@@ -27,17 +61,16 @@
   }
 }
 
-section h2 {
-  margin: 8px 0 4px;
-  font-size: 1rem;
-  font-weight: 700;
-  color: var(--cfl-gris-texte);
-}
-
 .vide {
   margin: 0;
+  padding: 0;
+  color: var(--cfl-texte-doux);
   font-style: italic;
-  color: var(--ion-color-medium);
+}
+
+// LIB_AucunDocument directement sous l'en-tête de la carte.
+.bloc > .vide {
+  padding: 16px;
 }
 
 .commentaire {
@@ -45,9 +78,52 @@ section h2 {
   white-space: pre-line;
 }
 
+.documents {
+  display: flex;
+  flex-direction: column;
+}
+
+.document {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 8px 10px 16px;
+  border-bottom: 1px solid var(--cfl-bordure);
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  .corps {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .nom {
+    font-weight: 500;
+    word-break: break-word;
+  }
+
+  .detail {
+    color: var(--cfl-texte-doux);
+    font-size: 0.82rem;
+  }
+
+  ion-button {
+    margin: 0;
+  }
+}
+
 .boutons {
   display: flex;
   justify-content: flex-end;
   gap: 8px;
   padding: 0 8px;
+
+  ion-button {
+    --border-radius: 12px;
+  }
 }

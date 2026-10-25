@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import {
   IonBackButton,
   IonButton,
@@ -6,17 +6,13 @@ import {
   IonContent,
   IonHeader,
   IonIcon,
-  IonItem,
-  IonItemDivider,
-  IonLabel,
-  IonList,
   IonSpinner,
   IonTitle,
   IonToolbar,
 } from '@ionic/angular';
 import { TranslatePipe } from '@ngx-translate/core';
 import { addIcons } from 'ionicons';
-import { callOutline, helpCircleOutline, mailOutline } from 'ionicons/icons';
+import { callOutline, helpCircleOutline, mailOutline, person } from 'ionicons/icons';
 
 import { AideService } from '../../core/api/aide.service';
 import { GestionErreurService } from '../../core/http/gestion-erreur.service';
@@ -39,10 +35,6 @@ import { SynchroService } from '../../core/offline/synchro.service';
     IonIcon,
     IonSpinner,
     IonContent,
-    IonList,
-    IonItemDivider,
-    IonItem,
-    IonLabel,
     TranslatePipe,
   ],
 })
@@ -57,7 +49,7 @@ export class ContactsPage implements OnInit {
   protected readonly lignes = signal<LigneContact[]>([]);
 
   constructor() {
-    addIcons({ callOutline, helpCircleOutline, mailOutline });
+    addIcons({ callOutline, helpCircleOutline, mailOutline, person });
   }
 
   ngOnInit(): void {
@@ -74,11 +66,16 @@ export class ContactsPage implements OnInit {
     this.lignes.update((lignes) => [...lignes, ...lignesContacts(this.session.initialisation().Contacts)]);
   }
 
-  /** La ligne commence-t-elle une nouvelle rupture de groupe ? */
-  protected nouveauGroupe(indice: number): boolean {
-    const lignes = this.lignes();
-    return indice === 0 || lignes[indice].groupe !== lignes[indice - 1].groupe;
-  }
+  /** Ruptures de groupe de ZR_Contacts : une carte par suite de lignes du même groupe. */
+  protected readonly groupes = computed(() => {
+    const groupes: { groupe: string; contacts: LigneContact[] }[] = [];
+    for (const ligne of this.lignes()) {
+      const dernier = groupes.at(-1);
+      if (dernier && dernier.groupe === ligne.groupe) dernier.contacts.push(ligne);
+      else groupes.push({ groupe: ligne.groupe, contacts: [ligne] });
+    }
+    return groupes;
+  });
 
   /** BTN_Telephone : telDialerCompose(ChaineExtraitChiffre(numéro)) ouvre le composeur du téléphone. */
   protected appeler(telephone: string): void {

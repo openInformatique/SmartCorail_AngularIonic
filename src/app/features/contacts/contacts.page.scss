@@ -2,43 +2,80 @@ ion-spinner {
   color: #ffffff;
 }
 
-ion-item-divider {
-  font-weight: 700;
-  color: var(--cfl-gris-texte);
+.titre-groupe:first-child {
+  margin-top: 4px;
 }
 
+.contact {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--cfl-bordure);
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+// Remplace picto_photo_contact.png.
 .avatar {
-  width: 40px;
-  height: 40px;
-  object-fit: contain;
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--cfl-vert-pale);
+  color: var(--cfl-vert-fonce);
+  font-size: 22px;
 }
 
-h2 {
-  font-weight: 600;
+.corps {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+
+.nom {
+  font-weight: 500;
+}
+
+.role {
+  color: var(--cfl-texte-doux);
+  font-size: 0.88rem;
 }
 
 .coordonnees {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin-top: 6px;
+  margin-top: 8px;
 
   button {
     display: flex;
     align-items: center;
     gap: 6px;
-    padding: 6px 12px;
-    border: 1px solid var(--ion-color-primary);
-    border-radius: 16px;
-    background: transparent;
-    color: var(--ion-color-primary-shade);
+    max-width: 100%;
+    padding: 7px 12px;
+    border: none;
+    border-radius: 999px;
+    background: var(--cfl-vert-pale);
+    color: var(--cfl-vert-fonce);
     font-family: inherit;
-    font-size: 0.9em;
-  }
-}
+    font-size: 0.86rem;
+    word-break: break-all;
+    cursor: pointer;
 
-.vide {
-  padding: 24px;
-  color: var(--ion-color-medium);
-  text-align: center;
+    ion-icon {
+      flex-shrink: 0;
+      font-size: 16px;
+    }
+
+    &:active {
+      background: var(--cfl-vert-clair);
+    }
+  }
 }

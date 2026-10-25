@@ -12,29 +12,32 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
-  <div class="periode">
-    <ion-input
-      type="date"
-      fill="outline"
-      labelPlacement="stacked"
-      [label]="'absences.aPartirDu' | translate"
-      [ngModel]="dateDu()"
-      (ngModelChange)="dateDu.set($event ?? '')"
-    />
-    <ion-input
-      type="date"
-      fill="outline"
-      labelPlacement="stacked"
-      [label]="'absences.jusquAu' | translate"
-      [ngModel]="dateAu()"
-      (ngModelChange)="dateAu.set($event ?? '')"
-    />
-    <div class="action">
-      <ion-button [disabled]="validerInactif()" (click)="valider()">{{ 'absences.afficher' | translate }}</ion-button>
-      @if (jauge()) {
-        <ion-spinner name="circular" />
-      }
+<ion-content>
+  <div class="page">
+    <div class="carte periode">
+      <span class="tuile-icone"><ion-icon name="people-outline" /></span>
+      <ion-input
+        type="date"
+        fill="outline"
+        labelPlacement="stacked"
+        [label]="'absences.aPartirDu' | translate"
+        [ngModel]="dateDu()"
+        (ngModelChange)="dateDu.set($event ?? '')"
+      />
+      <ion-input
+        type="date"
+        fill="outline"
+        labelPlacement="stacked"
+        [label]="'absences.jusquAu' | translate"
+        [ngModel]="dateAu()"
+        (ngModelChange)="dateAu.set($event ?? '')"
+      />
+      <ion-button expand="block" [disabled]="validerInactif()" (click)="valider()">
+        @if (jauge()) {
+          <ion-spinner slot="start" name="circular" />
+        }
+        {{ 'absences.afficher' | translate }}
+      </ion-button>
     </div>
   </div>
 </ion-content>

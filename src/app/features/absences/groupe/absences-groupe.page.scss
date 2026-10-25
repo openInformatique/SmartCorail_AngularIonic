@@ -3,14 +3,29 @@
   flex-direction: column;
   gap: 16px;
   max-width: 480px;
-}
+  margin: 0 auto;
+  padding: 20px 18px;
 
-.action {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+  .tuile-icone {
+    align-self: center;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    font-size: 28px;
+  }
+
+  ion-input {
+    --border-radius: 10px;
+  }
+
+  ion-button {
+    --border-radius: 12px;
+    height: 50px;
+    margin: 4px 0 0;
+  }
 
   ion-spinner {
-    color: var(--ion-color-primary);
+    margin-right: 8px;
+    color: #ffffff;
   }
 }

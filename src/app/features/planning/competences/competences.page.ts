@@ -6,16 +6,13 @@ import {
   IonContent,
   IonHeader,
   IonIcon,
-  IonItem,
-  IonLabel,
-  IonList,
   IonSpinner,
   IonTitle,
   IonToolbar,
 } from '@ionic/angular';
 import { TranslatePipe } from '@ngx-translate/core';
 import { addIcons } from 'ionicons';
-import { helpCircleOutline } from 'ionicons/icons';
+import { helpCircleOutline, ribbonOutline } from 'ionicons/icons';
 
 import { AideService } from '../../../core/api/aide.service';
 import { GestionErreurService } from '../../../core/http/gestion-erreur.service';
@@ -40,25 +37,41 @@ import { DonneesService } from '../../../core/state/donnees.service';
       </ion-toolbar>
     </ion-header>
     <ion-content>
-      <ion-list lines="full">
-        @for (competence of competences(); track $index) {
-          <ion-item>
-            <img slot="start" src="assets/images/picto_competence_24.png" alt="" />
-            <ion-label class="ion-text-wrap">{{ competence }}</ion-label>
-          </ion-item>
+      <div class="page">
+        @if (competences().length) {
+          <ul class="carte liste">
+            @for (competence of competences(); track $index) {
+              <li>
+                <span class="tuile-icone"><ion-icon name="ribbon-outline" /></span>
+                <span>{{ competence }}</span>
+              </li>
+            }
+          </ul>
         }
-      </ion-list>
+      </div>
     </ion-content>
   `,
   styles: `
-    img {
-      width: 22px;
+    .liste {
+      margin: 0;
+      padding: 4px 16px;
+      list-style: none;
+    }
+    li {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--cfl-bordure);
+    }
+    li:last-child {
+      border-bottom: none;
     }
     ion-spinner {
       color: #ffffff;
     }
   `,
-  imports: [IonHeader, IonToolbar, IonButtons, IonBackButton, IonTitle, IonButton, IonIcon, IonSpinner, IonContent, IonList, IonItem, IonLabel, TranslatePipe],
+  imports: [IonHeader, IonToolbar, IonButtons, IonBackButton, IonTitle, IonButton, IonIcon, IonSpinner, IonContent, TranslatePipe],
 })
 export class CompetencesPage {
   private readonly donnees = inject(DonneesService);
@@ -70,7 +83,7 @@ export class CompetencesPage {
   protected readonly jauge = signal(false);
 
   constructor() {
-    addIcons({ helpCircleOutline });
+    addIcons({ helpCircleOutline, ribbonOutline });
   }
 
   protected async wiki(): Promise<void> {

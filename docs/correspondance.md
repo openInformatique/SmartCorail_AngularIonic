@@ -58,7 +58,7 @@ Statuts : ✅ migré · 🚧 en cours · ⏳ à faire · ✖ non migré (mort ou
 | COL_CFLCARGO : LireNomCoupurePause | ressources `pointage.coupure` / `pointage.pause` | 8 | ✅ |
 | Requêtes REQ_Restaurer* / REQ_SynchronisationDonnees | Requêtes SQLite (`hors-connexion.service.ts`, `restauration.ts`) | 9 | ✅ |
 | Analyse : HORS_CONNEXION, LIGNE_POINTAGE | Tables SQLite (`core/offline/db.service.ts`) | 0 / 9 | ✅ |
-| Images du projet | `src/assets/images` | 0 | ✅ |
+| Images du projet | `src/assets/images` (logos, drapeaux) ; pictogrammes remplacés par des icônes Ionicons | 0 | ✅ |
 | Couleurs CFL, gabarit Material Design Green | `src/theme/variables.scss` | 0 | ✅ |
 
 ## Fenêtres

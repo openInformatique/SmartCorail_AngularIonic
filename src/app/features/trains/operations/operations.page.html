@@ -13,29 +13,36 @@
 </ion-header>
 
 <ion-content>
-  <div class="grille">
+  <div class="page grille">
     @for (op of operations(); track op.idOperation) {
-      <ion-card>
-        <ion-card-header>
-          <ion-card-title>{{ op.nom }}</ion-card-title>
-        </ion-card-header>
-        <ion-card-content>
-          <p class="trajet">
-            <span><img src="assets/images/picto_from_24.png" alt="" /> {{ op.gareDepart }}</span>
-            <span><img src="assets/images/picto_to_24.png" alt="" /> {{ op.gareArrivee }}</span>
-          </p>
-          <p class="trajet">
-            <span>{{ 'trains.du' | translate }} {{ op.du }}</span>
-            <span>{{ 'trains.au' | translate }} {{ op.au }}</span>
-          </p>
-          <p class="trajet">
-            <span><img src="assets/images/picto_loco_24.png" alt="" /> {{ op.codeLoco }}</span>
-            <span><img src="assets/images/picto_ligne_24.png" alt="" /> {{ op.sillon }}</span>
-          </p>
+      <article class="carte operation">
+        <header class="entete">
+          <span class="tuile-icone"><ion-icon name="git-commit-outline" /></span>
+          <h2>{{ op.nom }}</h2>
+        </header>
 
+        <div class="trajet">
+          <span class="gare"><ion-icon name="radio-button-on-outline" />{{ op.gareDepart }}</span>
+          <ion-icon class="fleche" name="arrow-forward" />
+          <span class="gare"><ion-icon name="location-outline" />{{ op.gareArrivee }}</span>
+        </div>
+
+        <p class="periode">
+          <ion-icon name="time-outline" />
+          <span>{{ 'trains.du' | translate }} <strong>{{ op.du }}</strong> {{ 'trains.au' | translate }} <strong>{{ op.au }}</strong></span>
+        </p>
+
+        <div class="puces">
+          <span class="puce"><ion-icon name="train-outline" />{{ op.codeLoco }}</span>
+          @if (op.sillon) {
+            <span class="puce"><ion-icon name="git-branch-outline" />{{ op.sillon }}</span>
+          }
+        </div>
+
+        <div class="agents">
           <div class="agent">
-            <img src="assets/images/picto_agent_32_vert.png" alt="" />
-            <span [class.moi]="op.agent.moi">{{ op.agent.nom }}</span>
+            <ion-icon class="avatar" name="person-circle-outline" />
+            <span class="nom" [class.moi]="op.agent.moi">{{ op.agent.nom }}</span>
             <ion-button fill="clear" size="small" [attr.aria-label]="'trains.informations' | translate" (click)="infosAgent(op.idOperation)">
               <ion-icon slot="icon-only" name="information-circle" />
             </ion-button>
@@ -43,24 +50,25 @@
 
           @if (op.agentsFormation.length) {
             <div class="agent formation">
-              <span class="libelle">{{ 'trains.agentFormation' | translate }}</span>
-              <span class="noms">
+              <ion-icon class="avatar" name="school-outline" />
+              <div class="noms">
+                <span class="libelle">{{ 'trains.agentFormation' | translate }}</span>
                 @for (a of op.agentsFormation; track $index) {
-                  <span [class.moi]="a.moi">{{ a.nom }}</span>
+                  <span class="nom" [class.moi]="a.moi">{{ a.nom }}</span>
                 }
-              </span>
+              </div>
               <ion-button fill="clear" size="small" [attr.aria-label]="'trains.informations' | translate" (click)="infosFormation(op.idOperation)">
                 <ion-icon slot="icon-only" name="information-circle" />
               </ion-button>
             </div>
           }
+        </div>
 
-          <p class="commentaire">
-            <img src="assets/images/picto_commentaire_24.png" alt="" />
-            {{ op.commentaire || ('trains.aucunCommentaire' | translate) }}
-          </p>
-        </ion-card-content>
-      </ion-card>
+        <p class="commentaire">
+          <ion-icon name="chatbubble-ellipses-outline" />
+          <span>{{ op.commentaire || ('trains.aucunCommentaire' | translate) }}</span>
+        </p>
+      </article>
     }
   </div>
 </ion-content>

@@ -3,10 +3,6 @@ import {
   IonBackButton,
   IonButton,
   IonButtons,
-  IonCard,
-  IonCardContent,
-  IonCardHeader,
-  IonCardTitle,
   IonContent,
   IonHeader,
   IonIcon,
@@ -16,7 +12,20 @@ import {
 } from '@ionic/angular';
 import { TranslatePipe } from '@ngx-translate/core';
 import { addIcons } from 'ionicons';
-import { informationCircle, informationCircleOutline } from 'ionicons/icons';
+import {
+  arrowForward,
+  chatbubbleEllipsesOutline,
+  gitBranchOutline,
+  gitCommitOutline,
+  informationCircle,
+  informationCircleOutline,
+  locationOutline,
+  personCircleOutline,
+  radioButtonOnOutline,
+  schoolOutline,
+  timeOutline,
+  trainOutline,
+} from 'ionicons/icons';
 
 import { SessionService } from '../../../core/session/session.service';
 import { DonneesService } from '../../../core/state/donnees.service';
@@ -41,10 +50,6 @@ import { lignesOperations } from '../trains.logique';
     IonButton,
     IonIcon,
     IonContent,
-    IonCard,
-    IonCardHeader,
-    IonCardTitle,
-    IonCardContent,
     TranslatePipe,
   ],
 })
@@ -63,7 +68,20 @@ export class OperationsPage {
   });
 
   constructor() {
-    addIcons({ informationCircle, informationCircleOutline });
+    addIcons({
+      arrowForward,
+      chatbubbleEllipsesOutline,
+      gitBranchOutline,
+      gitCommitOutline,
+      informationCircle,
+      informationCircleOutline,
+      locationOutline,
+      personCircleOutline,
+      radioButtonOnOutline,
+      schoolOutline,
+      timeOutline,
+      trainOutline,
+    });
   }
 
   /** BTN_InfoFormation : coordonnées de l'agent de l'opération. */

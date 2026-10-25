@@ -1,5 +1,6 @@
 // Thème SmartCorail : couleurs CFL du code WINDEV (code du projet) et du gabarit « Material Design Green ».
 // COULEUR_VERT_CFL = RVB(76,175,80) ; COULEUR_ROUGE_CFL = RVB(127,4,36).
+// Les nuances (fonds, bordures, textes) sont dérivées de ces deux couleurs : aucune nouvelle teinte.
 
 :root {
   --ion-color-primary: #4caf50;
@@ -20,5 +21,24 @@
   --cfl-rouge-logo: #b50b30;
   --cfl-gris-texte: #5a5b5c;
 
+  // Nuances dérivées du vert et du rouge CFL.
+  --cfl-vert-pale: #edf7ee;
+  --cfl-vert-clair: #c8e6c9;
+  --cfl-vert-fonce: #2e7d32;
+  --cfl-rouge-pale: #fbecef;
+  --cfl-orange-clair: #ffe0b2;
+  --cfl-orange-fonce: #e65100;
+
+  // Surfaces et textes.
+  --cfl-fond: #f2f4f3;
+  --cfl-carte: #ffffff;
+  --cfl-bordure: #e3e7e5;
+  --cfl-texte: #1f2421;
+  --cfl-texte-doux: #6b716e;
+  --cfl-rayon: 14px;
+  --cfl-ombre: 0 1px 2px rgba(31, 36, 33, 0.06), 0 2px 8px rgba(31, 36, 33, 0.06);
+
   --ion-font-family: 'Roboto', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --ion-text-color: #1f2421;
+  --ion-text-color-rgb: 31, 36, 33;
 }

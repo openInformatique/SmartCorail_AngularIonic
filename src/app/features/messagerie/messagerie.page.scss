@@ -2,14 +2,20 @@ ion-spinner {
   color: #ffffff;
 }
 
+.liste {
+  padding: 16px;
+}
+
 .disposition.large {
   display: grid;
-  grid-template-columns: minmax(320px, 1fr) 1.4fr;
+  grid-template-columns: minmax(340px, 1fr) 1.4fr;
+  gap: 16px;
   height: 100%;
+  padding: 16px;
 
   .liste {
+    padding: 0;
     overflow-y: auto;
-    border-right: 1px solid var(--ion-color-light-shade);
   }
 
   .panneau {
@@ -17,24 +23,30 @@ ion-spinner {
   }
 }
 
+// Filtres « non lus » et « avec pièce jointe ».
 .filtres {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 8px;
-  padding: 10px 16px;
-  border-bottom: 1px solid var(--ion-color-light-shade);
+  margin-bottom: 12px;
 
   button {
     display: flex;
     align-items: center;
-    gap: 4px;
-    padding: 5px 12px;
-    border: 1px solid var(--ion-color-medium-tint);
-    border-radius: 16px;
-    background: transparent;
-    color: var(--ion-color-medium-shade);
+    gap: 6px;
+    padding: 8px 14px;
+    border: 1px solid var(--cfl-bordure);
+    border-radius: 999px;
+    background: var(--cfl-carte);
+    color: var(--cfl-texte-doux);
     font-family: inherit;
+    font-size: 0.88rem;
+    cursor: pointer;
+
+    ion-icon {
+      font-size: 16px;
+    }
 
     &.actif {
       border-color: var(--ion-color-secondary);
@@ -44,72 +56,28 @@ ion-spinner {
   }
 
   .libelle {
-    font-size: 0.8em;
-    color: var(--ion-color-medium-shade);
+    color: var(--cfl-texte-doux);
+    font-size: 0.8rem;
   }
 }
 
-ion-item.selection {
-  --background: rgba(var(--ion-color-primary-rgb), 0.12);
-}
-
-.message {
-  .ligne-haut {
-    display: flex;
-    justify-content: space-between;
-    gap: 8px;
-  }
-
-  .qui {
-    font-weight: 600;
-  }
-
-  .quand {
-    font-size: 0.8em;
-    text-align: right;
-    color: var(--ion-color-medium-shade);
-  }
-
-  .sujet {
-    margin-top: 2px;
-    color: var(--ion-text-color);
-  }
-
-  .corps {
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-
-  // Message non lu : sujet et date en COULEUR_ROUGE_CFL, date en gras.
-  .non-lu {
-    color: var(--ion-color-secondary);
-  }
-
-  .quand.non-lu {
-    font-weight: 700;
-  }
-}
-
-.pictos {
+.messages {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-
-  img {
-    width: 18px;
-  }
 }
 
-.vide,
 .placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
   padding: 24px;
-  color: var(--ion-color-medium);
+  color: var(--cfl-texte-doux);
   text-align: center;
-}
 
-.placeholder img {
-  width: 48px;
-  opacity: 0.6;
+  ion-icon {
+    font-size: 56px;
+    opacity: 0.5;
+  }
 }

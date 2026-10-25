@@ -4,7 +4,7 @@
 
     @switch (plan()) {
       @case (1) {
-        <section class="bloc">
+        <section class="carte bloc">
           <ion-button expand="block" size="large" [disabled]="inactif()" (click)="seConnecter()">
             {{ 'connexion.seConnecter' | translate }}
           </ion-button>
@@ -21,7 +21,7 @@
       }
 
       @case (2) {
-        <section class="bloc">
+        <section class="carte bloc">
           <p class="bonjour">{{ 'connexion.bonjour' | translate: { nom: nomPrenom() } }}</p>
           <button type="button" class="biometrie" [disabled]="inactif()" (click)="faceIdIdentifie()">
             <ion-icon [name]="appareil.enModeAndroid ? 'finger-print' : 'scan-outline'" />
@@ -39,7 +39,7 @@
       }
 
       @case (3) {
-        <section class="bloc">
+        <section class="carte bloc">
           <p class="titre-plan">{{ 'connexion.choisirSociete' | translate }}</p>
           @for (societe of societes; track societe) {
             <ion-button expand="block" fill="outline" class="societe" [disabled]="inactif()" (click)="choisirSociete(societe)">

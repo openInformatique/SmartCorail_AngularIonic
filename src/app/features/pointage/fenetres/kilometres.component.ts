@@ -20,30 +20,34 @@ import { kilometrage } from '../pointage.logique';
         <ion-title>{{ (mode === 'saisi' ? 'pointage.kmVoiture' : 'pointage.trancheDeplacement') | translate }}</ion-title>
       </ion-toolbar>
     </ion-header>
-    <ion-content class="ion-padding">
-      @if (mode === 'saisi') {
-        <ion-input
-          fill="outline"
-          labelPlacement="stacked"
-          inputmode="numeric"
-          [label]="'pointage.km' | translate"
-          [ngModel]="km()"
-          (ngModelChange)="km.set($event ?? '')"
-        />
-      } @else {
-        <ion-select
-          fill="outline"
-          labelPlacement="stacked"
-          interface="popover"
-          [label]="'pointage.trancheDeplacement' | translate"
-          [ngModel]="tranche()"
-          (ngModelChange)="tranche.set($event)"
-        >
-          @for (t of tranches(); track t.Code) {
-            <ion-select-option [value]="t.Code">{{ t.Nom }}</ion-select-option>
+    <ion-content>
+      <div class="page">
+        <div class="carte champs">
+          @if (mode === 'saisi') {
+            <ion-input
+              fill="outline"
+              labelPlacement="stacked"
+              inputmode="numeric"
+              [label]="'pointage.km' | translate"
+              [ngModel]="km()"
+              (ngModelChange)="km.set($event ?? '')"
+            />
+          } @else {
+            <ion-select
+              fill="outline"
+              labelPlacement="stacked"
+              interface="popover"
+              [label]="'pointage.trancheDeplacement' | translate"
+              [ngModel]="tranche()"
+              (ngModelChange)="tranche.set($event)"
+            >
+              @for (t of tranches(); track t.Code) {
+                <ion-select-option [value]="t.Code">{{ t.Nom }}</ion-select-option>
+              }
+            </ion-select>
           }
-        </ion-select>
-      }
+        </div>
+      </div>
     </ion-content>
     <ion-footer>
       <ion-toolbar>

@@ -1,94 +1,115 @@
+ion-content {
+  --background: linear-gradient(180deg, var(--cfl-vert-pale) 0%, var(--cfl-fond) 45%);
+}
+
 .page {
   display: flex;
   flex-direction: column;
   align-items: center;
-  max-width: 360px;
+  max-width: 380px;
   min-height: 100%;
   margin: 0 auto;
-  padding-top: max(16px, env(safe-area-inset-top));
+  padding: max(20px, env(safe-area-inset-top)) 0 0;
   text-align: center;
 }
 
 .logo {
-  width: 70%;
-  max-width: 240px;
-  margin: 8px 0 16px;
+  width: 62%;
+  max-width: 220px;
+  margin: 8px 0 18px;
+  // Fond blanc du PNG fondu dans le dégradé.
+  mix-blend-mode: multiply;
 }
 
 .bonjour {
   margin: 0;
-  font-size: 1.15em;
+  color: var(--cfl-texte);
+  font-size: 1.2rem;
   font-weight: 500;
 }
 
 .lien {
-  --color: var(--cfl-gris-texte);
+  --color: var(--cfl-texte-doux);
   text-transform: none;
 }
 
 .indication {
   min-height: 2.6em;
-  margin: 12px 0;
-  color: var(--cfl-gris-texte);
+  margin: 14px 8px;
+  color: var(--cfl-texte-doux);
 }
 
 .pastilles {
   display: flex;
-  gap: 18px;
-  margin-bottom: 8px;
+  gap: 20px;
+  margin-bottom: 6px;
 }
 
 .pastille {
   width: 16px;
   height: 16px;
-  border-radius: 50%;
   border: 2px solid var(--ion-color-primary);
-  transition: background 0.15s;
+  border-radius: 50%;
+  transition:
+    background 0.15s,
+    transform 0.15s;
 
   &.active {
     background: var(--ion-color-primary);
+    transform: scale(1.1);
   }
 }
 
 .tentatives {
-  margin: 4px 0 0;
-  font-size: 0.85em;
-  color: var(--ion-color-medium);
+  margin: 6px 0 0;
+  color: var(--cfl-texte-doux);
+  font-size: 0.85rem;
 }
 
 .clavier {
   display: grid;
-  grid-template-columns: repeat(3, 72px);
-  gap: 14px 24px;
-  margin: 20px 0;
+  grid-template-columns: repeat(3, 74px);
+  gap: 16px 26px;
+  margin: 22px 0;
 }
 
 .touche {
-  width: 72px;
-  height: 72px;
-  border-radius: 50%;
+  width: 74px;
+  height: 74px;
   border: none;
-  background: var(--ion-color-light);
-  color: var(--ion-text-color);
-  font-size: 1.6em;
+  border-radius: 50%;
+  background: var(--cfl-carte);
+  box-shadow: var(--cfl-ombre);
+  color: var(--cfl-texte);
   font-family: inherit;
+  font-size: 1.65rem;
+  font-weight: 400;
+  cursor: pointer;
+  transition:
+    background 0.1s,
+    transform 0.1s;
 
   &:active {
-    background: rgba(var(--ion-color-primary-rgb), 0.25);
+    background: var(--cfl-vert-clair);
+    transform: scale(0.96);
   }
 
   &.effacer {
     background: transparent;
-    font-size: 1.4em;
+    box-shadow: none;
+    color: var(--cfl-texte-doux);
+    font-size: 1.5rem;
   }
 }
 
 ion-button {
+  --border-radius: 12px;
   text-transform: none;
 }
 
 .version {
   margin-top: auto;
-  font-size: 0.75em;
-  color: var(--ion-color-medium);
+  padding-bottom: env(safe-area-inset-bottom);
+  color: var(--cfl-texte-doux);
+  font-size: 0.75rem;
 }

@@ -2,24 +2,81 @@ ion-spinner {
   color: #ffffff;
 }
 
-img {
-  width: 22px;
+.liste {
+  padding: 16px;
+}
+
+.document {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  padding: 12px 16px;
+  border: none;
+  border-bottom: 1px solid var(--cfl-bordure);
+  background: none;
+  color: var(--cfl-texte);
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &:active {
+    background: var(--cfl-fond);
+  }
+
+  .corps {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .nom {
+    font-weight: 500;
+    word-break: break-word;
+  }
+
+  .type {
+    color: var(--cfl-texte-doux);
+    font-size: 0.88rem;
+  }
+
+  .dates {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 12px;
+    color: var(--cfl-texte-doux);
+    font-size: 0.78rem;
+  }
+
+  // Document non lu : titre en gras et pastille rouge.
+  &.non-lu .nom {
+    font-weight: 700;
+  }
 }
 
 .disposition.large {
   display: grid;
-  grid-template-columns: minmax(280px, 1fr) 2fr;
+  grid-template-columns: minmax(300px, 1fr) 2fr;
+  gap: 16px;
   height: 100%;
+  padding: 16px;
 
-  ion-list {
+  .liste {
+    padding: 0;
     overflow-y: auto;
-    border-right: 1px solid var(--ion-color-light-shade);
   }
 }
 
 .visionneuse {
   display: flex;
   height: 100%;
+  overflow: hidden;
 
   iframe {
     flex: 1;
@@ -29,11 +86,11 @@ img {
 
 .placeholder {
   margin: auto;
+  color: var(--cfl-texte-doux);
   text-align: center;
-  color: var(--ion-color-medium);
 
-  img {
-    width: 64px;
-    opacity: 0.6;
+  ion-icon {
+    font-size: 64px;
+    opacity: 0.5;
   }
 }

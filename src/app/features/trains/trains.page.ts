@@ -3,10 +3,6 @@ import {
   IonBackButton,
   IonButton,
   IonButtons,
-  IonCard,
-  IonCardContent,
-  IonCardHeader,
-  IonCardTitle,
   IonContent,
   IonHeader,
   IonIcon,
@@ -17,7 +13,20 @@ import {
 } from '@ionic/angular';
 import { TranslatePipe } from '@ngx-translate/core';
 import { addIcons } from 'ionicons';
-import { chevronForward, informationCircleOutline } from 'ionicons/icons';
+import {
+  arrowForward,
+  businessOutline,
+  chatbubbleEllipsesOutline,
+  chevronForward,
+  flagOutline,
+  flashOutline,
+  informationCircleOutline,
+  layersOutline,
+  locationOutline,
+  radioButtonOnOutline,
+  swapHorizontalOutline,
+  trainOutline,
+} from 'ionicons/icons';
 
 import { DonneesService } from '../../core/state/donnees.service';
 import { LegendeComponent } from '../../shared/legende/legende.component';
@@ -37,10 +46,6 @@ import { lignesTrains } from './trains.logique';
     IonButton,
     IonIcon,
     IonContent,
-    IonCard,
-    IonCardHeader,
-    IonCardTitle,
-    IonCardContent,
     TranslatePipe,
   ],
 })
@@ -52,7 +57,20 @@ export class TrainsPage {
   protected readonly trains = computed(() => lignesTrains(this.donnees.mesTrains()));
 
   constructor() {
-    addIcons({ chevronForward, informationCircleOutline });
+    addIcons({
+      arrowForward,
+      businessOutline,
+      chatbubbleEllipsesOutline,
+      chevronForward,
+      flagOutline,
+      flashOutline,
+      informationCircleOutline,
+      layersOutline,
+      locationOutline,
+      radioButtonOnOutline,
+      swapHorizontalOutline,
+      trainOutline,
+    });
   }
 
   /** BTN_Jalons → FEN_TrainJalons. */

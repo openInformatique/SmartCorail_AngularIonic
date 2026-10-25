@@ -1,15 +1,25 @@
-img {
-  width: 24px;
-  height: 24px;
-  object-fit: contain;
-}
+.ligne {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--cfl-bordure);
+  font-size: 0.95rem;
 
-.pastille-rouge {
-  width: 14px;
-  height: 14px;
-  margin: 0 5px;
-  border-radius: 50%;
-  background: #e53935;
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &.compteur {
+    padding: 12px 16px;
+  }
+
+  .tuile-icone {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    font-size: 18px;
+  }
 }
 
 // gStylo(COULEUR_VERT_CFL) : libellé du détail en vert.
@@ -19,6 +29,7 @@ img {
 }
 
 .date-arrete {
-  padding: 0 16px;
-  color: var(--cfl-gris-texte);
+  margin: 12px 4px 0;
+  color: var(--cfl-texte-doux);
+  font-size: 0.88rem;
 }

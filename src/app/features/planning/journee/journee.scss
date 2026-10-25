@@ -1,120 +1,195 @@
-// Couleurs de StructureVersEcran : la couleur du texte vient de --couleur-texte, posée par la ligne (aujourd'hui ou non).
-img {
-  vertical-align: middle;
+// Journée de ZR_JS (accueil et planning).
+// Code couleur WINDEV conservé : texte noir pour la journée du jour, gris foncé sinon ;
+// vert = repos, orange = transition (sur la tuile de date).
+
+:host {
+  display: block;
+  width: 100%;
 }
+
+p {
+  margin: 0;
+}
+
+ion-icon {
+  flex-shrink: 0;
+  font-size: 16px;
+  color: var(--cfl-texte-doux);
+}
+
+// --- En-tête ---
 
 .journee {
   display: flex;
-  gap: 12px;
+  align-items: center;
+  gap: 14px;
   width: 100%;
-  padding: 6px 0;
-  color: var(--couleur-texte, #555555);
+  padding: 10px 0;
+  color: var(--cfl-gris-texte);
+
+  &.aujourdhui {
+    color: #000000;
+  }
 }
 
-.date {
+.tuile-date {
   display: flex;
   flex-direction: column;
-  min-width: 86px;
-  font-size: 0.85em;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 62px;
+  padding: 6px 0;
+  border-radius: 12px;
+  background: var(--cfl-fond);
+  line-height: 1.1;
 
   .jour {
-    font-weight: 700;
-    font-size: 1.1em;
+    font-size: 0.72rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
   }
 
-  .heures {
-    margin-top: 2px;
-    font-weight: 600;
+  .numero {
+    font-size: 1.45rem;
+    font-weight: 700;
+  }
+
+  .mois {
+    font-size: 0.68rem;
+    opacity: 0.8;
+  }
+
+  &.tuile-repos {
+    background: var(--cfl-vert-clair);
+  }
+
+  &.tuile-transition {
+    background: var(--cfl-orange-clair);
   }
 }
 
-ion-label p {
-  color: var(--couleur-texte, #555555);
+// Journée du jour : tuile cerclée de vert.
+.aujourdhui .tuile-date {
+  box-shadow: inset 0 0 0 2px var(--ion-color-primary);
+}
+
+.infos {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  flex: 1;
+  min-width: 0;
+}
+
+.ligne-heures {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 20px;
+
+  .heures {
+    font-size: 1rem;
+    font-weight: 700;
+  }
+}
+
+.cloche {
+  font-size: 18px;
+  color: var(--cfl-rouge-logo);
 }
 
 .jt,
-.statut {
-  margin: 2px 0;
+.statut,
+.info {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  font-size: 0.86rem;
 
-  img {
-    width: 16px;
-    margin-right: 4px;
+  ion-icon {
+    margin-top: 2px;
   }
 }
 
 .jt {
-  font-weight: 600;
+  font-weight: 500;
 }
 
-.rouge {
-  margin-left: 8px;
-  color: #ff0000;
+.statut {
+  flex-wrap: wrap;
+  align-items: center;
 }
 
-.repositionnement {
-  margin-left: 12px;
+// Partie en rouge de LIB_JT et « MANQUE COMPETENCE ».
+.alerte {
+  color: #d32f2f;
+  font-size: 0.82rem;
+  font-weight: 500;
 }
 
-.cloche {
-  align-self: center;
-  color: #e53935;
+.info .alerte {
+  margin-left: 6px;
 }
+
+// --- Détail ---
 
 .detail {
-  padding: 8px 16px 12px;
-  color: var(--couleur-texte, #555555);
-  font-size: 0.9em;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 4px 16px 16px var(--detail-retrait, 92px);
+  color: var(--cfl-gris-texte);
 
-  p {
-    margin: 4px 0;
+  @media (max-width: 420px) {
+    padding-left: 16px;
   }
+}
 
-  img {
-    width: 18px;
-    margin-right: 6px;
-  }
+.infos-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
 .compteurs {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin-top: 8px;
 
   button {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    gap: 4px;
-    padding: 6px 10px;
-    border: 1px solid var(--ion-color-primary);
-    border-radius: 16px;
-    background: #ffffff;
-    color: var(--ion-text-color);
+    gap: 6px;
+    padding: 7px 12px;
+    border: none;
+    border-radius: 999px;
+    background: var(--cfl-vert-pale);
+    color: var(--cfl-vert-fonce);
     font-family: inherit;
-    font-weight: 600;
+    font-size: 0.82rem;
+    cursor: pointer;
 
-    img {
-      width: 16px;
-      margin: 0;
+    ion-icon {
+      font-size: 16px;
+      color: inherit;
     }
 
-    .libelle {
-      font-weight: 400;
-      color: var(--ion-color-medium-shade);
+    .nombre {
+      font-weight: 700;
     }
 
     &.vide {
-      border-color: var(--ion-color-light-shade);
-      opacity: 0.55;
+      background: var(--cfl-fond);
+      color: var(--cfl-texte-doux);
+      opacity: 0.7;
     }
 
     &.absence {
-      border-color: var(--ion-color-secondary);
+      background: var(--cfl-rouge-pale);
       color: var(--ion-color-secondary);
-
-      .libelle {
-        color: var(--ion-color-secondary);
-      }
+      font-weight: 500;
     }
   }
 }

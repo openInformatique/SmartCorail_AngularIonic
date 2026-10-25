@@ -1,6 +1,8 @@
 import { Component, Input, OnInit, inject, signal } from '@angular/core';
-import { IonButton, IonContent, IonHeader, IonItem, IonLabel, IonList, IonTitle, IonToolbar, ModalController } from '@ionic/angular';
+import { IonButton, IonContent, IonHeader, IonIcon, IonTitle, IonToolbar, ModalController } from '@ionic/angular';
 import { TranslatePipe } from '@ngx-translate/core';
+import { addIcons } from 'ionicons';
+import { callOutline, mailOutline, personOutline } from 'ionicons/icons';
 
 import { STAgentFormation } from '../../../core/models';
 
@@ -22,34 +24,56 @@ const ouNC = (valeur: string) => (valeur !== '' ? valeur : 'NC');
       </ion-toolbar>
     </ion-header>
     <ion-content>
-      <ion-list lines="full">
+      <div class="page">
         @for (agent of agents(); track $index) {
-          <ion-item>
-            <ion-label class="ion-text-wrap">
-              <h2><img src="assets/images/picto_agent_32_vert.png" alt="" /> {{ agent.nom }}</h2>
-              <p><img src="assets/images/picto_tel_24.png" alt="" /> {{ agent.telephone }}</p>
-              <p><img src="assets/images/Mail@dpi1x.png" alt="" /> {{ agent.mail }}</p>
-            </ion-label>
-          </ion-item>
+          <section class="carte agent">
+            <h2>
+              <span class="tuile-icone"><ion-icon name="person-outline" /></span>
+              {{ agent.nom }}
+            </h2>
+            <p><ion-icon name="call-outline" /><span>{{ agent.telephone }}</span></p>
+            <p><ion-icon name="mail-outline" /><span>{{ agent.mail }}</span></p>
+          </section>
         }
-      </ion-list>
-      <ion-button class="fermer" expand="block" color="secondary" (click)="fermer()">{{ 'commun.fermer' | translate }}</ion-button>
+        <ion-button class="fermer" expand="block" color="secondary" (click)="fermer()">{{ 'commun.fermer' | translate }}</ion-button>
+      </div>
     </ion-content>
   `,
   styles: `
-    img {
-      width: 18px;
-      margin-right: 6px;
-      vertical-align: middle;
+    .agent {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 12px;
+      padding: 14px 16px;
     }
-    ion-label p {
+    h2 {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 0 0 4px;
+      font-size: 1.05rem;
+      font-weight: 500;
+    }
+    p {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0;
       user-select: text;
+      word-break: break-word;
+    }
+    p ion-icon {
+      flex-shrink: 0;
+      color: var(--cfl-texte-doux);
+      font-size: 18px;
     }
     .fermer {
-      margin: 16px;
+      margin: 16px 0 0;
+      --border-radius: 12px;
     }
   `,
-  imports: [IonHeader, IonToolbar, IonTitle, IonContent, IonList, IonItem, IonLabel, IonButton, TranslatePipe],
+  imports: [IonHeader, IonToolbar, IonTitle, IonContent, IonIcon, IonButton, TranslatePipe],
 })
 export class InformationsAgentComponent implements OnInit {
   private readonly fenetre = inject(ModalController);
@@ -62,6 +86,10 @@ export class InformationsAgentComponent implements OnInit {
   @Input() type = '';
 
   protected readonly agents = signal<InfosAgent[]>([]);
+
+  constructor() {
+    addIcons({ callOutline, mailOutline, personOutline });
+  }
 
   ngOnInit(): void {
     this.agents.set(

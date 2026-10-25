@@ -16,22 +16,29 @@
 </ion-header>
 
 <ion-content>
-  <ion-list class="compteurs">
+  <div class="page compteurs">
     @for (ligne of lignes(); track $index) {
-      <ion-item lines="full">
-        <ion-label class="ion-text-wrap">
-          <h2>{{ ligne.nom }}</h2>
-        </ion-label>
-        <div slot="end" class="valeur">
-          <span class="nombre">{{ ligne.valeur }}</span>
-          <span class="unite">{{ ligne.unite }}</span>
+      @if (ligne.avecDetail) {
+        <button type="button" class="carte compteur cliquable" [attr.aria-label]="'compteurs.details' | translate" (click)="details(ligne.idCompteur)">
+          <ng-container *ngTemplateOutlet="contenu; context: { $implicit: ligne }" />
+          <ion-icon class="chevron" name="chevron-forward" />
+        </button>
+      } @else {
+        <div class="carte compteur">
+          <ng-container *ngTemplateOutlet="contenu; context: { $implicit: ligne }" />
         </div>
-        @if (ligne.avecDetail) {
-          <ion-button slot="end" fill="clear" [attr.aria-label]="'compteurs.details' | translate" (click)="details(ligne.idCompteur)">
-            <ion-icon slot="icon-only" name="chevron-forward" />
-          </ion-button>
-        }
-      </ion-item>
+      }
     }
-  </ion-list>
+  </div>
 </ion-content>
+
+<ng-template #contenu let-ligne>
+  <span class="tuile-icone"><ion-icon name="speedometer-outline" /></span>
+  <span class="corps">
+    <span class="nom">{{ ligne.nom }}</span>
+    <span class="valeur">
+      <span class="nombre">{{ ligne.valeur }}</span>
+      <span class="unite">{{ ligne.unite }}</span>
+    </span>
+  </span>
+</ng-template>

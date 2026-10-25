@@ -25,7 +25,7 @@ import {
 } from '@ionic/angular';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { addIcons } from 'ionicons';
-import { add, arrowBack, closeCircle, send, syncOutline, warning } from 'ionicons/icons';
+import { add, arrowBack, closeCircle, send, syncOutline, timeOutline, warning } from 'ionicons/icons';
 
 import { PointageApi, RetourSansRappel } from '../../../core/api/pointage.api';
 import { RESSOURCE_BADGEUSE, RESSOURCE_FIN_DE_POSTE, RESSOURCE_PRISE_DE_POSTE } from '../../../core/constantes';
@@ -153,7 +153,7 @@ export class EditionPointagePage implements OnInit, ViewWillEnter {
   private premiereEntree = true;
 
   constructor() {
-    addIcons({ add, arrowBack, closeCircle, send, syncOutline, warning });
+    addIcons({ add, arrowBack, closeCircle, send, syncOutline, timeOutline, warning });
     // NotifieChangementConnexion / CB_Success : DemandeMiseAJourUIÉlément(FEN_PointageRealiseEdition).
     const fenetres = inject(FenetresOuvertesService);
     fenetres.enregistrer('FEN_PointageRealiseEdition');

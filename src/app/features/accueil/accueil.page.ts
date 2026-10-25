@@ -10,7 +10,6 @@ import {
   IonHeader,
   IonIcon,
   IonItem,
-  IonLabel,
   IonMenuButton,
   IonSpinner,
   IonTitle,
@@ -20,7 +19,16 @@ import {
 } from '@ionic/angular';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { addIcons } from 'ionicons';
-import { chevronForward, helpCircleOutline, informationCircleOutline, notifications, powerOutline } from 'ionicons/icons';
+import {
+  attachOutline,
+  calendarOutline,
+  chevronForward,
+  helpCircleOutline,
+  informationCircleOutline,
+  mailOutline,
+  notifications,
+  powerOutline,
+} from 'ionicons/icons';
 
 import { AideService } from '../../core/api/aide.service';
 import { MessagerieApi } from '../../core/api/messagerie.api';
@@ -34,6 +42,7 @@ import { DonneesService } from '../../core/state/donnees.service';
 import { MenuPrincipalService } from '../../core/state/menu-principal.service';
 import { DialoguesService } from '../../core/ui/dialogues.service';
 import { ecranLarge } from '../../core/ui/ecran-large';
+import { initiales } from '../../core/ui/initiales';
 import { LegendeComponent } from '../../shared/legende/legende.component';
 import { ActionsJourneeService } from '../planning/actions-journee.service';
 import { ActionJournee, DetailJourneeComponent } from '../planning/journee/detail-journee.component';
@@ -58,7 +67,6 @@ import { lignesJS, lignesMessages } from './accueil.logique';
     IonAccordionGroup,
     IonAccordion,
     IonItem,
-    IonLabel,
     TranslatePipe,
     EnteteJourneeComponent,
     DetailJourneeComponent,
@@ -101,9 +109,11 @@ export class AccueilPage implements OnInit {
   );
   /** StructureVersEcran (messagerie). */
   protected readonly messages = computed(() => lignesMessages(this.donnees.maMessagerie()));
+  /** Initiales de l'expéditeur, pour la pastille du message (présentation seulement). */
+  protected readonly initiales = initiales;
 
   constructor() {
-    addIcons({ chevronForward, helpCircleOutline, informationCircleOutline, notifications, powerOutline });
+    addIcons({ attachOutline, calendarOutline, chevronForward, helpCircleOutline, informationCircleOutline, mailOutline, notifications, powerOutline });
   }
 
   ngOnInit(): void {

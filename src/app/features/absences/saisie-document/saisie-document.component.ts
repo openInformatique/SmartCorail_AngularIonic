@@ -5,6 +5,7 @@ import {
   IonContent,
   IonFooter,
   IonHeader,
+  IonIcon,
   IonSelect,
   IonSelectOption,
   IonTitle,
@@ -12,6 +13,8 @@ import {
   ModalController,
 } from '@ionic/angular';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import { addIcons } from 'ionicons';
+import { documentAttachOutline } from 'ionicons/icons';
 
 import { SessionService } from '../../../core/session/session.service';
 import { DialoguesService } from '../../../core/ui/dialogues.service';
@@ -22,26 +25,31 @@ import { DialoguesService } from '../../../core/ui/dialogues.service';
  */
 @Component({
   selector: 'app-saisie-document',
-  imports: [FormsModule, IonHeader, IonToolbar, IonTitle, IonContent, IonSelect, IonSelectOption, IonFooter, IonButton, TranslatePipe],
+  imports: [FormsModule, IonHeader, IonToolbar, IonTitle, IonContent, IonSelect, IonSelectOption, IonFooter, IonButton, IonIcon, TranslatePipe],
   template: `
     <ion-header>
       <ion-toolbar color="primary">
         <ion-title>{{ titre || ('absences.importerDocument' | translate) }}</ion-title>
       </ion-toolbar>
     </ion-header>
-    <ion-content class="ion-padding">
-      <ion-select
-        fill="outline"
-        labelPlacement="stacked"
-        interface="popover"
-        [label]="'absences.typeDocument' | translate"
-        [ngModel]="typeDocument()"
-        (ngModelChange)="typeDocument.set($event ?? '')"
-      >
-        @for (option of options(); track option.code) {
-          <ion-select-option [value]="option.code">{{ option.nom }}</ion-select-option>
-        }
-      </ion-select>
+    <ion-content>
+      <div class="page">
+        <div class="carte saisie">
+          <span class="tuile-icone"><ion-icon name="document-attach-outline" /></span>
+          <ion-select
+            fill="outline"
+            labelPlacement="stacked"
+            interface="popover"
+            [label]="'absences.typeDocument' | translate"
+            [ngModel]="typeDocument()"
+            (ngModelChange)="typeDocument.set($event ?? '')"
+          >
+            @for (option of options(); track option.code) {
+              <ion-select-option [value]="option.code">{{ option.nom }}</ion-select-option>
+            }
+          </ion-select>
+        </div>
+      </div>
     </ion-content>
     <ion-footer>
       <ion-toolbar>
@@ -53,11 +61,24 @@ import { DialoguesService } from '../../../core/ui/dialogues.service';
     </ion-footer>
   `,
   styles: `
+    .saisie {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 16px;
+    }
+    ion-select {
+      flex: 1;
+      --border-radius: 10px;
+    }
     .boutons {
       display: flex;
       justify-content: flex-end;
       gap: 8px;
       padding: 0 8px;
+    }
+    .boutons ion-button {
+      --border-radius: 12px;
     }
   `,
 })
@@ -77,6 +98,10 @@ export class SaisieDocumentComponent {
     return [{ code: '', nom: this.translate.instant('absences.aDefinir') }, ...types.map((t) => ({ code: t.Code, nom: t.Nom }))];
   });
   protected readonly typeDocument = signal('');
+
+  constructor() {
+    addIcons({ documentAttachOutline });
+  }
 
   protected async valider(): Promise<void> {
     if (this.typeDocument() === '') {
