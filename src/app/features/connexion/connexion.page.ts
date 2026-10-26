@@ -14,8 +14,9 @@ import {
 } from '@ionic/angular';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { addIcons } from 'ionicons';
-import { fingerPrint, scanOutline } from 'ionicons/icons';
+import { bugOutline, fingerPrint, scanOutline } from 'ionicons/icons';
 
+import { environment } from '../../../environments/environment';
 import { InitialisationApi } from '../../core/api/initialisation.api';
 import { wikisAEnvoyer } from '../../core/api/wiki';
 import { BiometrieService } from '../../core/auth/biometrie.service';
@@ -109,12 +110,14 @@ export class ConnexionPage implements OnInit, ViewWillEnter, ViewWillLeave {
   protected readonly modele = signal('');
   protected readonly version = signal('');
   protected readonly societes = [SOCIETE_CARGO, SOCIETE_CARGOMM];
+  /** Lien vers le journal de débogage (pas dans WINDEV) : QUAL seulement. */
+  protected readonly modeQual = environment.env === 'QUAL';
 
   /** Renouvellement du jeton lancé à l'ouverture (traitement 234), attendu avant toute initialisation. */
   private renouvellement: Promise<void> = Promise.resolve();
 
   constructor() {
-    addIcons({ fingerPrint, scanOutline });
+    addIcons({ bugOutline, fingerPrint, scanOutline });
   }
 
   async ngOnInit(): Promise<void> {
@@ -158,6 +161,10 @@ export class ConnexionPage implements OnInit, ViewWillEnter, ViewWillLeave {
       await this.parametres.supprimer(CACHE_FACEID);
       await this.parametres.supprimer(CACHE_CODE_A_4_CHIFFRES);
     }
+  }
+
+  protected ouvrirJournal(): Promise<boolean> {
+    return this.nav.navigateForward('/journal');
   }
 
   /** BTN_Abandon. */

@@ -7,8 +7,6 @@ export type Env = 'QUAL' | 'PROD';
 export interface Environment {
   production: boolean;
   env: Env;
-  /** Vrai : les appels à l'API sont servis par les fichiers JSON de src/mocks (aucun appel réseau). */
-  mock: boolean;
   /** Équivalent de COL_CFLCARGO.LireUrlSociete(). */
   urlsApi: Record<Societe, string>;
 }

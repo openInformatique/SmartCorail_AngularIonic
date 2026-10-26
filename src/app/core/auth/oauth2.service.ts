@@ -5,8 +5,8 @@ import { Browser } from '@capacitor/browser';
 import { DefaultWebViewOptions, InAppBrowser } from '@capacitor/inappbrowser';
 import { firstValueFrom } from 'rxjs';
 
-import { environment } from '../../../environments/environment';
 import { CACHE_JWT_RAFRAICHISSEMENT_OAUTH2 } from '../constantes';
+import { JournalService } from '../journal/journal.service';
 import { ReponseServeurOAuth2 } from '../models';
 import { AppareilService } from '../platform/appareil.service';
 import { ParametresService } from '../session/parametres.service';
@@ -20,7 +20,6 @@ import {
   urlAutorisation,
 } from './oauth2';
 import { OAUTH2_REDIRECTION_LOCALHOST, OAUTH2_REDIRECTION_SCHEMA, OAUTH2_URL_TOKEN } from './oauth2-config';
-import { jetonFictif } from './oauth2-mock';
 
 const ENTETES_FORMULAIRE = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
 
@@ -31,6 +30,7 @@ export class OAuth2Service {
   private readonly session = inject(SessionService);
   private readonly parametres = inject(ParametresService);
   private readonly appareil = inject(AppareilService);
+  private readonly journal = inject(JournalService);
 
   /**
    * AuthentificationOAuth2 : page de connexion Microsoft (AuthIdentifie), puis TokenSession.
@@ -38,7 +38,7 @@ export class OAuth2Service {
    */
   async authentification(): Promise<boolean> {
     try {
-      const reponse = environment.mock ? jetonFictif() : await this.identifier();
+      const reponse = await this.identifier();
       this.session.jeton.set({
         Valeur: reponse.access_token ?? '',
         Actualisation: reponse.refresh_token ?? '',
@@ -47,7 +47,8 @@ export class OAuth2Service {
         Valide: !!reponse.access_token,
       });
       return this.session.jeton().Valide;
-    } catch {
+    } catch (e) {
+      this.journal.erreur('Connexion Microsoft', e);
       return false;
     }
   }
@@ -58,18 +59,17 @@ export class OAuth2Service {
    */
   async renouvelerJeton(jetonActualisation = this.session.jeton().Actualisation): Promise<boolean> {
     try {
-      const reponse = environment.mock
-        ? jetonFictif()
-        : await firstValueFrom(
-            this.http.post<ReponseServeurOAuth2>(OAUTH2_URL_TOKEN, corpsRenouvellement(jetonActualisation), {
-              headers: ENTETES_FORMULAIRE,
-            }),
-          );
+      const reponse = await firstValueFrom(
+        this.http.post<ReponseServeurOAuth2>(OAUTH2_URL_TOKEN, corpsRenouvellement(jetonActualisation), {
+          headers: ENTETES_FORMULAIRE,
+        }),
+      );
       if (!reponse.access_token || !reponse.refresh_token) return false;
       this.session.jeton.update((j) => ({ ...j, Valeur: reponse.access_token, Actualisation: reponse.refresh_token }));
       await this.sauvegarderJetonActualisation(reponse.refresh_token);
       return true;
-    } catch {
+    } catch (e) {
+      this.journal.erreur('Renouvellement du jeton Microsoft', e);
       return false;
     }
   }

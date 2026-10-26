@@ -1,4 +1,4 @@
-import { ajouterJours, formatHHmm, formatJJMMAAAA, lireDateHeure, versDateWindev } from '../../core/dates';
+import { ajouterJours, formatHHmm, formatJJMMAAAA, lireDateHeure, versDateJson } from '../../core/dates';
 import { STATUT_ABS_ANNULE, STATUT_ABS_DEMANDE } from '../../core/constantes';
 import { STAbsence, STParametre, STTypeAbsence } from '../../core/models';
 
@@ -74,8 +74,8 @@ export function nouvelleAbsence(debut: Date, heureDu = '', heureAu = ''): STAbse
     ...absenceVide(),
     CodeAbsence: 'CPN',
     StatutAbsence: STATUT_ABS_DEMANDE,
-    PeriodeDu: versDateWindev(debut),
-    PeriodeAu: versDateWindev(debut),
+    PeriodeDu: versDateJson(debut),
+    PeriodeAu: versDateJson(debut),
     HeureDu: heureDu,
     HeureAu: heureAu,
   };
@@ -134,12 +134,12 @@ export function changerMode(formulaire: FormulaireAbsence, mode: ModeJourHeure):
   return { ...formulaire, mode };
 }
 
-/** EcranVersStructure. */
+/** EcranVersStructure : les champs de date sont déjà au format AAAA-MM-JJ de Sérialise. */
 export function ecranVersStructure(absence: STAbsence, f: FormulaireAbsence): STAbsence {
-  const debut = f.dateDebut.replace(/-/g, '');
+  const debut = f.dateDebut;
   return f.mode === 'H'
     ? { ...absence, PeriodeDu: debut, PeriodeAu: debut, HeureDu: f.heureDebut, HeureAu: f.heureFin, NouveauCommentaire: f.nouveauCommentaire }
-    : { ...absence, PeriodeDu: debut, PeriodeAu: f.dateFin.replace(/-/g, ''), NouveauCommentaire: f.nouveauCommentaire };
+    : { ...absence, PeriodeDu: debut, PeriodeAu: f.dateFin, NouveauCommentaire: f.nouveauCommentaire };
 }
 
 /** Contrôles de ACB_OK, dans l'ordre WINDEV. Renvoie la clé du message d'erreur, ou null. */

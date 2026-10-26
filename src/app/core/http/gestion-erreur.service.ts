@@ -4,6 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 
 import { OAuth2Service } from '../auth/oauth2.service';
 import { CODE_JETON_EXPIRE, CODE_JETON_INVALIDE } from '../constantes';
+import { JournalService } from '../journal/journal.service';
 import { SessionService } from '../session/session.service';
 import { initialisationVide, jetonVide } from '../session/vides';
 import { DialoguesService } from '../ui/dialogues.service';
@@ -44,10 +45,12 @@ export class GestionErreurService {
   private readonly dialogues = inject(DialoguesService);
   private readonly translate = inject(TranslateService);
   private readonly nav = inject(NavController);
+  private readonly journal = inject(JournalService);
 
   async traiter(erreur: unknown, options: OptionsErreur): Promise<void> {
     const { code, message } = erreur instanceof ErreurApi ? erreur : new ErreurApi(ERR_WS_INCORRECT, String(erreur));
     console.warn('CB_Erreur :', message);
+    this.journal.erreur('CB_Erreur', `${code} : ${message}`);
     const t = (cle: string, params?: object) => this.translate.instant(cle, params) as string;
     let texte = '';
     if (options.textes?.[code] !== undefined) {

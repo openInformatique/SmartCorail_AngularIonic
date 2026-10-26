@@ -16,7 +16,7 @@ import {
 } from '@ionic/angular';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 
-import { DATE_NEPASPOINTER, RESSOURCE_COUPURE, RESSOURCE_PAUSE } from '../../../core/constantes';
+import { RESSOURCE_COUPURE, RESSOURCE_PAUSE } from '../../../core/constantes';
 import { STPointagePost } from '../../../core/models';
 import { ControlesService } from '../controles.service';
 import {
@@ -25,6 +25,7 @@ import {
   controlerDebutCoupurePause,
   controlerFinCoupurePause,
   controlerOrdre,
+  NE_PAS_POINTER_JSON,
   pointagePostVide,
   saisieDe,
   versDateHeureWindev,
@@ -147,8 +148,8 @@ export class BlocPointageComponent implements OnInit {
       pointage.DateH1 = versDateHeureWindev(this.debut);
       pointage.DateH2 = versDateHeureWindev(this.fin);
     } else {
-      pointage.DateH1 = DATE_NEPASPOINTER;
-      pointage.DateH2 = DATE_NEPASPOINTER;
+      pointage.DateH1 = NE_PAS_POINTER_JSON;
+      pointage.DateH2 = NE_PAS_POINTER_JSON;
     }
     await this.fenetre.dismiss(pointage);
   }

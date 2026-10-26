@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 
 import { versDateWindev } from '../dates';
-import { ERR_WD_CONNEXION, ERR_WS_INCORRECT, ErreurApi } from '../http/erreurs';
+import { ERR_EXCEPTIONWL, ERR_WD_CONNEXION, ERR_WS_INCORRECT, ErreurApi } from '../http/erreurs';
 import {
   STDocument,
   STLigneOperation,
@@ -110,7 +110,8 @@ export class PointageApi {
   async getPlanningPdf(date?: Date): Promise<STDocument> {
     const document = await this.api.appeler<Partial<STDocument> | null>({
       methode: 'GET',
-      chemin: avecParametres('/v1/planningpdf', { Date: date && versDateWindev(date) }),
+      // AjouterParametreOptionnel("Date="+MaDate) : la chaîne contient toujours "=", le paramètre est envoyé même vide.
+      chemin: `/v1/planningpdf?Date=${date ? versDateWindev(date) : ''}`,
       delai: 12_000,
       testeErreurDetectee: true,
       deserialiser: true,
@@ -121,7 +122,7 @@ export class PointageApi {
   /** WS_POSTPointageCommentaire : POST /v1/pointage_commentaire (COL_WS.MaLignePointageTemp). */
   postPointageCommentaire(post: STPointageCommentairePost): Promise<STLignePointage> {
     return this.poster(
-      { methode: 'POST', chemin: '/v1/pointage_commentaire', corps: post, delai: 40_000, testeErreurDetectee: true, deserialiser: true, testeInternet: false },
+      { methode: 'POST', chemin: '/v1/pointage_commentaire', corps: post, delai: 40_000, testeErreurDetectee: true, deserialiser: true, codeErreurFormat: ERR_EXCEPTIONWL, testeInternet: false },
       () => this.horsConnexion.sauvegarderPost(HC_CODE_POST_POINTAGES_COMMENTAIRE, JSON.stringify(post), post.IDLigne),
     );
   }
@@ -137,7 +138,7 @@ export class PointageApi {
   /** WS_POSTPointageOperationCommentaire : POST /v1/operation_commentaire (COL_WS.MaLigneOperationTemp). */
   postPointageOperationCommentaire(post: STPointageCommentairePost): Promise<STLigneOperation> {
     return this.poster(
-      { methode: 'POST', chemin: '/v1/operation_commentaire', corps: post, delai: 40_000, testeErreurDetectee: true, deserialiser: true, testeInternet: false },
+      { methode: 'POST', chemin: '/v1/operation_commentaire', corps: post, delai: 40_000, testeErreurDetectee: true, deserialiser: true, codeErreurFormat: ERR_EXCEPTIONWL, testeInternet: false },
       () => this.horsConnexion.sauvegarderPost(HC_CODE_POST_POINTAGES_OPERATION_COMMENTAIRE, JSON.stringify(post), post.IDLigne),
     );
   }
@@ -157,12 +158,14 @@ export class PointageApi {
         delai: 40_000,
         testeErreurDetectee: true,
         deserialiser: true,
+        // Désérialise sans « QUAND EXCEPTION » : un JSON invalide part dans CAS EXCEPTION.
+        codeErreurFormat: ERR_EXCEPTIONWL,
         testeInternet: false,
       });
     } catch (e) {
       if (!sansReponse(e)) throw e;
       // Seule la branche « CodeEtat = 0 » enregistre (le test ErreurDétectée est commenté) : un seul enregistrement.
-      await this.horsConnexion.sauvegarderPost(HC_CODE_POST_POINTAGES_OPERATION_AUTRES, JSON.stringify(post), post.IDLigne, post.sAleatoire ?? '');
+      await this.horsConnexion.sauvegarderPost(HC_CODE_POST_POINTAGES_OPERATION_AUTRES, JSON.stringify(corps), post.IDLigne, post.sAleatoire ?? '');
       throw new ErreurApi(ERR_WS_INCORRECT, (e as ErreurApi).message);
     }
   }

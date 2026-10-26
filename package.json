@@ -10,7 +10,7 @@
     "start:qual": "ng serve --configuration qual",
     "build": "ng build",
     "build:qual": "ng build --configuration qual",
-    "build:mock": "ng build --configuration development",
+    "apk:qual": "ng build --configuration qual && npx cap sync android && cd android && gradlew assembleDebug",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "ng lint"

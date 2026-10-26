@@ -3,6 +3,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router } from '@angular/router';
 import { addIcons } from 'ionicons';
 import {
+  bugOutline,
   calendarClearOutline,
   calendarOutline,
   callOutline,
@@ -129,6 +130,8 @@ export class MenuComponent {
     },
     { numero: 10, cle: 'menu.contacts', icone: 'call-outline', droit: ACCES_CONTACTS, route: '/contacts' },
     { numero: 11, cle: 'menu.actualites', icone: 'newspaper-outline' },
+    // Journal de débogage (pas dans WINDEV) : QUAL seulement.
+    ...(this.modeQual ? [{ numero: 13, cle: 'menu.journal', icone: 'bug-outline', route: '/journal' }] : []),
     { numero: 12, cle: 'menu.deconnexion', icone: 'log-out-outline' },
   ];
 
@@ -151,6 +154,7 @@ export class MenuComponent {
 
   constructor() {
     addIcons({
+      bugOutline,
       calendarClearOutline,
       calendarOutline,
       callOutline,

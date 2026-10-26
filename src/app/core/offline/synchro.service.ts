@@ -213,9 +213,17 @@ export class SynchroService {
       }
       if (e.code === 202) {
         // Rejets : enregistrés sous la dernière JS, puis traités comme un succès (la file est vidée).
+        let erreurs: unknown;
+        try {
+          erreurs = JSON.parse(e.message);
+        } catch {
+          // Désérialise sans « QUAND EXCEPTION » : CAS EXCEPTION, donc CB_Erreur seulement (la file est gardée).
+          await this.fermerLoader();
+          return;
+        }
+        // SauvegardeDonneesLocale.
         this.forcerTestBackend = true;
-        const erreurs = lire<STPostOffline[]>(e.message);
-        await this.file.postSauvegarderErreurPostOffline(e.message, idLigneErreurs(Array.isArray(erreurs) ? erreurs : []));
+        await this.file.postSauvegarderErreurPostOffline(e.message, idLigneErreurs(Array.isArray(erreurs) ? (erreurs as STPostOffline[]) : []));
         await this.cbSuccess();
         return;
       }

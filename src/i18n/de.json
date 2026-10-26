@@ -75,7 +75,8 @@
     "messagerie": "Nachrichten",
     "contacts": "Kontakte",
     "actualites": "Neuigkeiten",
-    "deconnexion": "Abmelden"
+    "deconnexion": "Abmelden",
+    "journal": "Protokoll"
   },
   "aide": {
     "documentCorrompu": "Das Dokument ist beschädigt.",
@@ -339,5 +340,21 @@
     "kmVoiture": "Mit dem Auto gefahrene Kilometer",
     "km": "Kilometer",
     "trancheDeplacement": "Fahrtstrecke"
+  },
+  "journal": {
+    "titre": "Protokoll",
+    "tout": "Alle",
+    "problemes": "Probleme",
+    "nombre": "{{nb}} Eintrag/Einträge",
+    "copier": "Protokoll kopieren",
+    "copie": "Protokoll kopiert",
+    "copieImpossible": "Kopieren nicht möglich",
+    "exporter": "Protokoll exportieren",
+    "vider": "Protokoll leeren",
+    "confirmerVider": "Protokoll leeren?",
+    "vide": "Keine Einträge",
+    "entetes": "Header",
+    "requete": "Anfrage",
+    "reponse": "Antwort"
   }
 }

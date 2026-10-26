@@ -57,6 +57,7 @@ import {
   ecartConsequent,
   ecartDateTropImportant,
   estAllemagne,
+  estDateNePasPointer,
   estPointeParBadgeuse,
   nouvelleCoupurePause,
   pointagePostVide,
@@ -208,7 +209,7 @@ export class EditionPointagePage implements OnInit, ViewWillEnter {
     this.commentaire = l.CommentairePointage;
     this.commentaireVisible.set(l.EstModifiable);
     const badgeuse = estPointeParBadgeuse(l);
-    this.badgeuseVisible.set(!consultation && !(lireDateHeure(l.DateH_Pointage_PS) || l.DateH_Pointage_PS === '19010101') && !lireDateHeure(l.DateHPDebut));
+    this.badgeuseVisible.set(!consultation && !(lireDateHeure(l.DateH_Pointage_PS) || estDateNePasPointer(l.DateH_Pointage_PS)) && !lireDateHeure(l.DateHPDebut));
 
     const { debut, fin } = champsPoste(l);
     this.debut = { ...debut.saisie };

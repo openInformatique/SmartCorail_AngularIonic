@@ -1,6 +1,7 @@
 // Dates WINDEV ↔ JavaScript.
-// Le format exact des dates dans le JSON de l'API n'est pas encore confirmé : on accepte le format
+// Lecture : le format exact des dates dans le JSON de l'API n'est pas encore confirmé : on accepte le format
 // WINDEV (AAAAMMJJ, AAAAMMJJHHMMSS, avec ou sans millisecondes) et le format ISO (AAAA-MM-JJ[THH:MM:SS]).
+// Envoi : paramètres d'URL en AAAAMMJJ (Date concaténée à une chaîne) ; corps JSON au format ISO de Sérialise.
 
 import { Langue } from './i18n/langue';
 
@@ -27,6 +28,16 @@ const deux = (n: number) => String(n).padStart(2, '0');
 /** Date WINDEV « AAAAMMJJ » (utilisée dans les paramètres d'URL de l'API). */
 export function versDateWindev(date: Date): string {
   return `${date.getFullYear()}${deux(date.getMonth() + 1)}${deux(date.getDate())}`;
+}
+
+/** Membre Date tel que Sérialise(…, psdJSON) l'écrit dans le corps d'une requête : « AAAA-MM-JJ ». */
+export function versDateJson(date: Date): string {
+  return `${date.getFullYear()}-${deux(date.getMonth() + 1)}-${deux(date.getDate())}`;
+}
+
+/** Membre DateHeure tel que Sérialise(…, psdJSON) l'écrit dans le corps d'une requête : « AAAA-MM-JJTHH:MM:SS.CCC ». */
+export function versDateHeureJson(date: Date): string {
+  return `${versDateJson(date)}T${deux(date.getHours())}:${deux(date.getMinutes())}:${deux(date.getSeconds())}.000`;
 }
 
 /** DateVersChaîne(…, "JJ/MM/AAAA"). */

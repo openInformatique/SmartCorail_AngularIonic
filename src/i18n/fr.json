@@ -75,7 +75,8 @@
     "messagerie": "Messagerie",
     "contacts": "Contacts",
     "actualites": "Actualités",
-    "deconnexion": "Déconnexion"
+    "deconnexion": "Déconnexion",
+    "journal": "Journal"
   },
   "aide": {
     "documentCorrompu": "Le document est corrompu",
@@ -339,5 +340,21 @@
     "kmVoiture": "Kilomètres parcourus en voiture",
     "km": "Kilomètres",
     "trancheDeplacement": "Tranche de déplacement"
+  },
+  "journal": {
+    "titre": "Journal",
+    "tout": "Tout",
+    "problemes": "Problèmes",
+    "nombre": "{{nb}} entrée(s)",
+    "copier": "Copier le journal",
+    "copie": "Journal copié",
+    "copieImpossible": "Copie impossible",
+    "exporter": "Exporter le journal",
+    "vider": "Vider le journal",
+    "confirmerVider": "Vider le journal ?",
+    "vide": "Aucune entrée",
+    "entetes": "En-têtes",
+    "requete": "Requête",
+    "reponse": "Réponse"
   }
 }

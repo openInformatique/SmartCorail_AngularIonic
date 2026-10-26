@@ -1,5 +1,5 @@
 import { DATE_NEPASPOINTER, RESSOURCE_COUPURE, RESSOURCE_OPERATION, RESSOURCE_PAUSE } from '../../core/constantes';
-import { dateHeureValide, formatHHmm, formatJJMMAAAA, formatJJMMAAAAHHmm, jourAbrege, lireDateHeure } from '../../core/dates';
+import { dateHeureValide, formatHHmm, formatJJMMAAAA, formatJJMMAAAAHHmm, jourAbrege, lireDateHeure, versDateHeureJson, versDateWindev } from '../../core/dates';
 import { Langue } from '../../core/i18n/langue';
 import { STLigneOperation, STLignePointage, STPointagePost } from '../../core/models';
 import { LignePointageLocale } from '../../core/offline/synchro.service';
@@ -25,9 +25,19 @@ export function concatenationBrute(s: SaisieDateHeure): string {
   return s.date.replace(/-/g, '') + s.heure.replace(':', '');
 }
 
-/** DateHeure WINDEV « AAAAMMJJHHMMSS » d'une saisie (envoyée à l'API). */
+/** DateHeure d'une saisie, au format de Sérialise (envoyée à l'API) ; vide si la saisie n'est pas valide. */
 export function versDateHeureWindev(s: SaisieDateHeure): string {
-  return `${concatenationBrute(s)}00`;
+  const d = versDate(s);
+  return d ? versDateHeureJson(d) : '';
+}
+
+/** DATE_NEPASPOINTER affectée à un membre DateHeure, telle que Sérialise l'écrit. */
+export const NE_PAS_POINTER_JSON = versDateHeureJson(lireDateHeure(DATE_NEPASPOINTER)!);
+
+/** Comparaison WINDEV « DateHeure = DATE_NEPASPOINTER » : indépendante du format reçu (AAAAMMJJ… ou ISO). */
+export function estDateNePasPointer(valeur: string | null | undefined): boolean {
+  const d = lireDateHeure(valeur);
+  return !!d && versDateWindev(d) === DATE_NEPASPOINTER;
 }
 
 /** Champs de saisie d'une date (DateSys() + HeureSys() pour maintenant). */
@@ -44,11 +54,10 @@ export function versSaisie(valeur: string): SaisieDateHeure | null {
 
 const valide = (v: string | null | undefined) => dateHeureValide(v);
 const dateEtHeure = (d: Date) => `${formatJJMMAAAA(d)}\n${formatHHmm(d)}`;
-const estNePasPointer = (v: string | null | undefined) => (v ?? '').startsWith(DATE_NEPASPOINTER);
 
 /** Pointage par badgeuse : DateH_Pointage_PS renseignée (ou « ne pas pointer ») et prise de poste non pointée. */
 export function estPointeParBadgeuse(l: STLignePointage): boolean {
-  return (valide(l.DateH_Pointage_PS) || l.DateH_Pointage_PS === DATE_NEPASPOINTER) && !valide(l.DateHPDebut);
+  return (valide(l.DateH_Pointage_PS) || estDateNePasPointer(l.DateH_Pointage_PS)) && !valide(l.DateHPDebut);
 }
 
 /** « Jjj JJ/MM/AAAA HH:mm - HH:mm » (DateheureVersChaîne + HeureVersChaîne). */
@@ -134,9 +143,9 @@ function appliquer(
     ligne.etablissementFin = l.LibelléEtablissementFin;
   }
   const debutCoupure = lireDateHeure(source.DateHPDebutCoupure);
-  if (debutCoupure && !estNePasPointer(source.DateHPDebutCoupure)) ligne.hpDebutCoupure = dateEtHeure(debutCoupure);
+  if (debutCoupure && !estDateNePasPointer(source.DateHPDebutCoupure)) ligne.hpDebutCoupure = dateEtHeure(debutCoupure);
   const finCoupure = lireDateHeure(source.DateHPFinCoupure);
-  if (finCoupure && !estNePasPointer(source.DateHPFinCoupure)) ligne.hpFinCoupure = dateEtHeure(finCoupure);
+  if (finCoupure && !estDateNePasPointer(source.DateHPFinCoupure)) ligne.hpFinCoupure = dateEtHeure(finCoupure);
 }
 
 // ---------------------------------------------------------------------------------------------

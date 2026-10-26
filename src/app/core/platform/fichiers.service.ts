@@ -6,6 +6,7 @@ import { AppareilService } from './appareil.service';
 
 const TYPES: Record<string, string> = {
   pdf: 'application/pdf',
+  txt: 'text/plain',
   png: 'image/png',
   jpg: 'image/jpeg',
   jpeg: 'image/jpeg',
@@ -19,8 +20,10 @@ export class FichiersService {
   private readonly appareil = inject(AppareilService);
 
   /** Enregistre un document reçu en base 64 puis l'ouvre avec l'application associée. */
-  async enregistrerEtOuvrir(nomFichier: string, contenuBase64: string): Promise<void> {
+  async enregistrerEtOuvrir(nomFichier: string, contenuBase64Brut: string): Promise<void> {
     const type = TYPES[extension(nomFichier)] ?? 'application/octet-stream';
+    // Le base 64 peut être coupé par des retours à la ligne (Encode de WINDEV) : Décode les ignore, atob et Filesystem non.
+    const contenuBase64 = contenuBase64Brut.replace(/\s/g, '');
     if (this.appareil.enModeTest) {
       // Navigateur : pas de système de fichiers, le document s'ouvre dans un nouvel onglet.
       const octets = Uint8Array.from(atob(contenuBase64), (c) => c.charCodeAt(0));

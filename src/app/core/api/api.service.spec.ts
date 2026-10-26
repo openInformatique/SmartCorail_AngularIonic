@@ -4,7 +4,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { ERR_0, ERR_FORMAT, ERR_INTERNET, ERR_WD_CONNEXION, ErreurApi } from '../http/erreurs';
 import { ReseauService } from '../platform/reseau.service';
-import { ApiService, AppelApi } from './api.service';
+import { ApiService, AppelApi, serialiserJson } from './api.service';
 
 const GET: AppelApi = {
   methode: 'GET',
@@ -106,5 +106,13 @@ describe('ApiService (squelette des WS_* de COL_WS)', () => {
     expect(requete.request.body).toBe('[{"NomEcran":"FEN_Agent","URL":""}]');
     requete.flush('');
     await promesse;
+  });
+});
+
+describe('serialiserJson (Sérialise psdJSON)', () => {
+  it('échappe les caractères non ASCII en \\uXXXX', () => {
+    const json = serialiserJson({ LibelléOpération: 'Manœuvre à quai' });
+    expect(json).toBe('{"Libell\\u00e9Op\\u00e9ration":"Man\\u0153uvre \\u00e0 quai"}');
+    expect(JSON.parse(json)).toEqual({ LibelléOpération: 'Manœuvre à quai' });
   });
 });

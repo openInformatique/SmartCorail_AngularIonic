@@ -58,7 +58,7 @@ describe('FEN_CongesAbsences : liste', () => {
 describe('FEN_CongesAbsencesEdition', () => {
   it('nouvelle demande : CPN, statut D, sur la journée', () => {
     const a = nouvelleAbsence(new Date(2026, 10, 5), '06:00', '14:00');
-    expect(a).toMatchObject({ CodeAbsence: 'CPN', StatutAbsence: 'D', PeriodeDu: '20261105', PeriodeAu: '20261105', IDAbsence: 0 });
+    expect(a).toMatchObject({ CodeAbsence: 'CPN', StatutAbsence: 'D', PeriodeDu: '2026-11-05', PeriodeAu: '2026-11-05', IDAbsence: 0 });
   });
 
   it('EstEditable', () => {
@@ -79,7 +79,7 @@ describe('FEN_CongesAbsencesEdition', () => {
 
   it('EcranVersStructure : en H la fin vaut le début et les heures sont gardées', () => {
     const f: FormulaireAbsence = { mode: 'H', dateDebut: '2026-11-05', dateFin: '2026-11-09', heureDebut: '08:00', heureFin: '12:00', nouveauCommentaire: 'x' };
-    expect(ecranVersStructure(absenceVide(), f)).toMatchObject({ PeriodeDu: '20261105', PeriodeAu: '20261105', HeureDu: '08:00', HeureAu: '12:00', NouveauCommentaire: 'x' });
+    expect(ecranVersStructure(absenceVide(), f)).toMatchObject({ PeriodeDu: '2026-11-05', PeriodeAu: '2026-11-05', HeureDu: '08:00', HeureAu: '12:00', NouveauCommentaire: 'x' });
   });
 
   it('contrôles de ACB_OK dans l\'ordre', () => {
@@ -115,8 +115,8 @@ describe('FEN_CongesAbsencesEdition', () => {
 describe('Absence depuis le planning et Popup_TypeAbsence', () => {
   it('journée et heures de la ligne de planning', () => {
     expect(absenceDepuisPlanning({ DateHDebut: '20261105063000', DateHFin: '20261105143000' })).toMatchObject({
-      PeriodeDu: '20261105',
-      PeriodeAu: '20261105',
+      PeriodeDu: '2026-11-05',
+      PeriodeAu: '2026-11-05',
       HeureDu: '06:30',
       HeureAu: '14:30',
       CodeAbsence: 'CPN',

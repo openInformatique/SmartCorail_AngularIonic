@@ -1,0 +1,86 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/" />
+    </ion-buttons>
+    <ion-title>{{ 'journal.titre' | translate }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button [attr.aria-label]="'journal.copier' | translate" (click)="copier()">
+        <ion-icon slot="icon-only" name="copy-outline" />
+      </ion-button>
+      <ion-button [attr.aria-label]="'journal.exporter' | translate" (click)="exporter()">
+        <ion-icon slot="icon-only" name="share-outline" />
+      </ion-button>
+      <ion-button [attr.aria-label]="'journal.vider' | translate" (click)="vider()">
+        <ion-icon slot="icon-only" name="trash-outline" />
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="page">
+    <div class="filtres">
+      <button type="button" [class.actif]="!problemesSeulement()" (click)="problemesSeulement.set(false)">
+        <ion-icon name="swap-vertical-outline" /> {{ 'journal.tout' | translate }}
+      </button>
+      <button type="button" [class.actif]="problemesSeulement()" (click)="problemesSeulement.set(true)">
+        <ion-icon name="alert-circle-outline" /> {{ 'journal.problemes' | translate }}
+      </button>
+      <span class="nombre">{{ 'journal.nombre' | translate: { nb: entrees().length } }}</span>
+    </div>
+
+    <div class="carte">
+      @for (e of entrees(); track e.id) {
+        <div class="entree" [class.probleme]="enErreur(e)">
+          <button type="button" class="resume" (click)="basculer(e.id)">
+            <span class="quand">
+              <span>{{ heure(e) }}</span>
+              <span class="jour">{{ jour(e) }}</span>
+            </span>
+            <span class="corps">
+              @if (e.type === 'http') {
+                <span class="ligne">
+                  <span class="puce statut">{{ libelleStatut(e) }}</span>
+                  <span class="methode">{{ e.methode }}</span>
+                  @if (e.dureeMs !== undefined) {
+                    <span class="duree">{{ e.dureeMs }} ms</span>
+                  }
+                </span>
+                <span class="chemin">{{ chemin(e) }}</span>
+              } @else {
+                <span class="ligne">
+                  <span class="puce statut">{{ libelleStatut(e) }}</span>
+                  <span class="methode">{{ e.origine }}</span>
+                </span>
+                <span class="chemin">{{ resume(e) }}</span>
+              }
+            </span>
+          </button>
+
+          @if (deplie() === e.id) {
+            <div class="detail">
+              @if (e.type === 'http') {
+                <pre class="url">{{ e.url }}</pre>
+                @if (e.entetes) {
+                  <h3>{{ 'journal.entetes' | translate }}</h3>
+                  <pre>{{ e.entetes }}</pre>
+                }
+                @if (e.requete) {
+                  <h3>{{ 'journal.requete' | translate }}</h3>
+                  <pre>{{ e.requete }}</pre>
+                }
+                <h3>{{ 'journal.reponse' | translate }}</h3>
+                <pre>{{ e.reponse || '—' }}</pre>
+              } @else {
+                <pre>{{ e.message }}</pre>
+              }
+            </div>
+          }
+        </div>
+      } @empty {
+        <p class="message-vide">{{ 'journal.vide' | translate }}</p>
+      }
+    </div>
+  </div>
+</ion-content>

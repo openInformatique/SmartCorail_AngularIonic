@@ -2,7 +2,7 @@ import { registerLocaleData } from '@angular/common';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import localeDe from '@angular/common/locales/de';
 import localeFr from '@angular/common/locales/fr';
-import { LOCALE_ID, inject, provideAppInitializer } from '@angular/core';
+import { ErrorHandler, LOCALE_ID, inject, provideAppInitializer, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { PreloadAllModules, RouteReuseStrategy, provideRouter, withComponentInputBinding, withPreloading } from '@angular/router';
 import { IonicRouteStrategy, provideIonicAngular } from '@ionic/angular';
@@ -12,9 +12,9 @@ import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 import { AppComponent } from './app/app.component';
 import { routes } from './app/app.routes';
 import { apiInterceptor } from './app/core/http/api.interceptor';
-import { MOCK_ROUTES, mockInterceptor } from './app/core/http/mock.interceptor';
+import { JournalErrorHandler } from './app/core/journal/journal-error-handler';
+import { journalInterceptor } from './app/core/journal/journal.interceptor';
 import { LangueService } from './app/core/i18n/langue.service';
-import { mockRoutes } from './mocks';
 
 registerLocaleData(localeFr);
 registerLocaleData(localeDe);
@@ -26,9 +26,11 @@ bootstrapApplication(AppComponent, {
     { provide: LOCALE_ID, useValue: 'fr-FR' },
     provideIonicAngular({ mode: 'md' }),
     provideRouter(routes, withPreloading(PreloadAllModules), withComponentInputBinding()),
-    // mockInterceptor d'abord : en mode mock, les appels à l'API ne vont pas plus loin.
-    provideHttpClient(withInterceptors([mockInterceptor, apiInterceptor])),
-    { provide: MOCK_ROUTES, useValue: mockRoutes },
+    // journalInterceptor après apiInterceptor : il voit l'URL finale (journal de débogage, QUAL seulement).
+    provideHttpClient(withInterceptors([apiInterceptor, journalInterceptor])),
+    // Erreurs non interceptées (y compris promesses rejetées) : journal, puis console.
+    provideBrowserGlobalErrorListeners(),
+    { provide: ErrorHandler, useClass: JournalErrorHandler },
     provideTranslateService({
       fallbackLang: 'fr',
       loader: provideTranslateHttpLoader({ prefix: './i18n/', suffix: '.json' }),

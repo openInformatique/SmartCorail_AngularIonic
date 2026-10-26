@@ -50,8 +50,7 @@ export class ApiService {
         this.http
           .request(appel.methode, appel.chemin, {
             // Une chaîne est envoyée telle quelle (ex. Contenu vide de WS_POSTLireMessage).
-            body:
-              appel.corps === undefined ? null : typeof appel.corps === 'string' ? appel.corps : JSON.stringify(appel.corps),
+            body: appel.corps === undefined ? null : typeof appel.corps === 'string' ? appel.corps : serialiserJson(appel.corps),
             // reqWS..ContentType = "application/json" : uniquement sur les POST / PUT.
             headers: new HttpHeaders({
               ...(appel.methode === 'GET' ? {} : { 'Content-Type': 'application/json' }),
@@ -91,6 +90,14 @@ export class ApiService {
     }
     return new ErreurApi(ERR_0, e instanceof Error ? e.message : String(e));
   }
+}
+
+/**
+ * Sérialise(…, psdJSON) : JSON en ASCII 7 bits, les autres caractères échappés en « \uXXXX »
+ * (ex. "LibelléOpération" → "LibelléOpération"). Le corps ne dépend ainsi d'aucun jeu de caractères.
+ */
+export function serialiserJson(valeur: unknown): string {
+  return JSON.stringify(valeur).replace(/[\u0080-￿]/g, (c) => `\\u${c.charCodeAt(0).toString(16).padStart(4, '0')}`);
 }
 
 function texteCorps(corps: unknown): string {

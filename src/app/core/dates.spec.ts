@@ -11,6 +11,8 @@ import {
   lireDateHeure,
   numeroSemaine,
   retirerMois,
+  versDateHeureJson,
+  versDateJson,
   versDateWindev,
 } from './dates';
 
@@ -65,5 +67,14 @@ describe('Dates WINDEV', () => {
   it('retire des mois en restant sur une date valide', () => {
     expect(formatJJMMAAAA(retirerMois(new Date(2026, 4, 31), 3))).toBe('28/02/2026');
     expect(formatJJMMAAAA(retirerMois(new Date(2026, 0, 15), 3))).toBe('15/10/2025');
+  });
+});
+
+describe('Dates envoyées dans le corps JSON (Sérialise)', () => {
+  it('Date : AAAA-MM-JJ ; DateHeure : AAAA-MM-JJTHH:MM:SS.CCC', () => {
+    const d = new Date(2026, 9, 26, 8, 5, 9);
+    expect(versDateJson(d)).toBe('2026-10-26');
+    expect(versDateHeureJson(d)).toBe('2026-10-26T08:05:09.000');
+    expect(lireDateHeure(versDateHeureJson(d))).toEqual(d);
   });
 });

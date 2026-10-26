@@ -12,7 +12,9 @@ import {
   controlerPoste,
   depasse14h,
   ecartConsequent,
+  NE_PAS_POINTER_JSON,
   ecartDateTropImportant,
+  estDateNePasPointer,
   estPointeParBadgeuse,
   idLigneActive,
   integrerOperationAutre,
@@ -20,6 +22,7 @@ import {
   lignesJS,
   nouvelleCoupurePause,
   titreEdition,
+  versDateHeureWindev,
 } from './pointage.logique';
 
 const ligne = (modif: Partial<STLignePointage>): STLignePointage => ({
@@ -224,5 +227,21 @@ describe('WS_POSTPointageOperationAutre', () => {
     expect(apresCreation.LignesOperations.map((o) => o.DHT_debut)).toEqual(['20261023070000', '20261023090000', '20261023120000']);
     const [apresModif] = integrerOperationAutre([l], 1, 5, operation({ LibelléOpération: 'Réserve', IDAgentPlanningTache: 5 }));
     expect(apresModif.LignesOperations[1].LibelléOpération).toBe('Réserve');
+  });
+});
+
+describe("DateHeure envoyées à l'API (Sérialise)", () => {
+  it('saisie date + heure au format AAAA-MM-JJTHH:MM:SS.CCC, vide si invalide', () => {
+    expect(versDateHeureWindev({ date: '2026-10-26', heure: '06:05' })).toBe('2026-10-26T06:05:00.000');
+    expect(versDateHeureWindev({ date: '', heure: '06:05' })).toBe('');
+  });
+
+  it('« ne pas pointer » : envoyé au format Sérialise, reconnu quel que soit le format reçu', () => {
+    expect(NE_PAS_POINTER_JSON).toBe('1901-01-01T00:00:00.000');
+    expect(estDateNePasPointer('19010101')).toBe(true);
+    expect(estDateNePasPointer('19010101000000')).toBe(true);
+    expect(estDateNePasPointer('1901-01-01T00:00:00')).toBe(true);
+    expect(estDateNePasPointer('20261026')).toBe(false);
+    expect(estDateNePasPointer('')).toBe(false);
   });
 });

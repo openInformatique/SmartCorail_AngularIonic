@@ -61,6 +61,12 @@
         {{ 'commun.version' | translate: { version: version() } }}
       </p>
       <ion-button fill="clear" size="small" color="medium" (click)="quitter()">{{ 'connexion.quitter' | translate }}</ion-button>
+      @if (modeQual) {
+        <ion-button fill="clear" size="small" color="medium" (click)="ouvrirJournal()">
+          <ion-icon slot="start" name="bug-outline" />
+          {{ 'menu.journal' | translate }}
+        </ion-button>
+      }
     </footer>
   </div>
 </ion-content>

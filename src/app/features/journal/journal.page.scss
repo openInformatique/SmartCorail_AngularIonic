@@ -1,0 +1,149 @@
+.filtres {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+
+  button {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border: 1px solid var(--cfl-bordure);
+    border-radius: 999px;
+    background: var(--cfl-carte);
+    color: var(--cfl-texte-doux);
+    font-family: inherit;
+    font-size: 0.88rem;
+    cursor: pointer;
+
+    &.actif {
+      border-color: var(--ion-color-secondary);
+      background: var(--ion-color-secondary);
+      color: #ffffff;
+    }
+  }
+
+  .nombre {
+    color: var(--cfl-texte-doux);
+    font-size: 0.8rem;
+  }
+}
+
+.entree {
+  border-bottom: 1px solid var(--cfl-bordure);
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.resume {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  width: 100%;
+  padding: 10px 14px;
+  border: none;
+  background: none;
+  color: var(--cfl-texte);
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+
+  &:active {
+    background: var(--cfl-fond);
+  }
+}
+
+.quand {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  width: 64px;
+  font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
+
+  .jour {
+    color: var(--cfl-texte-doux);
+    font-size: 0.72rem;
+  }
+}
+
+.corps {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  flex: 1;
+  min-width: 0;
+}
+
+.ligne {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.statut {
+  background: var(--cfl-vert-pale);
+  color: var(--cfl-vert-fonce);
+}
+
+.probleme .statut {
+  background: var(--cfl-rouge-pale);
+  color: var(--ion-color-secondary);
+}
+
+.methode {
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.duree {
+  margin-left: auto;
+  color: var(--cfl-texte-doux);
+  font-size: 0.75rem;
+}
+
+.chemin {
+  overflow: hidden;
+  color: var(--cfl-texte-doux);
+  font-size: 0.82rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.detail {
+  padding: 0 14px 12px 90px;
+
+  @media (max-width: 420px) {
+    padding-left: 14px;
+  }
+
+  h3 {
+    margin: 10px 0 4px;
+    color: var(--cfl-texte-doux);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  pre {
+    max-height: 260px;
+    margin: 0;
+    padding: 8px 10px;
+    overflow: auto;
+    border-radius: 8px;
+    background: var(--cfl-fond);
+    font-size: 0.75rem;
+    white-space: pre-wrap;
+    word-break: break-all;
+    user-select: text;
+  }
+
+  .url {
+    margin-top: 2px;
+  }
+}

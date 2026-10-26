@@ -11,7 +11,7 @@ Statuts : ✅ migré · 🚧 en cours · ⏳ à faire · ✖ non migré (mort ou
 |---|---|---|---|
 | Code d'initialisation du projet : constantes | `core/constantes.ts` | 0 | ✅ |
 | Code d'initialisation du projet : langue (`SysLangue`, `Nation`) | `core/i18n/langue.ts`, `langue.service.ts` | 0 | ✅ |
-| Configurations PROD / QUAL (`ModeQual()`) | `src/environments/*` (configurations `production`, `qual`, `development` = mock) | 0 | ✅ |
+| Configurations PROD / QUAL (`ModeQual()`) | `src/environments/*` (configurations `production`, `qual` ; `development` = API de QUAL) | 0 | ✅ |
 | COL_WS : structures ST* | `core/models/*` | 0 | ✅ |
 | COL_WS : constantes | `core/constantes.ts` | 0 | ✅ |
 | COL_WS : squelette commun des WS_* (InternetConnecté, RESTEnvoie, CodeEtat, Désérialise) | `core/api/api.service.ts` + `core/http/api.interceptor.ts` | 2 | ✅ |

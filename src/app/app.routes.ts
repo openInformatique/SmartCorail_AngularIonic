@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 
+import { environment } from '../environments/environment';
 import { connecteGuard } from './core/auth/connecte.guard';
 
 export const routes: Routes = [
@@ -8,6 +9,10 @@ export const routes: Routes = [
     path: 'connexion',
     loadComponent: () => import('./features/connexion/connexion.page').then((m) => m.ConnexionPage),
   },
+  // Journal de débogage : QUAL seulement, ouvert aussi avant la connexion (problème de connexion Microsoft).
+  ...(environment.env === 'QUAL'
+    ? [{ path: 'journal', loadComponent: () => import('./features/journal/journal.page').then((m) => m.JournalPage) }]
+    : []),
   {
     path: '',
     canActivateChild: [connecteGuard],

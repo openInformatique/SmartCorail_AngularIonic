@@ -39,7 +39,9 @@ export class PushService {
   /** ActivationNotifPush : identifiant en hexadécimal (BufferVersHexa), puis WS_POSTInitialisationPush. */
   private async activationNotifPush(identifiant: string): Promise<void> {
     if (!identifiant) return;
-    this.identifiantMobilePush = chaineVersHexa(identifiant);
+    // WINDEV reçoit le jeton brut (buffer) : sous iOS, le plugin le donne déjà en hexadécimal majuscule (APNs) ;
+    // sous Android, le jeton FCM est une chaîne, convertie comme BufferVersHexa.
+    this.identifiantMobilePush = this.appareil.enModeAndroid ? chaineVersHexa(identifiant) : identifiant;
     await this.api
       .postInitialisationPush({
         Identifiant: this.identifiantMobilePush,
